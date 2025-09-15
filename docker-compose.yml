@@ -1,0 +1,21 @@
+
+services:
+  web:
+    build: .
+    container_name: alumusic_app
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://alumusic:alumusic@db:5432/alumusic
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: alumusic_db
+    environment:
+      POSTGRES_USER: alumusic
+      POSTGRES_PASSWORD: alumusic
+      POSTGRES_DB: alumusic
+    ports:
+      - "5432:5432"
