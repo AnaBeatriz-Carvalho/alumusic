@@ -1,21 +1,66 @@
+# docker-compose.yml
+version: "3.8"
 
 services:
-  web:
+  api:
     build: .
-    container_name: alumusic_app
+    container_name: alumusic_api
     ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URL=postgresql://alumusic:alumusic@db:5432/alumusic
+      - "5001:5000"
+    env_file:
+      - .env
+    command: >
+      sh -c "flask db upgrade && gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
     depends_on:
-      - db
+      # ALTERADO: Espera os serviços estarem "saudáveis" antes de iniciar a API.
+      alumusic:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
 
-  db:
+  worker:
+    build: .
+    container_name: alumusic_worker
+    command: "celery -A app.celery_app.celery worker --loglevel=info"
+    env_file:
+      - .env
+    depends_on:
+      # ALTERADO: Espera os serviços estarem "saudáveis" antes de iniciar o Worker.
+      redis:
+        condition: service_healthy
+      alumusic:
+        condition: service_healthy
+
+  # RENOMEADO de "db" para "alumusic" para consistência.
+  # Agora o nome do serviço é o mesmo nome do host que você usa na sua DATABASE_URL.
+  alumusic:
     image: postgres:16
-    container_name: alumusic_db
-    environment:
-      POSTGRES_USER: alumusic
-      POSTGRES_PASSWORD: alumusic
-      POSTGRES_DB: alumusic
+    container_name: alumusic
+    # BOA PRÁTICA: Mova as credenciais para o arquivo .env para não expô-las aqui.
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    # ADICIONADO: Healthcheck para o Postgres.
+    # Garante que o banco de dados está realmente pronto para aceitar conexões.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: alumusic_redis
+    # ADICIONADO: Healthcheck para o Redis.
+    # Garante que o Redis está pronto para aceitar conexões.
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
