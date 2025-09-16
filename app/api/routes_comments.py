@@ -1,43 +1,58 @@
-# app/api/routes_comments.py
 
 from flask import request, jsonify
 from . import api_bp
 from app.tasks import processar_comentario_task
-# from flask_jwt_extended import jwt_required # Descomente quando a autenticação de usuário estiver pronta
+from app.models import Comentario  
+from app import db     
 
 @api_bp.route('/comentarios', methods=['POST'])
-# @jwt_required() # Protege a rota
 def adicionar_comentarios():
     """
     Endpoint para receber comentários individualmente ou em lote.
+    O ID é gerado automaticamente pelo servidor.
     """
     json_data = request.get_json()
     if not json_data:
         return jsonify({"erro": "Requisição precisa ser JSON"}), 400
 
-    # Lógica para aceitar tanto um objeto único quanto uma lista
+    
     if isinstance(json_data, dict):
-         comentarios = [json_data]
+        comentarios_input = [json_data]
     elif isinstance(json_data, list):
-         comentarios = json_data
+        comentarios_input = json_data
     else:
         return jsonify({"erro": "Formato de entrada inválido. Envie um objeto ou uma lista de objetos."}), 400
 
-
     ids_enfileirados = []
-    for comentario in comentarios:
-        comentario_id = comentario.get('id')
-        texto = comentario.get('texto')
+    
+    for comentario_data in comentarios_input:
+        texto = comentario_data.get('texto')
 
-        if not comentario_id or not texto:
-            # Pular item inválido ou retornar erro
-            continue 
+        
+        if not texto:
+            continue  
 
-        # Envia a tarefa para o Celery processar em segundo plano
-        processar_comentario_task.delay(comentario_id, texto)
-        ids_enfileirados.append(comentario_id)
+        
+        
+     
+        novo_comentario = Comentario(texto=texto)
+        
+        
+        db.session.add(novo_comentario)
+        db.session.commit()
+        
+        
+        processar_comentario_task.delay(novo_comentario.id, texto)
+        
+       
+        ids_enfileirados.append(novo_comentario.id)
+      
+    if not ids_enfileirados:
+        return jsonify({
+            "erro": "Nenhum comentário válido foi processado. O campo 'texto' é obrigatório."
+        }), 400
 
     return jsonify({
         "mensagem": f"{len(ids_enfileirados)} comentários recebidos e enfileirados para processamento.",
         "ids_enfileirados": ids_enfileirados
-    }), 202 # 202 Accepted: A requisição foi aceita e será processada.
+    }), 202 # 202 Accepted: A requisição foi aceita e o processamento continuará em segundo plano.
