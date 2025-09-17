@@ -1,11 +1,21 @@
+# app/extensions.py
+
+import os
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
-from flask_jwt_extended import JWTManager
-from celery import Celery  # Importe a classe Celery
+from flask_migrate import Migrate  # 👈 Importe o Migrate
+from flask_jwt_extended import JWTManager  # 👈 Importe o JWTManager
+from celery import Celery
 
+# Cria a instância do banco de dados
 db = SQLAlchemy()
-migrate = Migrate()
-jwt = JWTManager()
 
+# Cria a instância do Flask-Migrate
+migrate = Migrate()  # 👈 Defina a variável 'migrate'
 
-celery = Celery(__name__, broker='redis://localhost:6379/0', backend='redis://localhost:6379/0')
+# Cria a instância do Flask-JWT-Extended
+jwt = JWTManager()  # 👈 Defina a variável 'jwt'
+
+# Cria a instância do Celery
+celery = Celery(__name__,
+                broker=os.environ.get('CELERY_BROKER_URL'),
+                backend=os.environ.get('CELERY_RESULT_BACKEND'))

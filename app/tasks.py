@@ -1,55 +1,61 @@
 # app/tasks.py
 
+# 👇 Importe 'celery' e 'db' diretamente de extensions
 from .extensions import celery, db
-# 🚫 REMOVA ESTA LINHA PARA QUEBRAR O CICLO DE IMPORTAÇÃO:
-# from . import create_app 
-
 from .core.llm_service import classificar_comentario
-# 👇 ATUALIZE OS IMPORTS DO MODELO (REMOVA Classificacao)
-from .models import Comentario, TagFuncionalidade
+from .models.comment import Comentario, TagFuncionalidade
 
-@celery.task(bind=True) # Adicione bind=True para ter acesso ao 'self' da tarefa
-def processar_comentario_task(self, comentario_id, texto):
+@celery.task(bind=True)
+def processar_classificacao_task(self, comentario_id):
     """
-    Tarefa Celery para processar um único comentário em segundo plano.
-    O contexto da aplicação é fornecido pelo Celery.
+    Tarefa Celery para buscar um comentário PENDENTE, classificá-lo
+    e ATUALIZAR seu status e dados no banco.
+    O contexto da aplicação é injetado automaticamente.
     """
-    # 👇 Acessamos a aplicação através do 'self.app' fornecido pelo Celery
-    #    Isso elimina a necessidade de chamar create_app() aqui.
-    with self.app.app_context():
-        # 1. Verifica se o comentário já existe (lógica de idempotência)
-        comentario_existente = Comentario.query.get(comentario_id)
-        if comentario_existente:
-            print(f"Comentário com ID {comentario_id} já existe. Pulando.")
+    try:
+        # 1. Busca o comentário que a API já salvou
+        comentario = db.session.query(Comentario).filter_by(id=comentario_id).first()
+        
+        if not comentario:
+            print(f"ERRO: Comentário ID {comentario_id} não encontrado no banco.")
             return
 
-        # 2. Chama o LLM para classificar ANTES de interagir com o banco
-        resultado_llm = classificar_comentario(texto)
+        if comentario.status == 'CONCLUIDO':
+            print(f"INFO: Comentário ID {comentario_id} já foi processado. Pulando.")
+            return
+
+        # 2. Chama o LLM para classificar (a parte demorada)
+        resultado_llm = classificar_comentario(comentario.texto)
         
         if resultado_llm['categoria'] == 'ERRO':
-            print(f"Erro ao classificar o comentário ID {comentario_id}. Lógica de fallback pode ser adicionada aqui.")
-            # A tarefa pode ser tentada novamente se configurada
-            # self.retry(exc=Exception("Falha na classificação do LLM"))
+            comentario.status = 'FALHOU'
+            db.session.commit()
+            # Tenta novamente em 60 segundos
+            self.retry(exc=Exception("Falha na classificação do LLM"), countdown=60)
             return
 
-        # 3. Salva o comentário com os dados da classificação
-        novo_comentario = Comentario(
-            id=comentario_id,
-            texto=texto,
-            categoria=resultado_llm.get('categoria', 'INDEFINIDO'),
-            confianca=resultado_llm.get('confianca', 0.0)
-        )
-        db.session.add(novo_comentario)
+        # 3. ATUALIZA o comentário existente com os resultados
+        comentario.categoria = resultado_llm.get('categoria', 'INDEFINIDO')
+        comentario.confianca = resultado_llm.get('confianca', 0.0)
+        comentario.status = 'CONCLUIDO'
 
-        # 4. Salva as tags, vinculando-as diretamente ao novo comentário
+        # 4. Limpa tags antigas (caso a tarefa seja reexecutada) e adiciona as novas
+        db.session.query(TagFuncionalidade).filter_by(comentario_id=comentario.id).delete()
         for tag_data in resultado_llm.get('tags_funcionalidades', []):
             nova_tag = TagFuncionalidade(
-                # Associa a tag diretamente ao comentário
-                comentario=novo_comentario, 
+                comentario_id=comentario.id,
                 codigo=tag_data.get('codigo'),
                 explicacao=tag_data.get('explicacao')
             )
             db.session.add(nova_tag)
             
         db.session.commit()
-        print(f"Comentário ID {comentario_id} processado e salvo com sucesso.")
+        print(f"Comentário ID {comentario_id} processado e ATUALIZADO com sucesso.")
+
+    except Exception as e:
+        db.session.rollback()
+        print(f"EXCEÇÃO ao processar {comentario_id}: {e}. Retentando...")
+        self.retry(exc=e, countdown=60)
+    finally:
+        # Garante que a sessão do banco seja fechada para liberar a conexão
+        db.session.close()

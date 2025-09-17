@@ -19,6 +19,7 @@ services:
   worker:
     build: .
     container_name: alumusic_worker
+
     command: "celery -A app.celery_app.celery worker --loglevel=info"
     env_file:
       - .env
@@ -55,6 +56,17 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+  streamlit:
+    image: python:3.11-slim
+    container_name: alumusic_front
+    working_dir: /app
+    volumes:
+      - ./app:/app
+    ports:
+      - "8501:8501"
+    command: >
+      sh -c "pip install streamlit requests && streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0"
+    depends_on:
+      - api
 volumes:
   postgres_data:

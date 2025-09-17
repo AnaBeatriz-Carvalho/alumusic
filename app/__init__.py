@@ -1,10 +1,13 @@
-from flask import Flask, logging
+# app/__init__.py
+
+from flask import Flask
 from config import config_by_name
 from .extensions import db, migrate, jwt, celery
-from .auth import auth_bp
-from .api import api_bp
 
-# Importa os modelos para que o Alembic os reconheça
+# 👇 IMPORTAÇÃO CORRIGIDA AQUI 👇
+# Importe os modelos aqui, na ordem correta, para que o Alembic os reconheça.
+# O modelo 'Usuario' deve vir ANTES do 'Comentario', pois 'Comentario' depende de 'Usuario'.
+from app.models.user import Usuario
 from app.models.comment import Comentario, TagFuncionalidade
 
 def create_app(config_name='default'):
@@ -19,13 +22,18 @@ def create_app(config_name='default'):
     # Atualiza a configuração do Celery
     celery.conf.update(app.config)
 
-    # Importa modelos para Alembic
-    from app.models.comment import Comentario, TagFuncionalidade
-    from app.models.user import Usuario
+    class ContextTask(celery.Task):
+        def __call__(self, *args, **kwargs):
+            with app.app_context():
+                return self.run(*args, **kwargs)
+    celery.Task = ContextTask
 
     import logging
     app.logger.setLevel(logging.DEBUG)
+    
     # Registra Blueprints
+    from .api import api_bp
+    from .auth import auth_bp
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(auth_bp, url_prefix='/auth')
 

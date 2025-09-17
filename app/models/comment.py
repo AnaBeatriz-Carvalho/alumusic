@@ -1,34 +1,39 @@
+# app/models/comment.py
 
 import uuid
-from app.extensions import db
 import logging
+from app.extensions import db
+from sqlalchemy.dialects.postgresql import UUID
 
 class Comentario(db.Model):
-    __tablename__ = "comentarios"
-    __table_args__ = {'schema': 'public'}
-
-    id = db.Column(db.String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    __tablename__ = 'comentarios'
+    # __table_args__ = {'schema': 'public'} # Descomente se precisar
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     texto = db.Column(db.Text, nullable=False)
-    data_recebimento = db.Column(db.DateTime(timezone=True), server_default=db.func.now())
-
-    categoria = db.Column(db.String(50), nullable=True)
-    confianca = db.Column(db.Float, nullable=True)
-
-    usuario_id = db.Column(db.String, db.ForeignKey("public.usuarios.id"), nullable=False)
+    categoria = db.Column(db.String(50))
+    confianca = db.Column(db.Float)
+    data_recebimento = db.Column(db.DateTime, server_default=db.func.now())
+    status = db.Column(db.String(20), nullable=False, default='PENDENTE')
+    usuario_id = db.Column(UUID(as_uuid=True), db.ForeignKey('usuarios.id'), nullable=False)
     
-    tags = db.relationship(
-        "TagFuncionalidade",
-        backref="comentario",
-        lazy=True,
-        cascade="all, delete-orphan"
-    )
+    # Relacionamentos (Estes estão corretos)
+    usuario = db.relationship('Usuario', back_populates='comentarios')
+    tags = db.relationship('TagFuncionalidade', back_populates='comentario', cascade="all, delete-orphan")
 
+    def __repr__(self):
+        return f'<Comentario {self.id}>'
+    
 class TagFuncionalidade(db.Model):
     __tablename__ = 'tags_funcionalidades'
-    __table_args__ = {'schema': 'public'}
+    # __table_args__ = {'schema': 'public'} # Descomente se precisar
 
     id = db.Column(db.Integer, primary_key=True)
-    comentario_id = db.Column(db.String(36), db.ForeignKey('public.comentarios.id'), nullable=False)
+    comentario_id = db.Column(UUID(as_uuid=True), db.ForeignKey('comentarios.id'), nullable=False)
     codigo = db.Column(db.String(50), nullable=False)
     explicacao = db.Column(db.Text, nullable=False)
 
+ 
+    comentario = db.relationship('Comentario', back_populates='tags')
+
+    def __repr__(self):
+        return f'<TagFuncionalidade {self.codigo}>'
