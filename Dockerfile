@@ -18,4 +18,4 @@ COPY . .
 EXPOSE 5000
 
 # Comando para rodar o Flask
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["sh", "-c", "flask db upgrade && gunicorn --bind 0.0.0.0:5000 'app:create_app()'"]

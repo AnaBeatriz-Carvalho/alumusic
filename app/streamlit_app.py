@@ -3,7 +3,8 @@
 import streamlit as st
 import requests
 import base64
-from streamlit_autorefresh import st_autorefresh
+from streamlit_autorefresh import st_autorefresh 
+import pandas as pd
 
 API_URL = "http://api:5000"
 
@@ -46,33 +47,69 @@ def show_register():
                 st.error(f"Erro ao registrar: {resp.text}")
 
 def show_dashboard():
-    st.header("Dashboard")
-    st.write(f"Bem-vindo, {st.session_state.email}!")
+    st.header("Dashboard Privado")
+
+    # Botão de logout
     if st.button("Logout"):
         st.session_state.token = None
         st.session_state.email = None
         st.rerun()
 
-    # Buscar comentários
-    st.subheader("Buscar Comentários")
     headers = {"Authorization": f"Bearer {st.session_state.token}"}
+
+    # 1. Buscar comentários
+    st.subheader("Buscar Comentários")
     resp = requests.get(f"{API_URL}/api/comentarios", headers=headers)
     if resp.status_code == 200:
         comentarios = resp.json().get("comentarios", [])
-        for c in comentarios:
-            st.write(f"- {c['texto']} (status: {c['status']})")
+        if comentarios:
+            df = pd.DataFrame(comentarios)
+            st.dataframe(df)
+        else:
+            st.info("Nenhum comentário encontrado.")
     else:
-        st.info("Nenhum comentário encontrado.")
+        st.error("Erro ao buscar comentários.")
 
-    # Histórico de classificações
+    # 2. Ver histórico de classificações
     st.subheader("Histórico de Classificações")
-    # (Implemente a chamada para buscar histórico, se existir endpoint)
+    resp = requests.get(f"{API_URL}/api/classificacoes", headers=headers)
+    if resp.status_code == 200:
+        historico = resp.json().get("classificacoes", [])
+        if historico:
+            df_hist = pd.DataFrame(historico)
+            st.dataframe(df_hist)
+        else:
+            st.info("Nenhuma classificação encontrada.")
+    else:
+        st.error("Erro ao buscar histórico de classificações.")
 
-    # Exportar dados
+    # 3. Exportar dados
     st.subheader("Exportar Dados")
-    if st.button("Exportar CSV"):
-        # Implemente a exportação conforme seu endpoint
-        st.info("Funcionalidade de exportação ainda não implementada.")
+    if st.button("Exportar Comentários CSV"):
+        if comentarios:
+            df = pd.DataFrame(comentarios)
+            csv = df.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Baixar CSV de Comentários",
+                data=csv,
+                file_name='comentarios.csv',
+                mime='text/csv'
+            )
+        else:
+            st.info("Nenhum comentário para exportar.")
+
+    if st.button("Exportar Classificações CSV"):
+        if historico:
+            df_hist = pd.DataFrame(historico)
+            csv = df_hist.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="Baixar CSV de Classificações",
+                data=csv,
+                file_name='classificacoes.csv',
+                mime='text/csv'
+            )
+        else:
+            st.info("Nenhuma classificação para exportar.")
 
     # Enviar novo comentário
     st.subheader("Enviar Comentário")

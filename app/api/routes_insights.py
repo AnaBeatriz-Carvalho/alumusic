@@ -1,5 +1,3 @@
-# app/api/routes_insights.py
-
 import io
 import base64
 import matplotlib.pyplot as plt
@@ -25,34 +23,32 @@ def relatorio_semanal():
 
     # Exemplo 1: Categorias mais frequentes por artista
     dados = db.session.query(
-        Comentario.artista, Comentario.categoria, db.func.count(Comentario.id)
+        Comentario.categoria, db.func.count(Comentario.id)
     ).filter(
-        Comentario.data_criacao >= semana_atras
+        Comentario.data_recebimento >= semana_atras
     ).group_by(
-        Comentario.artista, Comentario.categoria
+        Comentario.categoria
     ).all()
 
-    # Monta dados para gráfico 1
-    artistas = [d[0] for d in dados]
-    categorias = [d[1] for d in dados]
-    counts = [d[2] for d in dados]
+    categorias = [d[0] for d in dados]
+    counts = [d[1] for d in dados]
 
     fig1, ax1 = plt.subplots()
     ax1.bar(categorias, counts)
-    ax1.set_title("Categorias mais frequentes por artista")
+    ax1.set_title("Categorias mais frequentes")
     img1 = fig_to_base64(fig1)
 
     # Exemplo 2: Evolução de críticas após lançamento
     # (Ajuste conforme seu modelo)
     evolucao = db.session.query(
-        db.func.date_trunc('day', Comentario.data_criacao),
+        db.func.date_trunc('day', Comentario.data_recebimento),
         db.func.count(Comentario.id)
     ).filter(
-        Comentario.data_criacao >= semana_atras
+        Comentario.data_recebimento >= semana_atras
     ).group_by(
-        db.func.date_trunc('day', Comentario.data_criacao)
+        db.func.date_trunc('day', Comentario.data_recebimento)
     ).order_by(
-        db.func.date_trunc('day', Comentario.data_criacao)
+        db.func.date_trunc('day', Comentario.data_recebimento)
     ).all()
 
     datas = [str(d[0].date()) for d in evolucao]
@@ -66,11 +62,11 @@ def relatorio_semanal():
     # Exemplo 3: Tags mais citadas nas últimas 48h
     dois_dias = agora - timedelta(hours=48)
     tags = db.session.query(
-        TagFuncionalidade.nome, db.func.count(TagFuncionalidade.id)
-    ).filter(
-        TagFuncionalidade.data_criacao >= dois_dias
+        TagFuncionalidade.codigo, db.func.count(TagFuncionalidade.id)
+    ).join(Comentario).filter(
+        Comentario.data_recebimento >= dois_dias
     ).group_by(
-        TagFuncionalidade.nome
+        TagFuncionalidade.codigo
     ).order_by(
         db.func.count(TagFuncionalidade.id).desc()
     ).limit(10).all()
@@ -87,7 +83,7 @@ def relatorio_semanal():
     status_data = db.session.query(
         Comentario.status, db.func.count(Comentario.id)
     ).filter(
-        Comentario.data_criacao >= semana_atras
+        Comentario.data_recebimento >= semana_atras
     ).group_by(
         Comentario.status
     ).all()
@@ -100,32 +96,33 @@ def relatorio_semanal():
     ax4.set_title("Distribuição de status dos comentários")
     img4 = fig_to_base64(fig4)
 
-    # Exemplo 5: Artistas mais comentados na semana
-    artistas_data = db.session.query(
-        Comentario.artista, db.func.count(Comentario.id)
+    # Exemplo 5: Comentários por dia na semana
+    dias_data = db.session.query(
+        db.func.date_trunc('day', Comentario.data_recebimento),
+        db.func.count(Comentario.id)
     ).filter(
-        Comentario.data_criacao >= semana_atras
+        Comentario.data_recebimento >= semana_atras
     ).group_by(
-        Comentario.artista
+        db.func.date_trunc('day', Comentario.data_recebimento)
     ).order_by(
-        db.func.count(Comentario.id).desc()
-    ).limit(10).all()
+        db.func.date_trunc('day', Comentario.data_recebimento)
+    ).all()
 
-    artista_nomes = [a[0] for a in artistas_data]
-    artista_counts = [a[1] for a in artistas_data]
+    dias = [str(d[0].date()) for d in dias_data]
+    dias_counts = [d[1] for d in dias_data]
 
     fig5, ax5 = plt.subplots()
-    ax5.bar(artista_nomes, artista_counts)
-    ax5.set_title("Artistas mais comentados na semana")
+    ax5.bar(dias, dias_counts)
+    ax5.set_title("Comentários por dia na semana")
     img5 = fig_to_base64(fig5)
 
     return jsonify({
         "graficos": [
-            {"titulo": "Categorias mais frequentes por artista", "imagem_base64": img1},
+            {"titulo": "Categorias mais frequentes", "imagem_base64": img1},
             {"titulo": "Evolução de críticas após lançamento", "imagem_base64": img2},
             {"titulo": "Tags mais citadas nas últimas 48h", "imagem_base64": img3},
             {"titulo": "Distribuição de status dos comentários", "imagem_base64": img4},
-            {"titulo": "Artistas mais comentados na semana", "imagem_base64": img5},
+            {"titulo": "Comentários por dia na semana", "imagem_base64": img5},
         ],
         "dados": {
             "categorias_por_artista": dict(zip(categorias, counts)),

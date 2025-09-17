@@ -1,4 +1,3 @@
-
 from app.models.user import Usuario 
 from flask import request, jsonify
 from . import api_bp
@@ -82,4 +81,22 @@ def adicionar_comentarios():
         "ids_enfileirados": ids_enfileirados,
     }), 202 # 202 Accepted: A requisição foi aceita, mas o processamento não terminou.
 
-id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+@api_bp.route('/comentarios', methods=['GET'])
+@jwt_required()
+def listar_comentarios():
+    usuario_id = get_jwt_identity()
+    comentarios = Comentario.query.filter_by(usuario_id=usuario_id).all()
+    # Serializa os comentários para JSON
+    comentarios_serializados = [
+        {
+            "id": str(comentario.id),
+            "texto": comentario.texto,
+            "status": comentario.status,
+            "data_recebimento": comentario.data_recebimento.isoformat() if comentario.data_recebimento else None,
+            # Adicione outros campos relevantes aqui
+        }
+        for comentario in comentarios
+    ]
+    return jsonify({"comentarios": comentarios_serializados}), 200
+
+# id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

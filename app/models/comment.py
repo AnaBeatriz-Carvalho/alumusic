@@ -4,6 +4,8 @@ import uuid
 import logging
 from app.extensions import db
 from sqlalchemy.dialects.postgresql import UUID
+from datetime import datetime, timedelta
+semana_atras = datetime.now() - timedelta(days=7)
 
 class Comentario(db.Model):
     __tablename__ = 'comentarios'
