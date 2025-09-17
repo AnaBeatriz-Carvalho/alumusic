@@ -8,6 +8,9 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Instala pacotes do sistema necessários
+RUN apt-get update && apt-get install -y gcc libpq-dev build-essential && rm -rf /var/lib/apt/lists/*
+
 # Copia o restante do código da aplicação
 COPY . .
 
@@ -15,4 +18,4 @@ COPY . .
 EXPOSE 5000
 
 # Comando para rodar o Flask
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["sh", "-c", "flask db upgrade && gunicorn --bind 0.0.0.0:5000 'app:create_app()'"]
