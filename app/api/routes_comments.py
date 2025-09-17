@@ -1,6 +1,5 @@
-# No início do seu arquivo, certifique-se de importar o modelo Usuario
+
 from app.models.user import Usuario 
-# (confirme o caminho correto para o seu modelo de usuário)
 from flask import request, jsonify
 from . import api_bp
 from app.models.comment import Comentario, TagFuncionalidade
@@ -10,19 +9,10 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 import uuid
 import logging
 from sqlalchemy.dialects.postgresql import UUID
-
-# No início do seu arquivo, confirme estes imports
-import uuid
-import logging
-from flask import request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
-
-from . import api_bp
-from app.extensions import db
 from app.models.user import Usuario 
-from app.models.comment import Comentario
-# 👇 Importe a sua tarefa Celery
 from app.tasks import processar_classificacao_task 
+
+
 
 logger = logging.getLogger(__name__)
 

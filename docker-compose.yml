@@ -20,7 +20,7 @@ services:
     build: .
     container_name: alumusic_worker
 
-    command: "celery -A app.celery_app.celery worker --loglevel=info"
+    command: celery -A app.celery_app.celery worker --loglevel=info
     env_file:
       - .env
     depends_on:
@@ -37,7 +37,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"  # garante que você consiga acessar pelo PgAdmin
+      - "5432:5432" 
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -57,15 +57,12 @@ services:
       timeout: 5s
       retries: 5
   streamlit:
-    image: python:3.11-slim
+    build: .
     container_name: alumusic_front
     working_dir: /app
-    volumes:
-      - ./app:/app
     ports:
       - "8501:8501"
-    command: >
-      sh -c "pip install streamlit requests && streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0"
+    command: streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
     depends_on:
       - api
 volumes:
