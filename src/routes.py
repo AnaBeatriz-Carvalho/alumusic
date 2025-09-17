@@ -1,4 +1,5 @@
 from flask import Blueprint, request
+from flask_jwt_extended import jwt_required
 from models import db, Comentario
 
 bp = Blueprint("api", __name__)

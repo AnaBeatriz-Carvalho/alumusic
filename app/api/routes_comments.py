@@ -3,11 +3,14 @@ from . import api_bp
 from app.models.comment import Comentario, TagFuncionalidade
 from app.extensions import db
 from app.core.llm_service import classificar_comentario
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
+import uuid
 
 @api_bp.route('/comentarios', methods=['POST'])
-# @jwt_required()
+@jwt_required()
 def adicionar_comentarios():
+    usuario_id = get_jwt_identity()  # pega o usuário logado
+
     json_data = request.get_json()
     if not json_data:
         return jsonify({"erro": "Requisição precisa ser JSON"}), 400
@@ -22,16 +25,20 @@ def adicionar_comentarios():
     ids_enfileirados = []
 
     for comentario_data in comentarios_input:
-        texto = comentario_data.get('texto')
+        texto = comentario_data.get("texto")
         if not texto:
             continue
 
         # 1️⃣ cria o comentário no banco
-        comentario = Comentario(texto=texto)
+        comentario = Comentario(
+            id=str(uuid.uuid4()),
+            texto=texto,
+            usuario_id=usuario_id
+        )
         db.session.add(comentario)
-        db.session.commit()  # necessário para gerar o id
+        db.session.commit()  # precisa do id
 
-        # 2️⃣ classifica usando Gemini
+        # 2️⃣ classifica com Gemini
         resultado = classificar_comentario(texto)
         comentario.categoria = resultado.get("categoria")
         comentario.confianca = resultado.get("confianca")
@@ -42,7 +49,7 @@ def adicionar_comentarios():
             nova_tag = TagFuncionalidade(
                 comentario_id=comentario.id,
                 codigo=tag.get("codigo"),
-                explicacao=tag.get("explicacao")
+                explicacao=tag.get("explicacao"),
             )
             db.session.add(nova_tag)
         db.session.commit()
@@ -54,5 +61,5 @@ def adicionar_comentarios():
 
     return jsonify({
         "mensagem": f"{len(ids_enfileirados)} comentários processados.",
-        "ids_enfileirados": ids_enfileirados
+        "ids_enfileirados": ids_enfileirados,
     }), 202
