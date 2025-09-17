@@ -1,42 +1,38 @@
-from flask import Blueprint, request
-from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
-from app.extensions import db
+from flask import Blueprint, request, jsonify
+from flask_jwt_extended import create_access_token
 from app.models.user import Usuario
+from app.extensions import db
 
 auth_bp = Blueprint("auth", __name__)
 
+# Registro
 @auth_bp.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    if not data.get("username") or not data.get("password"):
-        return {"error": "username e password são obrigatórios"}, 400
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"msg": "E-mail e senha obrigatórios"}), 400
 
-    if Usuario.query.filter_by(username=data["username"]).first():
-        return {"error": "usuário já existe"}, 400
+    if Usuario.query.filter_by(email=data["email"]).first():
+        return jsonify({"msg": "E-mail já registrado"}), 400
 
-    user = Usuario(username=data["username"])
+    user = Usuario(email=data["email"])
     user.set_password(data["password"])
     db.session.add(user)
     db.session.commit()
-    return {"message": "usuário criado"}, 201
 
+    return jsonify({"msg": "Usuário criado com sucesso", "id": user.id}), 201
 
-# Login → retorna JWT
+# Login
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
-    user = Usuario.query.filter_by(username=data["username"]).first()
+    if not data or "email" not in data or "password" not in data:
+        return jsonify({"msg": "E-mail e senha obrigatórios"}), 400
 
+    user = Usuario.query.filter_by(email=data["email"]).first()
     if not user or not user.check_password(data["password"]):
-        return {"error": "usuário ou senha inválidos"}, 401
+        return jsonify({"msg": "E-mail ou senha inválidos"}), 401
 
-    token = create_access_token(identity=user.username)
-    return {"access_token": token}, 200
-
-
-# Exemplo de rota protegida
-@auth_bp.route("/me", methods=["GET"])
-@jwt_required()
-def me():
-    current_user = get_jwt_identity()
-    return {"logged_in_as": current_user}, 200
+    # Aqui usamos o ID do usuário como identity
+    token = create_access_token(identity=str(user.id))
+    return jsonify(access_token=token, usuario_id=user.id), 200

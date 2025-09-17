@@ -6,9 +6,7 @@ from . import api_bp
 
 @api_bp.route('/relatorio/semana', methods=['GET'])
 def relatorio_semanal():
-    # TODO: Implementar a lógica para buscar dados do banco,
-    # agregar e retornar os 5 gráficos/JSONs.
-    # Lembre-se de usar cache aqui!
+
     return jsonify({"mensagem": "Relatório semanal em desenvolvimento."})
 
 

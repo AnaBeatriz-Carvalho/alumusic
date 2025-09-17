@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, logging
 from config import config_by_name
 from .extensions import db, migrate, jwt, celery
 from .auth import auth_bp
@@ -23,6 +23,8 @@ def create_app(config_name='default'):
     from app.models.comment import Comentario, TagFuncionalidade
     from app.models.user import Usuario
 
+    import logging
+    app.logger.setLevel(logging.DEBUG)
     # Registra Blueprints
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(auth_bp, url_prefix='/auth')

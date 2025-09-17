@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token
-from werkzeug.security import check_password_hash
 from app.models.user import Usuario
+from app.extensions import db
 
 auth_logando = Blueprint('logando', __name__)
 
@@ -12,9 +12,8 @@ def login():
         return jsonify({"msg": "E-mail e senha obrigatórios"}), 400
 
     user = Usuario.query.filter_by(email=data["email"]).first()
-
-    if not user or not check_password_hash(user.senha_hash, data["password"]):
+    if not user or not user.check_password(data["password"]):
         return jsonify({"msg": "E-mail ou senha inválidos"}), 401
 
     token = create_access_token(identity=str(user.id))
-    return jsonify(access_token=token), 200
+    return jsonify(access_token=token, user_id=str(user.id)), 200
