@@ -9,6 +9,7 @@ from app.core.llm_service import classificar_comentario
 from flask_jwt_extended import jwt_required, get_jwt_identity
 import uuid
 import logging
+from sqlalchemy.dialects.postgresql import UUID
 
 # No início do seu arquivo, confirme estes imports
 import uuid
@@ -58,9 +59,8 @@ def adicionar_comentarios():
 
         # CRIANDO o comentário com status PENDENTE. Nenhum LLM é chamado aqui!
         novo_comentario = Comentario(
-            id=str(uuid.uuid4()),
             texto=texto,
-            usuario_id=usuario_logado.id, # O ID do usuário é salvo corretamente
+            usuario_id=usuario_logado.id,
             status='PENDENTE'
         )
         comentarios_para_salvar.append(novo_comentario)
@@ -91,3 +91,5 @@ def adicionar_comentarios():
         "mensagem": "Comentários recebidos e enfileirados para processamento em segundo plano.",
         "ids_enfileirados": ids_enfileirados,
     }), 202 # 202 Accepted: A requisição foi aceita, mas o processamento não terminou.
+
+id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
