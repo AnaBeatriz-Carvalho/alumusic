@@ -3,7 +3,7 @@
 from app.extensions import db
 
 class ResumoSemanal(db.Model):
-    __tablename__ = 'public.resumos_semanais'
+    __tablename__ = 'resumos_semanais'
 
     id = db.Column(db.Integer, primary_key=True)
     ano = db.Column(db.Integer, nullable=False)
