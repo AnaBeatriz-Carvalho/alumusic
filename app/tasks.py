@@ -3,6 +3,7 @@
 # 👇 Importe 'celery' e 'db' diretamente de extensions
 from .extensions import celery, db
 from .core.llm_service import classificar_comentario
+from app.models.tag_catalog import TagCatalogo
 from .models.comment import Comentario, TagFuncionalidade
 
 @celery.task(bind=True)
@@ -49,6 +50,17 @@ def processar_classificacao_task(self, comentario_id):
             )
             db.session.add(nova_tag)
             
+        # Adiciona as tags previstas a partir do catálogo de tags
+        predicted_tags = resultado_llm.get('predicted_tags', [])
+        for codigo in predicted_tags:
+            tag = TagCatalogo.query.filter_by(codigo=codigo).first()
+            if tag:
+                tf = TagFuncionalidade(comentario_id=comentario.id, tag_catalogo_id=tag.id)
+                db.session.add(tf)
+            else:
+                # opcional: logar ou criar TagCatalogo se fizer sentido
+                pass
+
         db.session.commit()
         print(f"Comentário ID {comentario_id} processado e ATUALIZADO com sucesso.")
 
