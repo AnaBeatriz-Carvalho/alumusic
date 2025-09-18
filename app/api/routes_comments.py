@@ -84,19 +84,28 @@ def adicionar_comentarios():
 @api_bp.route('/comentarios', methods=['GET'])
 @jwt_required()
 def listar_comentarios():
-    usuario_id = get_jwt_identity()
-    comentarios = Comentario.query.filter_by(usuario_id=usuario_id).all()
-    # Serializa os comentários para JSON
+    # 1. Pegue o email que está no token JWT
+    user_email = get_jwt_identity()
+
+    # 2. Use o email para buscar o objeto Usuario completo no banco de dados
+    #    (Este é o passo que estava faltando)
+    usuario = Usuario.query.filter_by(email=user_email).first()
+
+    # 3. Verifique se o usuário realmente existe
+    if not usuario:
+        return jsonify({"erro": "Usuário do token não encontrado."}), 404
+
+    # 4. AGORA SIM: Use o ID (que é um UUID) do usuário para filtrar os comentários
+    comentarios = Comentario.query.filter_by(usuario_id=usuario.id).all()
+    
+    # O resto do seu código para serializar já está correto
     comentarios_serializados = [
         {
             "id": str(comentario.id),
             "texto": comentario.texto,
             "status": comentario.status,
             "data_recebimento": comentario.data_recebimento.isoformat() if comentario.data_recebimento else None,
-            # Adicione outros campos relevantes aqui
         }
         for comentario in comentarios
     ]
     return jsonify({"comentarios": comentarios_serializados}), 200
-
-# id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
