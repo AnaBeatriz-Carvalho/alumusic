@@ -4,6 +4,8 @@ from app.extensions import db
 from app.models.comment import Comentario
 from app.models.user import Usuario
 from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import Response 
+import json
 import uuid
 
 @api_bp.route('/comentarios', methods=['POST'])
@@ -63,21 +65,23 @@ def listar_comentarios():
     if not usuario:
         return jsonify({"erro": "Usuário não encontrado"}), 404
 
+    # Pega os parâmetros da URL, incluindo o novo parâmetro 'format'
     search_query = request.args.get('search', '')
     status_filter = request.args.getlist('status')
     category_filter = request.args.getlist('category')
+    export_format = request.args.get('format', None) # 👈 NOVO: Pega o formato
 
+    # ... (sua lógica de query continua a mesma) ...
     query = Comentario.query.order_by(Comentario.data_recebimento.desc())
-
     if search_query:
         query = query.filter(Comentario.texto.ilike(f'%{search_query}%'))
     if status_filter:
         query = query.filter(Comentario.status.in_(status_filter))
     if category_filter:
         query = query.filter(Comentario.categoria.in_(category_filter))
-
     comentarios = query.all()
 
+    # Prepara a lista de resultados (serialização)
     resultado = []
     for c in comentarios:
         resultado.append({
@@ -86,5 +90,15 @@ def listar_comentarios():
             "data_recebimento": c.data_recebimento.isoformat() if c.data_recebimento else None,
             "tags": [{"codigo": t.codigo, "explicacao": t.explicacao} for t in c.tags]
         })
-        
-    return jsonify({"comentarios": resultado}), 200
+    
+    # 👇 NOVO: Lógica para decidir o formato da resposta 👇
+    if export_format == 'json':
+        # Se o formato for 'json', preparamos uma resposta de download
+        return Response(
+            json.dumps(resultado, indent=2, ensure_ascii=False),
+            mimetype='application/json',
+            headers={'Content-Disposition': 'attachment;filename=comentarios.json'}
+        )
+    else:
+        # Caso contrário, retorna o JSON normal para o dashboard
+        return jsonify({"comentarios": resultado}), 200

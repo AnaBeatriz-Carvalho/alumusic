@@ -4,6 +4,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import json
+import base64  # Importação necessária para decodificar imagens base64
 from streamlit_autorefresh import st_autorefresh
 
 # O URL da sua API rodando no Docker
@@ -49,8 +50,7 @@ def show_register():
 
 # --- DASHBOARD REATORADO ---
 def show_dashboard():
-    # 👇 COLOQUE ESTA LINHA AQUI 👇
-    st_autorefresh(interval=15000, key="data_refresh")  # Atualiza a cada 15 segundos
+    st_autorefresh(interval=15000, key="data_refresh")
 
     st.header(f"Dashboard de Análise - Bem-vindo(a), {st.session_state.email}")
     
@@ -61,7 +61,7 @@ def show_dashboard():
 
     st.subheader("Ferramentas de Análise de Comentários")
 
-    # --- 1. FERRAMENTAS DE FILTRO E BUSCA ---
+    # --- Filtros (sem alterações) ---
     col1, col2, col3 = st.columns(3)
     with col1:
         search_query = st.text_input("Buscar por texto no comentário:")
@@ -69,7 +69,6 @@ def show_dashboard():
         status_filter = st.multiselect(
             "Filtrar por Status:",
             options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"],
-            
         )
     with col3:
         category_filter = st.multiselect(
@@ -77,7 +76,7 @@ def show_dashboard():
             options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"]
         )
     
-    # --- 2. CHAMADA À API COM OS FILTROS ---
+    # --- Chamada à API (sem alterações) ---
     headers = {"Authorization": f"Bearer {st.session_state.token}"}
     params = {
         "search": search_query,
@@ -92,15 +91,17 @@ def show_dashboard():
             comentarios = resp.json().get("comentarios", [])
             
             if comentarios:
-                # --- 3. EXIBIÇÃO DOS DADOS EM UMA TABELA ÚNICA E COMPLETA ---
                 st.write(f"**Exibindo {len(comentarios)} comentários:**")
+
+                # =================================================================
+                # 👇 CORREÇÃO E IMPLEMENTAÇÃO DETALHADA AQUI 👇
+                # =================================================================
                 
-                # Prepara os dados para um DataFrame do Pandas
+                # Prepara uma lista de dicionários com todos os campos formatados
                 data_for_df = []
                 for c in comentarios:
                     tags_formatadas = ", ".join([tag['codigo'] for tag in c.get('tags', [])])
                     data_for_df.append({
-                        # Adicionamos o ID aqui
                         "ID": str(c.get("id")), 
                         "Status": c.get("status"),
                         "Categoria": c.get("categoria"),
@@ -110,21 +111,35 @@ def show_dashboard():
                         "Data": pd.to_datetime(c.get("data_recebimento")).strftime('%Y-%m-%d %H:%M') if c.get("data_recebimento") else "N/A"
                     })
 
-                # Criamos o DataFrame e DEFINIMOS A ORDEM DAS COLUNAS
+                # Cria o DataFrame a partir da lista detalhada
                 df = pd.DataFrame(data_for_df)
+                
+                # Exibe o DataFrame com a ordem das colunas definida
                 st.dataframe(df, 
                     column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"),
                     use_container_width=True
                 )
 
-                # --- 4. FUNCIONALIDADE DE EXPORTAÇÃO ---
-                csv = df.to_csv(index=False).encode('utf-8')
-                st.download_button(
-                    label="📥 Exportar Resultados para CSV",
-                    data=csv,
-                    file_name=f"relatorio_comentarios_{pd.Timestamp.now().strftime('%Y%m%d')}.csv",
-                    mime='text/csv',
-                )
+                # --- Funcionalidade de exportação (sem alterações) ---
+                col1_exp, col2_exp = st.columns(2)
+                with col1_exp:
+                    csv = df.to_csv(index=False).encode('utf-8')
+                    st.download_button(
+                        label="📥 Exportar para CSV",
+                        data=csv,
+                        file_name=f"comentarios_{pd.Timestamp.now().strftime('%Y%m%d')}.csv",
+                        mime='text/csv',
+                        key='csv_download'
+                    )
+                with col2_exp:
+                    json_data = json.dumps(comentarios, indent=2, ensure_ascii=False).encode('utf-8')
+                    st.download_button(
+                        label="📥 Exportar para JSON",
+                        data=json_data,
+                        file_name=f"comentarios_{pd.Timestamp.now().strftime('%Y%m%d')}.json",
+                        mime='application/json',
+                        key='json_download'
+                    )
             else:
                 st.info("Nenhum comentário encontrado com os filtros selecionados.")
         else:
@@ -133,21 +148,49 @@ def show_dashboard():
     except requests.exceptions.RequestException as e:
         st.error(f"Não foi possível conectar à API. Verifique se o serviço está no ar. Erro: {e}")
 
-# --- RELATÓRIO PÚBLICO (Sem grandes alterações) ---
+# --- RELATÓRIO PÚBLICO (IMPLEMENTAÇÃO CORRETA) ---
 def show_relatorio():
-    # ... seu código para o relatório público pode continuar o mesmo ...
-    # Lembre-se que ele não precisa de token.
+    st_autorefresh(interval=60000, key="relatorio_refresh")
     st.header("Relatório Público em Tempo Real")
-    # ... o resto do código ...
 
-# --- LÓGICA PRINCIPAL DE NAVEGAÇÃO ---
+    try:
+        resp = requests.get(f"{API_URL}/api/relatorio/semana", timeout=10)
+        
+        if resp.status_code == 200:
+            data = resp.json()
+            graficos = data.get("graficos", [])
+            
+            if not graficos:
+                st.info("Os dados para o relatório ainda estão sendo gerados. Por favor, aguarde e a página será atualizada em breve.")
+            
+            for graf in graficos:
+                st.subheader(graf["titulo"])
+                st.image(base64.b64decode(graf["imagem_base64"]), use_column_width=True)
+
+        elif resp.status_code == 202:
+            st.info(resp.json().get("mensagem"))
+        else:
+            st.error(f"Erro ao carregar relatório: {resp.status_code} - {resp.text}")
+            
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro ao conectar com a API do relatório: {e}")
+
+# --- LÓGICA PRINCIPAL DE NAVEGAÇÃO (AJUSTADA) ---
 if st.session_state.token:
-    show_dashboard()
+    st.sidebar.title("Menu")
+    pagina_selecionada = st.sidebar.radio("Navegue por", ["Dashboard de Análise", "Relatório Público"])
+    
+    if pagina_selecionada == "Dashboard de Análise":
+        show_dashboard()
+    else:
+        show_relatorio()
 else:
-    aba = st.sidebar.radio("Navegação", ["Login", "Registrar", "Relatório Público"])
-    if aba == "Login":
+    st.sidebar.title("Bem-vindo(a)!")
+    pagina_selecionada = st.sidebar.radio("Navegue por", ["Login", "Registrar", "Relatório Público"])
+
+    if pagina_selecionada == "Login":
         show_login()
-    elif aba == "Registrar":
+    elif pagina_selecionada == "Registrar":
         show_register()
     else:
         show_relatorio()
