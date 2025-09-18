@@ -1,66 +1,74 @@
 import os
-import json
 import google.generativeai as genai
+import json
+import re
+import logging # Usaremos o logger para depuração
 
-# Inicialização do Gemini
-model = None
+# Configura um logger para este módulo
+logger = logging.getLogger(__name__)
+
+# Pega a chave de API do seu arquivo .env
 try:
-    genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
-    model = genai.GenerativeModel(
-        "gemini-1.5-pro-latest",
-        generation_config={"response_mime_type": "application/json"}
-    )
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 except Exception as e:
-    print(f"Erro ao inicializar Gemini: {e}")
+    logger.error(f"Erro CRÍTICO ao configurar a API do Gemini: {e}. Verifique sua GOOGLE_API_KEY.", exc_info=True)
 
-# Prompt base
-PROMPT_CLASSIFICACAO = """
-Você é um analista de sentimentos para a indústria musical.
+# Prompt refinado para ser ainda mais direto e evitar textos extras.
+PROMPT_TEMPLATE = """
+Sua única função é analisar um comentário e retornar um objeto JSON.
+O comentário é: "{text}"
 
-Comentário: "{texto_do_comentario}"
-
-Retorne JSON:
+Responda APENAS com o objeto JSON. Não inclua explicações, introduções, ou marcadores de formatação como ```json.
+O JSON deve ter a seguinte estrutura e tipos de dados:
 {{
-  "categoria": "...",
-  "tags_funcionalidades": [{{"codigo": "...", "explicacao": "..."}}],
-  "confianca": 0.0
+  "categoria": "string",
+  "tags_funcionalidades": [
+    {{"codigo": "string", "explicacao": "string"}}
+  ],
+  "confianca": "float"
 }}
 
-Regras:
-1. categoria ∈ [ELOGIO, CRÍTICA, SUGESTÃO, DÚVIDA, SPAM]
-2. tags_funcionalidades é uma lista, ou [] se nada.
-3. confianca ∈ [0.0, 1.0]
-4. Retorne somente JSON, sem explicações adicionais.
+As categorias válidas são: "ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM".
+Se não encontrar tags, retorne uma lista vazia.
 """
 
 def classificar_comentario(texto: str) -> dict:
-    """Classifica um único comentário usando o Gemini"""
-    if not model:
-        return {"categoria": "ERRO", "tags_funcionalidades": [], "confianca": 0.0}
-
-    prompt = PROMPT_CLASSIFICACAO.format(texto_do_comentario=texto)
+    """
+    Chama o LLM para classificar o texto e retorna um dicionário estruturado.
+    Esta versão tem logging e parsing de JSON aprimorados.
+    """
+    response_text = None # Para armazenar a resposta crua para depuração
     try:
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        prompt = PROMPT_TEMPLATE.format(text=texto)
+        
         response = model.generate_content(prompt)
+        response_text = response.text
+        
+        # Lógica de limpeza e parsing mais robusta
+        # 1. Tenta encontrar o JSON usando uma expressão regular que busca por { ... }
+        match = re.search(r'\{.*\}', response_text, re.DOTALL)
+        if match:
+            json_str = match.group(0)
+            return json.loads(json_str)
+        else:
+            # 2. Se não encontrar, assume que a resposta pode ser o JSON puro e tenta carregar
+            return json.loads(response_text)
 
-        # Algumas versões do SDK retornam em response.candidates[0].content.parts
-        output = getattr(response, "text", None) or str(response)
-
-        data = json.loads(output)
-
-        # Garantir defaults
-        return {
-            "categoria": data.get("categoria", "SPAM"),
-            "tags_funcionalidades": data.get("tags_funcionalidades", []),
-            "confianca": float(data.get("confianca", 0.5)),
-        }
     except Exception as e:
-        print(f"[ERRO GEMINI] {e}")
-        return {"categoria": "ERRO", "tags_funcionalidades": [], "confianca": 0.0}
-
-
-def classificar_lote(comentarios: list[str]) -> list[dict]:
-    """Classifica uma lista de comentários (sequencial por enquanto)"""
-    resultados = []
-    for texto in comentarios:
-        resultados.append(classificar_comentario(texto))
-    return resultados
+        # 👇 LOGGING MELHORADO 👇
+        # Se qualquer erro ocorrer, vamos logar tudo que precisamos para depurar.
+        logger.error(
+            f"Falha ao classificar comentário. Erro: {e}",
+            exc_info=True # Inclui o traceback completo do erro
+        )
+        logger.error(f"Texto do comentário (início): {texto[:100]}...")
+        logger.error(f"Resposta CRUA recebida da LLM: {response_text}")
+        
+        # Retorna um dicionário de erro padronizado
+        return {
+            "categoria": "ERRO",
+            "tags_funcionalidades": [],
+            "confianca": 0.0,
+            "error_message": str(e)
+        }

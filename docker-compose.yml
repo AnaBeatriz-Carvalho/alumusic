@@ -1,13 +1,17 @@
 version: '3.9'
 
 services:
+  # O serviço da API será o responsável por construir nossa imagem compartilhada
   api:
     build: .
+    image: alumusic-app
     container_name: alumusic_api
     ports:
       - "5001:5000"
     env_file:
       - .env
+    environment:
+      - FLASK_APP=app
     command: >
       sh -c "flask db upgrade && gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
     depends_on:
@@ -17,10 +21,9 @@ services:
         condition: service_healthy
 
   worker:
-    build: .
+    image: alumusic-app  # REUTILIZAMOS a imagem, sem 'build'
     container_name: alumusic_worker
-
-    command: celery -A app.celery_app.celery worker --loglevel=info
+    command: celery -A celery_worker.celery worker --loglevel=info
     env_file:
       - .env
     depends_on:
@@ -28,6 +31,20 @@ services:
         condition: service_healthy
       alumusic:
         condition: service_healthy
+
+  streamlit:
+    image: alumusic-app  # REUTILIZAMOS a imagem, sem 'build'
+    container_name: alumusic_front
+    ports:
+      - "8501:8501"
+    env_file:
+      - .env
+    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0 # Comando do Streamlit
+    depends_on:
+      api:
+        condition: service_started # Espera a API iniciar
+      alumusic:
+        condition: service_healthy # Espera o banco ficar pronto
 
   alumusic:
     image: postgres:16
@@ -37,11 +54,8 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432" 
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
+      - "5432:5432"
+    # 👇 ESTE BLOCO É ESSENCIAL 👇
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
@@ -56,14 +70,6 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-  streamlit:
-    build: .
-    container_name: alumusic_front
-    working_dir: /app
-    ports:
-      - "8501:8501"
-    command: streamlit run app/streamlit_app.py --server.port 8501 --server.address 0.0.0.0
-    depends_on:
-      - api
+
 volumes:
   postgres_data:
