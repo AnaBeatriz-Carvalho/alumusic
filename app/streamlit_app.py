@@ -210,6 +210,8 @@ def show_relatorio():
             if mensagem:
                 st.info(mensagem)
             
+            st.write(f"Número de gráficos retornados: {len(graficos)}")
+            
             for graf in graficos:
                 st.subheader(graf["titulo"])
                 try:

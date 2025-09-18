@@ -10,14 +10,13 @@ from . import api_bp
 
 def fig_to_base64(fig):
     buf = io.BytesIO()
-    fig.savefig(buf, format="png")
+    fig.savefig(buf, format="png", bbox_inches="tight")
     buf.seek(0)
-    img_base64 = base64.b64encode(buf.read()).decode("utf-8")
-    plt.close(fig)
-    return img_base64
+    return base64.b64encode(buf.read()).decode("utf-8")
 
 @api_bp.route('/relatorio/semana', methods=['GET'])
 def relatorio_semanal():
+    print("Rota relatorio_semanal chamada")  # Log para verificar a chamada
     agora = datetime.utcnow()
     semana_atras = agora - timedelta(days=7)
 
@@ -127,26 +126,69 @@ def relatorio_semanal():
     ax5.set_ylabel("Qtde de Comentários")
     img5 = fig_to_base64(fig5)
 
+    # Gráfico 4: Evolução de comentários
+    plt.figure(figsize=(10, 6))
+    evolucao = df.groupby('data_recebimento').size()  # Agrupando por data
+    evolucao.plot(kind='line', marker='o')
+    plt.title('Evolução de Comentários (Última Semana)')
+    plt.xlabel('Data')
+    plt.ylabel('Número de Comentários')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    img_evolucao = base64.b64encode(buffer.getvalue()).decode()
+    plt.close()
+
+    # Gráfico 5: Top 5 músicas mais comentadas
+    top_musicas = df['musica_id'].value_counts().head(5)  # Supondo que você tenha a coluna musica_id
+    plt.figure(figsize=(10, 6))
+    top_musicas.plot(kind='bar')
+    plt.title('Top 5 Músicas Mais Comentadas')
+    plt.xlabel('Música')
+    plt.ylabel('Número de Comentários')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+
+    buffer = io.BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+    img_top_musicas = base64.b64encode(buffer.getvalue()).decode()
+    plt.close()
+
     return jsonify({
         "graficos": [
-            {"titulo": "Categorias mais frequentes por artista", "imagem_base64": img1},
+            {"titulo": "Categorias por artista", "imagem_base64": img1},
             {"titulo": "Evolução de comentários (últimos 7 dias)", "imagem_base64": img2},
-            {"titulo": "Tags mais citadas (48h)", "imagem_base64": img3},
+            {"titulo": "Tags mais citadas (últimas 48h)", "imagem_base64": img3},
             {"titulo": "Distribuição de status", "imagem_base64": img4},
             {"titulo": "Top 5 músicas mais comentadas", "imagem_base64": img5},
-        ],
-        "dados": {
-            "categorias_por_artista": dict(zip(categorias, counts)),
-            "evolucao_comentarios": dict(zip(datas, counts_evolucao)),
-            "tags_mais_citadas": dict(zip(tag_nomes, tag_counts)),
-            "status": dict(zip(status_labels, status_counts)),
-            "top_musicas": dict(zip(musicas_ids, musicas_counts))
-        }
+            {"titulo": "Evolução de Comentários", "imagem_base64": img_evolucao},
+            {"titulo": "Top 5 Músicas Mais Comentadas", "imagem_base64": img_top_musicas},
+        ]
     })
 
-
 @api_bp.route('/insights/perguntar', methods=['POST'])
-# @jwt_required()
 def perguntar_insight():
     # TODO: Implementar a lógica do Q&A opcional.
     return jsonify({"mensagem": "Funcionalidade de Q&A em desenvolvimento."})
+
+@api_bp.route('/insights/relatorio_semanal', methods=['GET'])
+def relatorio_semanal_exemplo():
+    # Exemplo de gráficos
+    fig1, ax1 = plt.subplots()
+    ax1.bar(["A", "B", "C"], [10, 20, 15])
+    img1 = fig_to_base64(fig1)
+
+    fig2, ax2 = plt.subplots()
+    ax2.plot([1, 2, 3], [2, 5, 7])
+    img2 = fig_to_base64(fig2)
+
+    data = [
+        {"titulo": "Categorias por artista", "imagem_base64": img1},
+        {"titulo": "Evolução diária (7 dias)", "imagem_base64": img2},
+    ]
+
+    return jsonify(data)
