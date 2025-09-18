@@ -21,25 +21,31 @@ def relatorio_semanal():
     agora = datetime.utcnow()
     semana_atras = agora - timedelta(days=7)
 
-    # Exemplo 1: Categorias mais frequentes por artista
-    dados = db.session.query(
-        Comentario.categoria, db.func.count(Comentario.id)
+    # 1. Categorias mais frequentes por artista
+    dados_cat_artista = db.session.query(
+        Comentario.categoria,
+        Comentario.artista_id,
+        db.func.count(Comentario.id)
     ).filter(
-        Comentario.data_recebimento >= semana_atras
+        Comentario.data_recebimento >= semana_atras,
+        Comentario.categoria.isnot(None)
     ).group_by(
-        Comentario.categoria
+        Comentario.categoria, Comentario.artista_id
     ).all()
 
-    categorias = [d[0] for d in dados]
-    counts = [d[1] for d in dados]
+    categorias = [d[0] for d in dados_cat_artista]
+    artistas_ids = [d[1] for d in dados_cat_artista]
+    counts = [d[2] for d in dados_cat_artista]
 
     fig1, ax1 = plt.subplots()
-    ax1.bar(categorias, counts)
-    ax1.set_title("Categorias mais frequentes")
+    ax1.barh(range(len(counts)), counts)
+    ax1.set_yticks(range(len(counts)))
+    ax1.set_yticklabels([f"{c} - {a}" for c, a in zip(categorias, artistas_ids)])
+    ax1.set_title("Categorias mais frequentes por artista")
+    ax1.set_xlabel("Contagem")
     img1 = fig_to_base64(fig1)
 
-    # Exemplo 2: Evolução de críticas após lançamento
-    # (Ajuste conforme seu modelo)
+    # 2. Evolução de comentários na semana
     evolucao = db.session.query(
         db.func.date_trunc('day', Comentario.data_recebimento),
         db.func.count(Comentario.id)
@@ -55,11 +61,14 @@ def relatorio_semanal():
     counts_evolucao = [d[1] for d in evolucao]
 
     fig2, ax2 = plt.subplots()
-    ax2.plot(datas, counts_evolucao)
-    ax2.set_title("Evolução de críticas após lançamento")
+    ax2.plot(datas, counts_evolucao, marker='o')
+    ax2.set_title("Evolução de comentários (últimos 7 dias)")
+    ax2.set_xlabel("Data")
+    ax2.set_ylabel("Qtde de Comentários")
+    plt.xticks(rotation=45)
     img2 = fig_to_base64(fig2)
 
-    # Exemplo 3: Tags mais citadas nas últimas 48h
+    # 3. Tags mais citadas nas últimas 48h
     dois_dias = agora - timedelta(hours=48)
     tags = db.session.query(
         TagFuncionalidade.codigo, db.func.count(TagFuncionalidade.id)
@@ -75,11 +84,12 @@ def relatorio_semanal():
     tag_counts = [t[1] for t in tags]
 
     fig3, ax3 = plt.subplots()
-    ax3.bar(tag_nomes, tag_counts)
-    ax3.set_title("Tags mais citadas nas últimas 48h")
+    ax3.barh(tag_nomes, tag_counts)
+    ax3.set_title("Tags mais citadas (últimas 48h)")
+    ax3.set_xlabel("Frequência")
     img3 = fig_to_base64(fig3)
 
-    # Exemplo 4: Distribuição de status dos comentários
+    # 4. Distribuição de status dos comentários
     status_data = db.session.query(
         Comentario.status, db.func.count(Comentario.id)
     ).filter(
@@ -96,38 +106,41 @@ def relatorio_semanal():
     ax4.set_title("Distribuição de status dos comentários")
     img4 = fig_to_base64(fig4)
 
-    # Exemplo 5: Comentários por dia na semana
-    dias_data = db.session.query(
-        db.func.date_trunc('day', Comentario.data_recebimento),
-        db.func.count(Comentario.id)
+    # 5. Top 5 artistas/músicas mais comentados
+    top_musicas = db.session.query(
+        Comentario.musica_id, db.func.count(Comentario.id)
     ).filter(
         Comentario.data_recebimento >= semana_atras
     ).group_by(
-        db.func.date_trunc('day', Comentario.data_recebimento)
+        Comentario.musica_id
     ).order_by(
-        db.func.date_trunc('day', Comentario.data_recebimento)
-    ).all()
+        db.func.count(Comentario.id).desc()
+    ).limit(5).all()
 
-    dias = [str(d[0].date()) for d in dias_data]
-    dias_counts = [d[1] for d in dias_data]
+    musicas_ids = [str(t[0]) for t in top_musicas]
+    musicas_counts = [t[1] for t in top_musicas]
 
     fig5, ax5 = plt.subplots()
-    ax5.bar(dias, dias_counts)
-    ax5.set_title("Comentários por dia na semana")
+    ax5.bar(musicas_ids, musicas_counts)
+    ax5.set_title("Top 5 músicas mais comentadas (semana)")
+    ax5.set_xlabel("Música ID")
+    ax5.set_ylabel("Qtde de Comentários")
     img5 = fig_to_base64(fig5)
 
     return jsonify({
         "graficos": [
-            {"titulo": "Categorias mais frequentes", "imagem_base64": img1},
-            {"titulo": "Evolução de críticas após lançamento", "imagem_base64": img2},
-            {"titulo": "Tags mais citadas nas últimas 48h", "imagem_base64": img3},
-            {"titulo": "Distribuição de status dos comentários", "imagem_base64": img4},
-            {"titulo": "Comentários por dia na semana", "imagem_base64": img5},
+            {"titulo": "Categorias mais frequentes por artista", "imagem_base64": img1},
+            {"titulo": "Evolução de comentários (últimos 7 dias)", "imagem_base64": img2},
+            {"titulo": "Tags mais citadas (48h)", "imagem_base64": img3},
+            {"titulo": "Distribuição de status", "imagem_base64": img4},
+            {"titulo": "Top 5 músicas mais comentadas", "imagem_base64": img5},
         ],
         "dados": {
             "categorias_por_artista": dict(zip(categorias, counts)),
-            "evolucao_criticas": dict(zip(datas, counts_evolucao)),
+            "evolucao_comentarios": dict(zip(datas, counts_evolucao)),
             "tags_mais_citadas": dict(zip(tag_nomes, tag_counts)),
+            "status": dict(zip(status_labels, status_counts)),
+            "top_musicas": dict(zip(musicas_ids, musicas_counts))
         }
     })
 
