@@ -83,8 +83,35 @@ cd alumusic
 
 Crie o arquivo `.env` a partir do exemplo:
 
-```bash
-cp .env.example .env
+## 🔐 Exemplo de `.env` (baseado nas configurações do projeto)
+
+Crie um arquivo `.env` na raiz com as variáveis abaixo (este é um exemplo — não comite credenciais reais):
+
+```ini
+# Segurança
+SECRET_KEY="uma_chave_secreta_local"
+JWT_SECRET_KEY="uma_chave_jwt_local"
+
+# Banco de dados Postgres
+POSTGRES_USER=alumusic
+POSTGRES_PASSWORD=alumusic
+POSTGRES_DB=alumusic
+# Quando rodando via Docker Compose, o host pode ser o nome do serviço (ex: alumusic)
+DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
+
+# Celery (broker e backend de resultado)
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+# Google Gemini API key (LLM)
+GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+
+# (Opcional) SMTP - apenas se decidir reimplementar envio de e-mails
+# SMTP_HOST=smtp.exemplo.com
+# SMTP_PORT=587
+# SMTP_USER=usuario
+# SMTP_PASSWORD=senha
+# EMAIL_FROM=no-reply@alumusic.com
 ```
 
 Abra o arquivo `.env` e preencha as variáveis, especialmente a sua `GOOGLE_API_KEY`.
@@ -192,36 +219,7 @@ Resumo das pastas e arquivos mais relevantes (estado atual do branch `alumusic-r
 
 Use essa visão para encontrar rapidamente onde adicionar features ou criar testes.
 
-## 🔐 Exemplo de `.env` (baseado nas configurações do projeto)
 
-Crie um arquivo `.env` na raiz com as variáveis abaixo (este é um exemplo — não comite credenciais reais):
-
-```ini
-# Segurança
-SECRET_KEY="uma_chave_secreta_local"
-JWT_SECRET_KEY="uma_chave_jwt_local"
-
-# Banco de dados Postgres
-POSTGRES_USER=alumusic
-POSTGRES_PASSWORD=alumusic
-POSTGRES_DB=alumusic
-# Quando rodando via Docker Compose, o host pode ser o nome do serviço (ex: alumusic)
-DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
-
-# Celery (broker e backend de resultado)
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/0
-
-# Google Gemini API key (LLM)
-GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
-
-# (Opcional) SMTP - apenas se decidir reimplementar envio de e-mails
-# SMTP_HOST=smtp.exemplo.com
-# SMTP_PORT=587
-# SMTP_USER=usuario
-# SMTP_PASSWORD=senha
-# EMAIL_FROM=no-reply@alumusic.com
-```
 
 Dicas:
 - Para ambientes Docker Compose use nomes de serviço como host (`alumusic`, `redis`).
