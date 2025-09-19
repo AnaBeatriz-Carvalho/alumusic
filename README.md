@@ -224,9 +224,7 @@ pytest -q
 
 
 ## Contato
-Se precisar de ajuda para rodar o projeto ou adaptar para produção, descreva o ambiente (local/Docker/Kubernetes) e os erros/logs que surgirem.
+Ana Beatriz Carvalho Oliveira
 
----
-
-Arquivo gerado automaticamente: README.md — atualizado para refletir o estado atual do projeto (branch: alumusic-refactor).
+beatriz.carvalho0804@gmail.com
 
