@@ -15,23 +15,20 @@ body {
 .sidebar-title {
     color: #fff;
     text-align: center;
-    font-weight: 600;
-    font-size: 1.2rem;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
 }
 
 /* ===============================
    === Card de autenticação ===
    =============================== */
-.auth-card {
-    background-color: #ffffff;
-    color: #111827;
-    border-radius: 16px;
-    padding: 2.5rem;
-    max-width: 420px;
-    margin: 5vh auto;
-    box-shadow: 0 10px 25px -5px rgba(0,0,0,0.2), 0 8px 10px -6px rgba(0,0,0,0.2);
-    border: 1px solid rgba(255,255,255,0.1);
-}
 
 /* Títulos dentro do card */
 .auth-card h1, 
@@ -41,6 +38,66 @@ body {
     font-weight: 700;
     margin-bottom: 2rem;
     color: #0f172a;
+}
+
+/* Estilo do container do card para centralizar e ajustar proporções */
+
+
+/* Ajusta o espaçamento e alinhamento interno */
+.auth-card .stTextInput, .auth-card .stPasswordInput, .auth-card .stNumberInput {
+    margin-bottom: 0.8rem;
+}
+
+/* Label dos inputs (quando houver) */
+.auth-card label {
+    display: block;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.4rem;
+}
+
+/* Posiciona o ícone de 'ver senha' à direita dentro do input */
+.auth-card .password-wrapper {
+    position: relative;
+}
+.auth-card .password-wrapper .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+/* ===============================
+   === LLM Upload Card ===
+   =============================== */
+
+.llm-card h3, .llm-card h4 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.llm-card .stFileUploader {
+    background: #f7f9fb !important;
+    padding: 14px !important;
+    border-radius: 10px !important;
+}
+
+.llm-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.llm-actions .stButton>button {
+    background: linear-gradient(135deg, #ff7b7b, #ff6b6b) !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
 }
 
 /* ===============================

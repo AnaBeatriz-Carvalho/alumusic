@@ -123,7 +123,7 @@ Aqui estão as decisões arquiteturais mais relevantes e por que foram adotadas:
 ## Estrutura do repositório (resumo rápido)
 
 - `app/` — pacote principal (API, auth, modelos, comandos, extensões)
-- `core/` — serviços internos (llm_service.py, email_service.py, reporting_service.py)
+ - `core/` — serviços internos (llm_service.py, reporting_service.py)
 - `tasks/` — lógica de processamento assíncrono (ex.: `process_comment.py`)
 - `streamlit_app.py` — dashboard Streamlit
 - `docker-compose.yml`, `Dockerfile` — orquestração e build
