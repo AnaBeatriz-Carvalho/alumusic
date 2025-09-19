@@ -13,13 +13,17 @@ try:
 except Exception as e:
     logger.error(f"Erro CRÍTICO ao configurar a API do Gemini: {e}. Verifique sua GOOGLE_API_KEY.", exc_info=True)
 
-# Prompt refinado para ser ainda mais direto e evitar textos extras.
 PROMPT_TEMPLATE = """
 Sua única função é analisar um comentário e retornar um objeto JSON.
 O comentário é: "{text}"
 
-Responda APENAS com o objeto JSON. Não inclua explicações, introduções, ou marcadores de formatação como ```json.
-O JSON deve ter a seguinte estrutura e tipos de dados:
+Pense passo a passo:
+1.  Identifique o sentimento principal do texto (Elogio, Crítica, Sugestão, Dúvida ou Spam).
+2.  Avalie se o texto é ambíguo ou contém sentimentos mistos.
+3.  Baseado na sua avaliação, atribua um score de confiança.
+
+Responda APENAS com o objeto JSON. Não inclua explicações ou marcadores.
+O JSON deve ter a seguinte estrutura:
 {{
   "categoria": "string",
   "tags_funcionalidades": [
@@ -28,8 +32,11 @@ O JSON deve ter a seguinte estrutura e tipos de dados:
   "confianca": "float"
 }}
 
-As categorias válidas são: "ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM".
-Se não encontrar tags, retorne uma lista vazia.
+Use a seguinte escala para o score de "confianca":
+- 0.9 a 1.0: Certeza muito alta, texto claro e direto.
+- 0.7 a 0.89: Confiança alta, mas com leve espaço para outra interpretação.
+- 0.5 a 0.69: Confiança moderada, o texto é um pouco ambíguo.
+- Abaixo de 0.5: Baixa confiança, o texto é vago, sarcástico ou contém sentimentos mistos.
 """
 
 def classificar_comentario(texto: str) -> dict:

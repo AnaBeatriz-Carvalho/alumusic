@@ -13,9 +13,8 @@ def create_app(config_name='default'):
     jwt.init_app(app)
 
     # =================================================================
-    # ESTE É O BLOCO DE CÓDIGO MAIS IMPORTANTE PARA RESOLVER SEU PROBLEMA
+    # BLOCO DE CONFIGURAÇÃO DO CELERY
     # =================================================================
-    # 1. Atualiza a configuração do Celery com a do Flask
     celery.conf.update(app.config.get("CELERY", {}))
     class ContextTask(celery.Task):
         def __call__(self, *args, **kwargs):
@@ -27,8 +26,11 @@ def create_app(config_name='default'):
     # Registra os Blueprints
     from .api import api_bp
     from .auth import auth_bp
+    from .public import public_bp # 
+
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(public_bp, url_prefix='/api') 
 
     # Registra os comandos CLI
     from . import commands

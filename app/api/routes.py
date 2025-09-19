@@ -102,3 +102,26 @@ def listar_comentarios():
     else:
         # Caso contrário, retorna o JSON normal para o dashboard
         return jsonify({"comentarios": resultado}), 200
+    
+@api_bp.route('/comentarios/<uuid:comentario_id>', methods=['GET'])
+@jwt_required()
+def get_comentario_por_id(comentario_id):
+    """Retorna os detalhes de um único comentário pelo seu ID."""
+    # O UUID já é convertido pela rota do Flas
+    comentario = db.session.get(Comentario, comentario_id)
+    
+    if not comentario:
+        return jsonify({"erro": "Comentário não encontrado"}), 404
+
+    # Serializa os dados do comentário específico
+    resultado = {
+        "id": str(comentario.id),
+        "texto": comentario.texto,
+        "status": comentario.status,
+        "categoria": comentario.categoria,
+        "confianca": comentario.confianca,
+        "data_recebimento": comentario.data_recebimento.isoformat() if comentario.data_recebimento else None,
+        "tags": [{"codigo": t.codigo, "explicacao": t.explicacao} for t in comentario.tags]
+    }
+    
+    return jsonify(resultado), 200
