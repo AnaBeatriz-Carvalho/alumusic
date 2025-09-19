@@ -2,14 +2,14 @@ import os
 import google.generativeai as genai
 import json
 import re
-import logging # Usaremos o logger para depuração
+import logging 
 
-# Configura um logger para este módulo
+
 logger = logging.getLogger(__name__)
 
-# Pega a chave de API do seu arquivo .env
+
 try:
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))# Pegando a chave do .env
 except Exception as e:
     logger.error(f"Erro CRÍTICO ao configurar a API do Gemini: {e}. Verifique sua GOOGLE_API_KEY.", exc_info=True)
 
@@ -44,27 +44,26 @@ def classificar_comentario(texto: str) -> dict:
     Chama o LLM para classificar o texto e retorna um dicionário estruturado.
     Esta versão tem logging e parsing de JSON aprimorados.
     """
-    response_text = None # Para armazenar a resposta crua para depuração
+    response_text = None # Resposta inicial vazia para logging em caso de erro
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        model = genai.GenerativeModel('gemini-1.5-flash-latest') # modelo que escolhi mas pode ser alterado
         prompt = PROMPT_TEMPLATE.format(text=texto)
         
         response = model.generate_content(prompt)
         response_text = response.text
         
-        # Lógica de limpeza e parsing mais robusta
-        # 1. Tenta encontrar o JSON usando uma expressão regular que busca por { ... }
+        
+        # Tenta extrair o JSON da resposta usando regex
         match = re.search(r'\{.*\}', response_text, re.DOTALL)
         if match:
             json_str = match.group(0)
             return json.loads(json_str)
         else:
-            # 2. Se não encontrar, assume que a resposta pode ser o JSON puro e tenta carregar
+            # Se não encontrar JSON, loga a resposta completa para análise
             return json.loads(response_text)
 
     except Exception as e:
-        # 👇 LOGGING MELHORADO 👇
-        # Se qualquer erro ocorrer, vamos logar tudo que precisamos para depurar.
+
         logger.error(
             f"Falha ao classificar comentário. Erro: {e}",
             exc_info=True # Inclui o traceback completo do erro

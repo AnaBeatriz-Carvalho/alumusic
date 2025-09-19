@@ -5,14 +5,12 @@ import json
 from app.extensions import celery
 from app.core.reporting_service import generate_charts
 
-REDIS_CACHE_KEY = "realtime_report_data"
-CACHE_TIMEOUT_SECONDS = 60
+REDIS_CACHE_KEY = "realtime_report_data" # Chave do Redis para armazenar os dados do relatório
+CACHE_TIMEOUT_SECONDS = 60 # Tempo de expiração do cache em segundos
 
 @public_bp.route('/relatorio/semana', methods=['GET'])
 def get_realtime_report():
-    """
-    Endpoint público que serve dados do cache ou os gera sob demanda se o cache expirou.
-    """
+    # Tenta buscar os dados do relatório no cache Redis
     try:
         redis_client = Redis.from_url(celery.conf.broker_url)
         cached_data = redis_client.get(REDIS_CACHE_KEY)

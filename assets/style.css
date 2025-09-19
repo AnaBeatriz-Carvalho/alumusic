@@ -1,0 +1,212 @@
+/* ===============================
+   === Fundo da tela e fonte ===
+   =============================== */
+body {
+    background: linear-gradient(135deg, #0f172a, #1e293b, #334155);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===============================
+   === Título da Sidebar ===
+   =============================== */
+.sidebar-title {
+    color: #fff;
+    text-align: center;
+    font-weight: 700;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 1rem;
+}
+
+/* ===============================
+   === Card de autenticação ===
+   =============================== */
+
+/* Títulos dentro do card */
+.auth-card h1, 
+.auth-card h2, 
+.auth-card h3 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 2rem;
+    color: #0f172a;
+}
+
+/* Estilo do container do card para centralizar e ajustar proporções */
+
+
+/* Ajusta o espaçamento e alinhamento interno */
+.auth-card .stTextInput, .auth-card .stPasswordInput, .auth-card .stNumberInput {
+    margin-bottom: 0.8rem;
+}
+
+/* Label dos inputs (quando houver) */
+.auth-card label {
+    display: block;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.4rem;
+}
+
+/* Posiciona o ícone de 'ver senha' à direita dentro do input */
+.auth-card .password-wrapper {
+    position: relative;
+}
+.auth-card .password-wrapper .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+/* ===============================
+   === LLM Upload Card ===
+   =============================== */
+
+.llm-card h3, .llm-card h4 {
+    margin-top: 0;
+    color: #0f172a;
+}
+
+.llm-card .stFileUploader {
+    background: #f7f9fb !important;
+    padding: 14px !important;
+    border-radius: 10px !important;
+}
+
+.llm-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+.llm-actions .stButton>button {
+    background: linear-gradient(135deg, #ff7b7b, #ff6b6b) !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+}
+
+/* ===============================
+   === Abas (Login / Registrar) ===
+   =============================== */
+
+/* Container das abas */
+.auth-card [data-testid="stTabs"] {
+    border: none !important;
+    padding: 0 !important;
+}
+
+/* Barra de abas */
+.auth-card [role="tablist"] {
+    display: flex;
+    justify-content: space-around;
+    gap: 0.5rem;
+    background-color: #f1f5f9;
+    border-radius: 12px;
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Botões das abas */
+.auth-card [role="tab"] {
+    flex: 1;
+    border: none !important;
+    background-color: transparent !important;
+    border-radius: 8px;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    color: #334155;
+    padding: 0.5rem 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.auth-card [role="tab"]:hover {
+    background-color: #e2e8f0 !important;
+}
+
+/* Aba selecionada */
+.auth-card [role="tab"][aria-selected="true"] {
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    color: #fff !important;
+    box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+}
+
+/* ===============================
+   === Inputs de texto ===
+   =============================== */
+.auth-card input {
+    width: 100%;
+    border: 2px solid #e2e8f0 !important;
+    border-radius: 10px !important;
+    padding: 0.85rem 1rem !important;
+    font-size: 1rem !important;
+    background-color: #f9fafb !important;
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+    margin-bottom: 1rem;
+}
+
+.auth-card input:focus {
+    border-color: #6366f1 !important;
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.2) !important;
+    background-color: #fff !important;
+    outline: none;
+}
+
+/* ===============================
+   === Botão principal ===
+   =============================== */
+.auth-card form button {
+    width: 100%;
+    background: linear-gradient(135deg, #6366f1, #3b82f6);
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0.9rem;
+    margin-top: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.auth-card form button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(59,130,246,0.4);
+}
+
+/* ===============================
+   === Mensagens de feedback ===
+   =============================== */
+[data-testid="stNotificationContentSuccess"] {
+    background-color: #ecfdf5 !important;
+    color: #065f46 !important;
+    border-left: 5px solid #10b981 !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+
+[data-testid="stNotificationContentError"] {
+    background-color: #fef2f2 !important;
+    color: #991b1b !important;
+    border-left: 5px solid #ef4444 !important;
+    border-radius: 8px !important;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}

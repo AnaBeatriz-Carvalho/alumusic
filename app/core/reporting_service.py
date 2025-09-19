@@ -5,38 +5,32 @@ import io
 import base64
 from app.extensions import db
 from sqlalchemy import text
-import numpy as np # Adicione esta importação se ainda não tiver
+import numpy as np 
 
 def generate_charts():
-    """
-    Função principal que orquestra a geração de gráficos.
-    """
-    charts = []
+    
+    charts = [] # Lista para armazenar todos os gráficos gerados
     
     # Executa as funções de geração de cada gráfico
-    charts.append(generate_category_distribution_chart())
-    charts.append(generate_daily_volume_chart())
-    charts.append(generate_top_tags_chart())
-    charts.append(generate_sentiment_confidence_scatter())
-    charts.append(generate_sentiment_ratio_chart()) # O que substituímos antes
-    
-    # 👇 ADICIONE A CHAMADA PARA O NOVO GRÁFICO AQUI 👇
-    charts.append(generate_avg_confidence_chart())
+    charts.append(generate_category_distribution_chart()) # Gráfico 1 
+    charts.append(generate_daily_volume_chart()) # Gráfico 2
+    charts.append(generate_top_tags_chart()) # Gráfico 3
+    charts.append(generate_sentiment_confidence_scatter()) # Gráfico 4
+    charts.append(generate_sentiment_ratio_chart()) # Gráfico 5
+    charts.append(generate_avg_confidence_chart()) # Gráfico 6
     
     # Filtra quaisquer resultados None
     return [chart for chart in charts if chart is not None]
 
 def fig_to_base64(fig):
-    """Converte uma figura Matplotlib para uma string base64."""
+    # Converte uma figura Matplotlib para uma string base64
     buf = io.BytesIO()
     fig.savefig(buf, format='png', bbox_inches='tight')
     plt.close(fig)
     return base64.b64encode(buf.getvalue()).decode('utf-8')
 
-# --- GRÁFICOS 1, 2, 3 e 4 (Sem alterações) ---
-
 def generate_category_distribution_chart():
-    """GRÁFICO 1: Distribuição geral de comentários por categoria."""
+    # GRÁFICO 1: Distribuição de Comentários por Categoria
     query = text("SELECT categoria, COUNT(id) as total FROM comentarios WHERE status = 'CONCLUIDO' AND categoria IS NOT NULL GROUP BY categoria ORDER BY total DESC")
     df = pd.read_sql_query(query, db.engine)
     if df.empty: return None
@@ -50,7 +44,7 @@ def generate_category_distribution_chart():
     return {"titulo": "Visão Geral das Categorias", "imagem_base64": fig_to_base64(fig)}
 
 def generate_daily_volume_chart():
-    """GRÁFICO 2: Evolução do volume de comentários nos últimos 14 dias."""
+    # GRÁFICO 2: Evolução do volume de comentários nos últimos 14 dias.
     query = text("""SELECT DATE(data_recebimento) as dia, COUNT(id) as total FROM comentarios WHERE status = 'CONCLUIDO' AND data_recebimento >= current_date - interval '14 days' GROUP BY dia ORDER BY dia;""")
     df = pd.read_sql_query(query, db.engine)
     if df.empty: return None
@@ -65,7 +59,7 @@ def generate_daily_volume_chart():
     return {"titulo": "Evolução do Volume de Feedback", "imagem_base64": fig_to_base64(fig)}
 
 def generate_top_tags_chart():
-    """GRÁFICO 3: Tags mais citadas nas últimas 48 horas."""
+    # GRÁFICO 3: Tags mais citadas nas últimas 48 horas.
     query = text("""SELECT t.codigo, COUNT(t.id) as total FROM tags_funcionalidades t JOIN comentarios c ON t.comentario_id = c.id WHERE c.data_recebimento >= NOW() - INTERVAL '48 hours' GROUP BY t.codigo ORDER BY total DESC LIMIT 7;""")
     df = pd.read_sql_query(query, db.engine)
     if df.empty: return None
@@ -78,7 +72,7 @@ def generate_top_tags_chart():
     return {"titulo": "Hot Topics das Últimas 48h", "imagem_base64": fig_to_base64(fig)}
 
 def generate_sentiment_confidence_scatter():
-    """GRÁFICO 4 (Aprimorado): Relação Categoria vs. Confiança com Jitter."""
+    # GRÁFICO 4 (Aprimorado): Relação Categoria vs. Confiança com Jitter.
     query = text("SELECT categoria, confianca FROM comentarios WHERE status = 'CONCLUIDO' AND categoria IN ('ELOGIO', 'CRÍTICA')")
     df = pd.read_sql_query(query, db.engine)
     if df.empty or len(df) < 2: return None
@@ -98,7 +92,7 @@ def generate_sentiment_confidence_scatter():
     return {"titulo": "Análise de Confiança da Classificação", "imagem_base64": fig_to_base64(fig)}
   
 def generate_sentiment_ratio_chart():
-    """GRÁFICO 5 (Novo): Proporção entre Elogios e Críticas."""
+    # GRÁFICO 5 (Novo): Proporção entre Elogios e Críticas.
     query = text("""
         SELECT categoria, COUNT(id) as total
         FROM comentarios
@@ -126,7 +120,7 @@ def generate_sentiment_ratio_chart():
     return {"titulo": "Balanço Geral de Sentimentos", "imagem_base64": fig_to_base64(fig)}
 
 def generate_avg_confidence_chart():
-    """GRÁFICO BÔNUS: Nível de Confiança Médio da IA por Categoria."""
+    # GRÁFICO 6: Nível de Confiança Médio da IA por Categoria.
     query = text("""
         SELECT
             categoria,
@@ -155,7 +149,7 @@ def generate_avg_confidence_chart():
     
     # Formata o eixo Y como porcentagem
     ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1.0))
-    ax.set_ylim(0, 1) # Define o limite do eixo Y de 0 a 1 (0% a 100%)
+    ax.set_ylim(0, 1)   # Garante que o eixo Y vá de 0 a 100%
     
     # Adiciona os rótulos de porcentagem em cima de cada barra
     for bar in bars:

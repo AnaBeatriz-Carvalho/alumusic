@@ -1,7 +1,6 @@
 version: '3.9'
 
 services:
-  # O serviço da API será o responsável por construir nossa imagem compartilhada
   api:
     build: .
     image: alumusic-app
@@ -12,12 +11,25 @@ services:
       - .env
     environment:
       - FLASK_APP=app
+    # API só roda o servidor, nada de migrate/upgrade aqui
     command: >
-      sh -c "flask db upgrade && gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
+      sh -c "gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
     depends_on:
       alumusic:
         condition: service_healthy
       redis:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    image: alumusic-app
+    container_name: alumusic_migrate
+    env_file:
+      - .env
+    command: sh -c "flask db upgrade"
+    depends_on:
+      alumusic:
         condition: service_healthy
 
   worker:
@@ -26,26 +38,29 @@ services:
     command: celery -A celery_worker.celery worker --loglevel=info
     env_file:
       - .env
-    
     depends_on:
       redis:
         condition: service_healthy
       alumusic:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
 
   streamlit:
-    image: alumusic-app  # REUTILIZAMOS a imagem, sem 'build'
+    image: alumusic-app
     container_name: alumusic_front
     ports:
       - "8501:8501"
     env_file:
       - .env
-    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0 # Comando do Streamlit
+    command: streamlit run streamlit_app.py --server.port 8501 --server.address 0.0.0.0
     depends_on:
       api:
-        condition: service_started # Espera a API iniciar
+        condition: service_started
       alumusic:
-        condition: service_healthy # Espera o banco ficar pronto
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
 
   alumusic:
     image: postgres:16
@@ -56,7 +71,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    # 👇 ESTE BLOCO É ESSENCIAL 👇
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 5s
