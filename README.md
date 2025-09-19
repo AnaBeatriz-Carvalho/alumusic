@@ -159,7 +159,76 @@ Acurácia de Tags (correspondência exata): 10.20%
 
 ---
 
-## 📞 Contato
+## �️ Estrutura do código
+
+Resumo das pastas e arquivos mais relevantes (estado atual do branch `alumusic-refactor`):
+
+- `app/` — aplicação Flask
+    - `__init__.py` — cria e configura a Flask app
+    - `commands.py` — comandos de CLI (ex.: gerar dados de teste)
+    - `extensions.py` — inicialização de extensões (db, jwt, migrate)
+    - `api/` — blueprint e rotas da API (`routes.py`)
+    - `auth/` — endpoints e lógica de autenticação (`auth.py`)
+    - `core/` — serviços centrais
+        - `llm_service.py` — encapsula prompts e chamadas ao Google Gemini
+        - `reporting_service.py` — geração de dados/graphs para relatório
+        - `email_service.py` — arquivo marcador (envio de email removido; placeholder)
+    - `models/` — modelos SQLAlchemy (`user.py`, `comment.py`, `summary.py`)
+    - `public/` — rotas públicas (relatório)
+
+- `tasks/` — tarefas Celery
+    - `process_comment.py` — processamento por comentário
+    - `process_uploaded_file.py` — processamento de uploads em lote
+    - `reporting_tasks.py` — tarefas de relatório/cache
+    - `weekly_summary.py` — tarefa agendada para resumo semanal
+
+- `celery_app/` — bootstrap e configuração do Celery
+- `streamlit_app.py` — dashboard em Streamlit (frontend privado)
+- `docker-compose.yml`, `Dockerfile` — orquestração e imagem
+- `migrations/` — Alembic migrations
+- `requirements.txt`, `pytest.ini` — dependências e config de testes
+- `tests/` — suíte de testes E2E / unitários (`tests/evals/` contém datasets/evals)
+- `assets/` — CSS e recursos estáticos usados pelo Streamlit
+
+Use essa visão para encontrar rapidamente onde adicionar features ou criar testes.
+
+## 🔐 Exemplo de `.env` (baseado nas configurações do projeto)
+
+Crie um arquivo `.env` na raiz com as variáveis abaixo (este é um exemplo — não comite credenciais reais):
+
+```ini
+# Segurança
+SECRET_KEY="uma_chave_secreta_local"
+JWT_SECRET_KEY="uma_chave_jwt_local"
+
+# Banco de dados Postgres
+POSTGRES_USER=alumusic
+POSTGRES_PASSWORD=alumusic
+POSTGRES_DB=alumusic
+# Quando rodando via Docker Compose, o host pode ser o nome do serviço (ex: alumusic)
+DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
+
+# Celery (broker e backend de resultado)
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+# Google Gemini API key (LLM)
+GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+
+# (Opcional) SMTP - apenas se decidir reimplementar envio de e-mails
+# SMTP_HOST=smtp.exemplo.com
+# SMTP_PORT=587
+# SMTP_USER=usuario
+# SMTP_PASSWORD=senha
+# EMAIL_FROM=no-reply@alumusic.com
+```
+
+Dicas:
+- Para ambientes Docker Compose use nomes de serviço como host (`alumusic`, `redis`).
+- Para executar local sem Docker, ajuste `DATABASE_URL` para `localhost` e credenciais conforme seu Postgres local.
+
+
+## �📞 Contato
 
 **Ana Beatriz Carvalho Oliveira**  
 📧 beatriz.carvalho0804@gmail.com
