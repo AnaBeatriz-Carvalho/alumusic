@@ -21,11 +21,12 @@ services:
         condition: service_healthy
 
   worker:
-    image: alumusic-app  # REUTILIZAMOS a imagem, sem 'build'
+    image: alumusic-app
     container_name: alumusic_worker
     command: celery -A celery_worker.celery worker --loglevel=info
     env_file:
       - .env
+    
     depends_on:
       redis:
         condition: service_healthy

@@ -29,8 +29,11 @@ def processar_classificacao_task(self, comentario_id_str: str):
         if resultado_llm.get('categoria') == 'ERRO':
             raise ValueError(f"Falha na classificação pelo LLM: {resultado_llm.get('error_message', 'Erro desconhecido')}")
 
-        comentario.categoria = resultado_llm.get('categoria')
+        # 👇 CORREÇÃO AQUI: Padroniza a categoria para maiúsculas 👇
+        categoria_recebida = resultado_llm.get('categoria')
+        comentario.categoria = categoria_recebida.upper() if categoria_recebida else None
         comentario.confianca = resultado_llm.get('confianca')
+        db.session.commit()
 
         tags_to_delete = TagFuncionalidade.query.filter_by(comentario_id=comentario.id).all()
         for tag in tags_to_delete:
@@ -49,13 +52,15 @@ def processar_classificacao_task(self, comentario_id_str: str):
 
         comentario.status = 'CONCLUIDO'
         db.session.commit()
-        
-        logger.info(f"Comentário {comentario_id} processado com sucesso.")
+        logger.info(f"SUCESSO: Comentário {comentario_id} processado e salvo como '{comentario.categoria}'.")
+        return f"Comentário {comentario_id} processado com sucesso."
 
     except Exception as e:
         db.session.rollback()
         if comentario:
             comentario.status = 'FALHOU'
             db.session.commit()
-        logger.error(f"Falha ao processar comentário {comentario_id}: {e}", exc_info=True)
+        
+        # 👇 ADICIONE ESTE LOG DE FALHA 👇
+        logger.error(f"FALHA ao processar comentário {comentario_id}: {e}", exc_info=True)
         raise

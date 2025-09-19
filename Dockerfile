@@ -42,5 +42,3 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 # Expõe as portas que nossos serviços usarão (Flask e Streamlit)
 EXPOSE 5000 8501
-
-# [IMPORTANTE] Removemos o CMD daqui. O comando será definido no docker-compose.yml
