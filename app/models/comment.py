@@ -13,7 +13,7 @@ class Comentario(db.Model):
     confianca = db.Column(db.Float, nullable=True)
     
     # Coluna CRÍTICA para o fluxo assíncrono
-    status = db.Column(db.String(20), nullable=False, default='PENDENTE') # PENDENTE -> PROCESSANDO -> CONCLUIDO -> FALHOU
+    status = db.Column(db.String(20), nullable=False, default='PENDENTE') # FLUXO: PENDENTE -> PROCESSANDO -> CONCLUIDO -> FALHOU
     
     # Chave estrangeira e relacionamento
     usuario_id = db.Column(UUID(as_uuid=True), db.ForeignKey('usuarios.id'), nullable=False)

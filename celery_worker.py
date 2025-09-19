@@ -7,3 +7,4 @@ from app.extensions import celery
 app = create_app()
 
 import tasks.process_comment
+import tasks.process_uploaded_file

@@ -32,7 +32,7 @@ def login():
     user = Usuario.query.filter_by(email=data["email"]).first()
     if not user or not user.check_password(data["password"]):
         return jsonify({"msg": "E-mail ou senha inválidos"}), 401
-
-    # Aqui usamos o ID do usuário como identity
+    
+    # Gerar o token JWT usando o ID do usuário como identidade
     token = create_access_token(identity=str(user.id))
     return jsonify(access_token=token, usuario_id=user.id), 200

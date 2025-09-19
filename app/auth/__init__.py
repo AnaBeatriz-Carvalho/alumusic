@@ -25,7 +25,7 @@ def register():
 
 
 
-# Login → retorna JWT
+# Login com JWT
 @auth_bp.route("/login", methods=["POST"])
 def login():
     data = request.get_json()
@@ -40,10 +40,4 @@ def login():
     return {"access_token": token}, 200
 
 
-# Exemplo de rota protegida
-@auth_bp.route("/me", methods=["GET"])
-@jwt_required()
-def me():
-    current_user = get_jwt_identity()
-    return {"logged_in_as": current_user}, 200
 

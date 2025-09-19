@@ -22,34 +22,30 @@ EVAL_DATASET_PATH = ROOT_DIR / "tests" / "evals" / "dataset.json"
 with open(EVAL_DATASET_PATH, 'r', encoding='utf-8') as f:
     GABARITO = json.load(f)
 
-# Define o usuário de teste
+# Usuário de teste já deve existir no banco de dados
 TEST_USER_EMAIL = "email@teste.com"
 TEST_USER_PASSWORD = "teste123"
 
 @pytest.mark.e2e
 def test_classification_pipeline(app):
-    """
-    Teste de ponta a ponta que agora executa dentro do contexto da aplicação.
-    """
-    # Abre um contexto para a Fase 1
+    # Esta função realiza um teste end-to-end da pipeline de classificação de comentários.
+    
     with app.app_context():
-        # --- FASE 1: SETUP E CARGA DE DADOS ---
+        # Carrega os dados de teste
         token = get_auth_token(TEST_USER_EMAIL, TEST_USER_PASSWORD)
         comments_to_load = generate_test_comments(GABARITO)
         comment_ids_map = {item["texto"]: item["id"] for item in comments_to_load}
         run_bulk_load(token, comments_to_load)
 
-    # --- FASE 2: AGUARDAR PROCESSAMENTO ---
-    # Tempo de espera para que os workers processem os 100+ comentários.
-    # Este valor pode precisar de ajuste dependendo da velocidade da API da LLM.
-    processing_time_seconds = 300 
+    # Aguarda um tempo para o processamento assíncrono
+    processing_time_seconds = 180
     print(f"\nCarga enviada. Aguardando {processing_time_seconds} segundos para o processamento...")
     time.sleep(processing_time_seconds)
 
-    # --- FASE 3: COLETA E AVALIAÇÃO DOS RESULTADOS ---
+    # Coleta os resultados do banco de dados
     print("Iniciando a coleta de resultados do banco de dados...")
     
-    # Abre um NOVO contexto para a Fase 3, garantindo uma sessão de DB válida.
+    # Prepara os dados para avaliação
     with app.app_context():
         y_true_cat = []  # Lista para as categorias REAIS (gabarito)
         y_pred_cat = []  # Lista para as categorias PREVISTAS (IA)
@@ -63,9 +59,8 @@ def test_classification_pipeline(app):
             # Busca o resultado do processamento no banco de dados
             comentario_processado = db.session.get(Comentario, comment_id)
 
-            # Verificações importantes
             assert comentario_processado is not None, f"Comentário '{texto_original}' não foi encontrado no DB."
-            # Assert aprimorado para dar mais detalhes em caso de falha
+    
             assert comentario_processado.status == "CONCLUIDO", f"Comentário '{texto_original}' não foi processado a tempo (status atual: {comentario_processado.status})."
 
             # Prepara os dados para comparação
@@ -82,11 +77,11 @@ def test_classification_pipeline(app):
             if tags_previstas == tags_esperadas:
                 tag_matches += 1
 
-        # --- FASE 4: GERAÇÃO DO RELATÓRIO ---
+        # Gera o relatório final
         print_report(y_true_cat, y_pred_cat, tag_matches, len(GABARITO))
 
 def print_report(y_true_cat, y_pred_cat, tag_matches, total_items):
-    """Imprime o relatório final de métricas no console."""
+    # Gera e imprime o relatório de avaliação da pipeline de classificação
     print("\n" + "="*60)
     print(" Relatório Final de Avaliação da Pipeline de Classificação ".center(60, "="))
     print("="*60 + "\n")
@@ -95,7 +90,6 @@ def print_report(y_true_cat, y_pred_cat, tag_matches, total_items):
     labels = sorted(list(set(y_true_cat)))
     
     print(">>> Métricas de Classificação de Categoria:")
-    # 'zero_division=0' evita avisos caso uma categoria nunca tenha sido prevista
     print(classification_report(y_true_cat, y_pred_cat, labels=labels, zero_division=0))
 
     print(">>> Matriz de Confusão (Real vs. Previsto):")

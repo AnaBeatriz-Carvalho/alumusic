@@ -1,1 +1,0 @@
-# Este arquivo faz com que a pasta scripts seja reconhecida como um módulo Python

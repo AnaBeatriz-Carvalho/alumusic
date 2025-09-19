@@ -5,6 +5,7 @@ from app.core.llm_service import classificar_comentario
 from celery.utils.log import get_task_logger
 
 logger = get_task_logger(__name__)
+ 
 
 @celery.task(bind=True)
 def processar_classificacao_task(self, comentario_id_str: str):
