@@ -96,6 +96,35 @@ docker-compose exec api bash
 flask db upgrade
 ```
 
+Criar o banco e as tabelas (migrações)
+----------------------------------
+
+Antes de rodar a aplicação (ou antes de executar os testes) é necessário aplicar as migrações para criar as tabelas no banco.
+
+Usando Docker Compose (recomendado):
+
+```powershell
+# Garante que os containers estejam rodando e então aplica as migrações no container da API
+docker-compose up --build -d
+docker-compose exec api flask db upgrade
+```
+
+Se você tiver um serviço de migrations separado (algumas variações do compose usam um service `migrate`), rode:
+
+```powershell
+docker-compose exec migrate alembic upgrade head
+```
+
+Criando o banco manualmente (apenas se estiver usando Postgres local em vez do container):
+
+```powershell
+# com psql instalado - adapte host/user/password conforme seu ambiente
+psql -h localhost -U postgres -c "CREATE DATABASE alumusic;"
+```
+
+Depois de criar o banco (ou se o DB foi criado automaticamente pelo container), aplique as migrações com `flask db upgrade` conforme mostrado acima.
+
+
 ---
 
 ## Execução local (sem Docker) — breve
@@ -132,10 +161,10 @@ O projeto contém testes pytest. Em particular há um E2E de classificação em 
 
 Rodando os testes dentro do container `api` (compose):
 
-```powershell
-docker-compose exec api pytest -q
-# ou apenas os evals
+Comando único recomendado para rodar os evals/E2E (linha única):
 
+```powershell
+docker-compose exec api pytest -m e2e -sv
 ```
 
 Observações sobre o teste E2E:
