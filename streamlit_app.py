@@ -30,6 +30,9 @@ if "token" not in st.session_state:
     st.session_state.token = None
 if "email" not in st.session_state:
     st.session_state.email = None
+# counter used to create fresh widget keys so the uploader/text area can be cleared
+if 'llm_upload_counter' not in st.session_state:
+    st.session_state['llm_upload_counter'] = 0
 
 # Funções para cada página
 def show_login_register():
@@ -103,8 +106,18 @@ def show_dashboard():
     st.markdown("---")
     st.subheader("🧠 Analisar com LLM (CSV/JSON ou texto)")
     upload_col1, upload_col2 = st.columns([2,1])
-    uploaded_file = upload_col1.file_uploader("Envie um arquivo .csv ou .json (coluna 'texto' ou array de objetos)", type=['csv','json'])
-    raw_text = upload_col2.text_area("Ou cole um texto para analisar (campo 'text')", height=150)
+    # Use a counter-based dynamic key so we can force a fresh widget (clearing previous value)
+    counter = st.session_state.get('llm_upload_counter', 0)
+    uploader_key = f"llm_upload_file_{counter}"
+    raw_text_key = f"llm_raw_text_{counter}"
+    uploaded_file = upload_col1.file_uploader(
+        "Arraste um arquivo .csv ou .json aqui (coluna 'texto' ou array de objetos)",
+        type=['csv','json'],
+        key=uploader_key
+    )
+    raw_text = upload_col2.text_area("Ou cole um texto para analisar (campo 'text')", height=150, key=raw_text_key)
+
+    # Um único botão de envio para simplificar a interface
     if upload_col2.button("Enviar para LLM", key='send_llm'):
         headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
         try:
@@ -121,16 +134,20 @@ def show_dashboard():
             if resp_llm is not None:
                 if resp_llm.status_code == 200:
                     resultados = resp_llm.json().get('resultados', [])
-                    for r in resultados:
-                        with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
-                            st.json(r.get('analise'))
+                    # persist last results in session so they survive a rerun
+                    st.session_state['llm_last_results'] = resultados
+                    # increment counter so uploader and raw text get fresh widget keys (clearing them)
+                    st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
+                    st.success(f"{len(resultados)} resultados recebidos e exibidos abaixo.")
+                    st.experimental_rerun()
                 elif resp_llm.status_code == 202:
                     body = resp_llm.json()
-                    # Se o servidor retornou ids_enfileirados, atualize o histórico local
-                    ids = body.get('ids_enfileirados') or body.get('ids_enfileirados', [])
+                    ids = body.get('ids_enfileirados') or []
                     if ids:
                         st.success(f"{len(ids)} comentários enviados e enfileirados. Atualizando histórico...")
                         # Força refresh do dashboard para puxar os comentários recém-criados
+                        # increment counter so uploader and raw text get fresh widget keys (clearing them)
+                        st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
                         st.experimental_rerun()
                     else:
                         # fallback para task_id-based flow
@@ -138,6 +155,7 @@ def show_dashboard():
                         st.info(f"Análise enfileirada (task_id: {task_id}). Você pode checar o resultado:")
                         if st.button("Verificar resultado agora", key=f"check_{task_id}"):
                             try:
+                                headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
                                 resp_status = requests.get(f"{API_URL}/api/tasks/{task_id}", headers=headers_llm, timeout=10)
                                 if resp_status.status_code == 200:
                                     data = resp_status.json()
@@ -189,6 +207,13 @@ def show_dashboard():
                         column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"),
                         use_container_width=True
                     )
+                    # If we have LLM results saved in session_state, display them below the table
+                    if 'llm_last_results' in st.session_state and st.session_state['llm_last_results']:
+                        st.markdown("---")
+                        st.subheader("Resultados recentes da LLM")
+                        for r in st.session_state['llm_last_results']:
+                            with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
+                                st.json(r.get('analise'))
                     st.markdown("---")
                     st.subheader("📥 Exportar Dados")
                     col1_exp, col2_exp, _ = st.columns([1,1,3])
