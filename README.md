@@ -1,162 +1,203 @@
 # 🎵 AluMusic Insights
 
-## Sobre o Projeto
 
-**AluMusic Insights** é uma plataforma de análise de dados projetada para processar e extrair insights valiosos a partir de milhares de comentários de ouvintes. A solução foi desenvolvida como parte de um desafio técnico para a Alura, com foco em Python, Grandes Modelos de Linguagem (LLMs) e arquitetura de sistemas escaláveis.
 
-O serviço ingere comentários em lote, utiliza a API do Google Gemini para realizar uma classificação de sentimento e extração de tags, e apresenta os resultados em um dashboard privado para análise e em um relatório público em tempo real.
+## Apresentação e resultados do case
 
-## ✨ Funcionalidades Principais
+AluMusic Insights foi desenvolvido para demonstrar uma pipeline prática e escalável para processamento de feedback de ouvintes. O case mostra como integrar LLMs na análise de texto, mantendo confiabilidade operacional com processamento assíncrono.
 
-* **Ingestão Assíncrona de Dados:** Um endpoint de API REST (`/api/comentarios`) protegido por JWT que recebe lotes de comentários e os enfileira para processamento em background, garantindo alta disponibilidade e resposta rápida ao cliente.
-* **Processamento com IA:** Utilização do Celery e Redis para gerenciar uma fila de tarefas, onde workers processam cada comentário individualmente, chamando a API do Google Gemini para classificação e extração de tags.
-* **Dashboard Privado Interativo:** Uma interface construída com Streamlit para a equipe de curadoria, protegida por login, que permite buscar, filtrar, visualizar o histórico de classificações e exportar os dados em formatos CSV e JSON.
-* **Relatório Público em Tempo Real:** Uma página pública que exibe 5 visualizações de dados com os insights mais recentes, com um sistema de cache no Redis que garante que os dados sejam atualizados a cada 60 segundos sem sobrecarregar o banco de dados.
-* **Avaliação de Performance da IA:** Um fluxo de avaliação de ponta a ponta, automatizado com Pytest, que mede a qualidade da classificação do modelo através de métricas como Acurácia, Precisão, Recall, F1-Score e uma Matriz de Confusão.
+Resultados esperados / demonstrados:
+- Classificação automática de comentários em categorias (ELOGIO, CRÍTICA, SUGESTÃO, DÚVIDA, SPAM).
+- Extração de tags relevantes por comentário (tópicos/assuntos).
+- Persistência de comentários e histórico consultável via dashboard e API.
+- Processamento assíncrono (Celery) permitindo ingestão em lote sem bloquear a API.
+- Geração de resumos semanais via LLM e persistência do resumo (envio por email foi removido conforme pedido do usuário).
 
-## 🏛️ Arquitetura
+---
 
-O sistema é composto por microsserviços containerizados e orquestrados com Docker Compose, seguindo uma arquitetura desacoplada e escalável.
+## Funcionalidades principais
+- API REST (Flask) para registro/login, ingestão de comentários e endpoint de análise por LLM (`POST /api/llm/analyze`).
+- Dashboard Streamlit privado para curadores, com upload (.csv/.json) e envio de texto bruto para análise por LLM.
+- Histórico de comentários com filtros, exportação CSV/JSON, e exibição de tags e classificação.
+- Workers Celery que processam comentários individualmente e atualizam a base de dados.
+- Tarefa agendada (`weekly_summary_task`) para gerar e persistir sumários semanais usando o LLM; emails automáticos foram removidos — os resumos ficam disponíveis via API/admin.
 
-```mermaid
-graph TD
-    subgraph "Cliente Externo"
-        A[Script de Carga / Outro Serviço]
-    end
+---
 
-    subgraph "Navegador do Usuário"
-        B[Dashboard Streamlit]
-        C[Relatório Público]
-    end
+## Pré-requisitos
+- Docker Desktop + Docker Compose (recomendado)
+-  Python 3.10+ com PostgreSQL e Redis localmente instalados (opcional)
 
-    subgraph "Infraestrutura Docker"
-        D[API Flask]
-        E[Worker Celery]
-        F[Banco de Dados PostgreSQL]
-        G[Fila e Cache Redis]
-    end
+Recomendado (para Windows PowerShell):
+- PowerShell 7+ (opcional, mas mais moderno)
+- Suficiente memória/CPU para rodar containers (mínimo 2 CPUs e 4GB RAM para desenvolvimento)
 
-    subgraph "Serviço Externo"
-        H[API Google Gemini]
-    end
+---
 
-    A -- JSON em lote --> D
-    B -- Requisições c/ JWT --> D
-    C -- Requisições públicas --> D
+## Execução com Docker Compose (recomendado)
+Abaixo estão instruções orientadas para Windows PowerShell.
 
-    D -- Enfileira Tarefas --> G
-    D -- Salva/Lê Dados --> F
-    D -- Lê Cache do Relatório --> G
+1) Clone o repositório
 
-    E -- Pega Tarefas --> G
-    E -- Chama API --> H
-    E -- Salva Resultados --> F
+```powershell
+git clone <URL_DO_REPOSITORIO>
+cd alumusic
 ```
 
-## 🛠️ Tech Stack
+2) Crie um arquivo `.env` na raiz com as variáveis necessárias (exemplo mínimo):
 
-* **Backend:** Flask, SQLAlchemy
-* **Frontend (Dashboard):** Streamlit
-* **Banco de Dados:** PostgreSQL
-* **Fila e Cache:** Celery, Redis
-* **Inteligência Artificial:** Google Gemini (via `google-generativeai`)
-* **Visualização de Dados:** Pandas, Matplotlib
-* **Testes e Métricas:** Pytest, Scikit-learn
-* **Containerização:** Docker, Docker Compose
+```ini
+SECRET_KEY="uma_chave_secreta"
+JWT_SECRET_KEY="uma_chave_jwt"
+POSTGRES_USER=alumusic
+POSTGRES_PASSWORD=alumusic
+POSTGRES_DB=alumusic
+DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+```
 
-## 🚀 Como Executar o Projeto
+---
 
-Siga os passos abaixo para configurar e rodar a aplicação localmente.
+3) Suba os serviços com Docker Compose
 
-### Pré-requisitos
+No PowerShell (na pasta do projeto):
 
-* [Docker](https://www.docker.com/get-started)
-* [Docker Compose](https://docs.docker.com/compose/install/)
-
-### 1. Configuração do Ambiente
-
-1.  Clone este repositório:
-    ```bash
-    git clone [URL_DO_SEU_REPOSITORIO]
-    cd nome-do-repositorio
-    ```
-
-2.  Crie uma cópia do arquivo de exemplo de variáveis de ambiente:
-    ```bash
-    cp .env.example .env
-    ```
-
-3.  Abra o arquivo `.env` e preencha as variáveis. A mais importante é a sua chave da API do Google Gemini:
-    ```env
-    # Chave secreta para o Flask e JWT
-    SECRET_KEY="uma_chave_super_secreta_aqui"
-    JWT_SECRET_KEY="outra_chave_super_secreta_aqui"
-
-    # Credenciais do Banco de Dados PostgreSQL
-    POSTGRES_USER=alumusic
-    POSTGRES_PASSWORD=alumusic
-    POSTGRES_DB=alumusic
-
-    # URL de conexão para a aplicação (não altere o host 'alumusic')
-    DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
-
-    # URL do Broker para o Celery (não altere o host 'redis')
-    CELERY_BROKER_URL=redis://redis:6379/0
-    CELERY_RESULT_BACKEND=redis://redis:6379/0
-
-    # Chave da API do Google Gemini
-    GOOGLE_API_KEY="AIzaSy..."
-    ```
-
-### 2. Executando a Aplicação
-
-Com o Docker em execução, suba todos os serviços com um único comando:
-```bash
+```powershell
 docker-compose up --build -d
 ```
-O comando `--build` é importante na primeira vez para construir a imagem Docker. O `-d` executa os contêineres em segundo plano.
 
-### 3. Acessando e Usando a Aplicação
+Serviços principais (nomeados no compose):
+- `api` — Flask + Gunicorn (API REST)
+- `worker` — Celery worker
+- `beat` — Celery Beat (scheduler para weekly_summary_task)
+- `streamlit` — Streamlit dashboard (porta 8501)
+- `alumusic` / `postgres` — PostgreSQL
+- `redis` — Redis (broker/result backend)
 
-* **Dashboard Privado:** Acesse `http://localhost:8501` no seu navegador.
-    * Use a aba "Registrar" na barra lateral para criar uma conta para a equipe de curadoria.
-    * Após o registro, faça o login para acessar o dashboard de análise.
+4) Acessos
+- Streamlit (dashboard privado): http://localhost:8501
+- API (externa/local): dependendo do compose, o container pode mapear porta 5001 -> 5000; verifique `docker-compose.yml`.
 
-* **Relatório Público:** A aba "Relatório Público" pode ser acessada sem login e é atualizada a cada 60 segundos.
+5) Logs e comandos úteis (PowerShell)
 
----
-### 4. Avaliação e Métricas
+Ver logs do API:
 
-O projeto inclui um fluxo de avaliação automatizado para medir a performance do modelo de classificação de ponta a ponta.
-
-#### Comando de Execução
-
-Para rodar os testes e gerar o relatório de métricas, execute o seguinte comando único na raiz do projeto:
-```bash
-docker-compose exec api pytest -m e2e -sv
+```powershell
+docker-compose logs -f api
 ```
-*(**Nota:** Certifique-se de que o usuário de teste definido em `tests/evals/test_classification_pipeline.py` já foi registrado na aplicação.)*
 
-#### O Que o Comando Faz
+Entrar no shell do serviço (ex.: para rodar migrações manualmente):
 
-Este comando orquestra o seguinte fluxo:
-1.  Carrega um dataset de teste ("gabarito") a partir de `tests/evals/dataset.json`.
-2.  Envia os dados para a API e aguarda o processamento em background pelos workers do Celery.
-3.  Busca os resultados processados diretamente do banco de dados.
-4.  Compara os resultados da IA com o gabarito.
-5.  Imprime um relatório detalhado no console com métricas de **Acurácia, Precisão, Recall, F1-Score** e uma **Matriz de Confusão**.
+```powershell
+docker-compose exec api bash
+# dentro do container
+flask db upgrade
+```
 
 ---
-### ⚖️ Principais Decisões de Design
 
-* **API Assíncrona com Celery/Redis:** A escolha de uma arquitetura assíncrona foi fundamental для atender ao requisito de processamento de grandes lotes sem degradar a experiência do cliente. A API pode aceitar centenas de comentários instantaneamente, enfileirando o trabalho pesado para os workers.
-* **Frontend Desacoplado com Streamlit:** Streamlit foi escolhido pela sua capacidade de criar rapidamente dashboards de dados interativos e visualmente ricos, ideal para o público-alvo da ferramenta (equipe de curadoria). A comunicação via API REST mantém o frontend e o backend desacoplados.
-* **Cache para Relatório em Tempo Real:** Optou-se por uma estratégia de cache-on-demand na rota pública. Isso simplifica a arquitetura, mas ainda cumpre o requisito de atualização de 60 segundos, garantindo performance e baixo custo de consulta.
-* **Serviço de LLM Isolado (`llm_service.py`):** Toda a lógica de interação com o Gemini, incluindo a engenharia de prompt, foi centralizada em um único módulo. Isso torna o sistema mais modular, fácil de testar e permite trocar o modelo de IA no futuro com impacto mínimo no resto da aplicação.
-* **Testes de Ponta a Ponta (E2E) com Pytest:** O fluxo de avaliação foi desenhado não apenas para testar a função de classificação isoladamente, mas para validar toda a pipeline: da ingestão na API, passando pela fila do Celery, o processamento do worker e a persistência no banco. Isso garante que o sistema funciona como um todo.
+## Execução local (sem Docker) — breve
+1) Crie virtualenv e instale dependências:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
+2) Configure variáveis de ambiente (ou use `.env` loader) e garanta PostgreSQL + Redis rodando localmente.
+3) Rode migrações:
+
+```powershell
+flask db upgrade
+```
+
+4) Inicie a API e o worker separadamente (em terminais distintos):
+
+```powershell
+# API
+flask run --host=0.0.0.0 --port=5000
+# Worker (novo terminal)
+celery -A celery_app.celery worker --loglevel=info
+# Beat (opcional)
+celery -A celery_app.celery beat --loglevel=info
+```
 
 ---
-### 🔮 Próximos Passos (Não Implementados)
 
-* **Resumo semanal por e-mail:** Implementar uma tarefa agendada (com Celery Beat) para, ao final da semana, usar a LLM para gerar um resumo das tendências e enviar por e-mail.
-* **Mini Insight-Q&A:** Adicionar a rota autenticada `/insights/perguntar` para permitir que stakeholders façam perguntas em linguagem natural sobre os dados recentes.
+## Tests & Evals
+O projeto contém testes pytest. Em particular há um E2E de classificação em `tests/evals/test_classification_pipeline.py`.
+
+Rodando os testes dentro do container `api` (compose):
+
+```powershell
+docker-compose exec api pytest -q
+# ou apenas os evals
+
+```
+
+Observações sobre o teste E2E:
+- O E2E carrega `tests/evals/dataset.json` e envia comentários para a API, aguarda processamento e valida classificações.
+- Os testes E2E podem esperar alguns minutos (o tempo depende do processamento dos workers).
+
+Rodando testes localmente:
+
+```powershell
+# com venv ativado e serviços DB/Redis locais
+pytest -q
+```
+
+---
+
+## Endpoints importantes (resumo)
+- POST /auth/register — registrar novo usuário
+- POST /auth/login — autenticar e receber JWT
+- GET /api/comentarios — listar comentários com filtros
+- POST /api/llm/analyze — enviar arquivo (.csv/.json) ou texto para análise por LLM
+- GET /api/tasks/<task_id> — checar status de uma tarefa enfileirada (quando aplicável)
+- GET /admin/weekly_summary/latest — buscar o último WeeklySummary persistido (JWT necessário)
+
+---
+
+## Principais decisões de design
+1. Assincronismo com Celery + Redis
+- Razão: processamento de centenas/milhares de comentários deve ser feito fora do request cycle.
+- Como: API persiste Comentario com status PENDENTE e enfileira task por comentário. Workers processam e atualizam o registro.
+
+2. Serviço LLM centralizado (`app/core/llm_service.py`)
+- Razão: separa prompts, chamadas à API do provedor (Gemini) e parsing; facilita troca de modelo no futuro.
+
+3. Arquitetura simples de front/back
+- Streamlit como frontend independente que consome a API, reduz acoplamento e facilita deploy independente.
+
+4. Migrações e versionamento (Alembic)
+- Notas: as revisões de migration devem ter ids curtas (varchar(32) no alembic_version). Evite nomes muito longos que causem erros no banco.
+
+
+---
+
+## Troubleshooting comum
+- Erro Alembic: "Can't locate revision..."
+  - Certifique-se de que o container de migrate/construa a imagem depois de atualizar as migrations: `docker-compose build --no-cache migrate && docker-compose up -d migrate` ou apenas `docker-compose up --build -d`.
+- Erro DataError: value too long for type character varying(32)
+  - Renomeie/recrie a revisão para uma id curta (<=32 chars).
+- Streamlit: depois de enviar um arquivo, o uploader não some
+  - A interface já foi ajustada para limpar o uploader usando uma chave dinâmica de widget; atualize a página/clear cache do browser se necessário.
+
+---
+
+## Observações operacionais
+- As credenciais da API LLM (Google Gemini) devem ser adicionadas via `GOOGLE_API_KEY` como variável de ambiente.
+
+---
+
+
+## Contato
+Se precisar de ajuda para rodar o projeto ou adaptar para produção, descreva o ambiente (local/Docker/Kubernetes) e os erros/logs que surgirem.
+
+---
+
+Arquivo gerado automaticamente: README.md — atualizado para refletir o estado atual do projeto (branch: alumusic-refactor).
+

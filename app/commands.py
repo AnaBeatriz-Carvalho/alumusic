@@ -3,12 +3,11 @@ from app.extensions import db
 from app.models.user import Usuario
 from app.models.comment import Comentario
 
-# Esta função será chamada a partir do __init__.py
 def register_commands(app):
     @app.cli.command("seed-db")
     @click.argument("count", type=int)
     def seed_db(count):
-        """Popula o banco com comentários de teste."""
+        # Comando CLI para popular o banco de dados com comentários de teste
         user = db.session.scalar(db.select(Usuario).limit(1))
         if not user:
             print("ERRO: Nenhum usuário encontrado. Por favor, registre um usuário primeiro.")

@@ -1,5 +1,3 @@
-# streamlit_app.py
-
 import streamlit as st
 import requests
 import pandas as pd
@@ -7,181 +5,284 @@ import json
 import base64
 from streamlit_autorefresh import st_autorefresh
 
-# O URL da sua API rodando no Docker
+# Configuração inicial da página
+st.set_page_config(
+    page_title="AluMusic Insights",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
+
+def load_css(file_path):
+    # Função para carregar um arquivo CSS e aplicá-lo ao Streamlit
+    try:
+        with open(file_path) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.error(f"Arquivo de estilo não encontrado em: {file_path}")
+
+# Carregando o CSS
+load_css("assets/style.css")
+
 API_URL = "http://api:5000"
 
-st.set_page_config(page_title="AluMusic Insights", layout="wide")
-st.title("🔎 AluMusic Insights")
-
-# --- GERENCIAMENTO DE SESSÃO E AUTENTICAÇÃO ---
+# Gerenciamento de estado da sessão
 if "token" not in st.session_state:
     st.session_state.token = None
 if "email" not in st.session_state:
     st.session_state.email = None
+# counter used to create fresh widget keys so the uploader/text area can be cleared
+if 'llm_upload_counter' not in st.session_state:
+    st.session_state['llm_upload_counter'] = 0
 
-def show_login():
-    # ... (seu código de login, sem alterações)
-    st.header("Login da Equipe de Curadoria")
-    with st.form("login_form"):
-        email = st.text_input("Email")
-        password = st.text_input("Senha", type="password")
-        submit = st.form_submit_button("Entrar")
-        if submit:
-            resp = requests.post(f"{API_URL}/auth/login", json={"email": email, "password": password})
-            if resp.status_code == 200:
-                st.session_state.token = resp.json()["access_token"]
-                st.session_state.email = email
-                st.success("Login realizado com sucesso!")
-                st.rerun()
-            else:
-                st.error("Usuário ou senha inválidos.")
+# Funções para cada página
+def show_login_register():
+    # Card principal
+    st.markdown('<div class="auth-card">', unsafe_allow_html=True)
 
-def show_register():
-    # ... (seu código de registro, sem alterações)
-    st.header("Registrar Novo Membro da Equipe")
-    with st.form("register_form"):
-        email = st.text_input("Email (registro)")
-        password = st.text_input("Senha (registro)", type="password")
-        submit = st.form_submit_button("Registrar")
-        if submit:
-            resp = requests.post(f"{API_URL}/auth/register", json={"email": email, "password": password})
-            if resp.status_code == 201:
-                st.success("Usuário registrado! Agora você pode fazer login.")
-            else:
-                st.error(f"Erro ao registrar: {resp.text}")
+    # título dentro do card
+    st.markdown("## 🔑 Acesso da Equipe de Curadoria")
 
-# --- DASHBOARD ATUALIZADO ---
+    # abas de login/registro
+    login_tab, register_tab = st.tabs(["Entrar", "Registrar"])
+
+    with login_tab:
+        with st.form("login_form"):
+            email = st.text_input("Email", placeholder="voce@alumusic.com")
+            password = st.text_input("Senha", type="password")
+            submit = st.form_submit_button("Entrar")
+            if submit:
+                try:
+                    resp = requests.post(f"{API_URL}/auth/login", json={"email": email, "password": password})
+                    if resp.status_code == 200:
+                        st.session_state.token = resp.json()["access_token"]
+                        st.session_state.email = email
+                        st.success("✅ Login realizado com sucesso!")
+                        st.rerun()
+                    else:
+                        st.error("❌ Usuário ou senha inválidos.")
+                except requests.exceptions.ConnectionError:
+                    st.error("⚠️ Não foi possível conectar à API.")
+
+    with register_tab:
+        with st.form("register_form"):
+            email = st.text_input("Email para registro", placeholder="novo.membro@alumusic.com")
+            password = st.text_input("Crie uma senha", type="password")
+            submit = st.form_submit_button("Registrar")
+            if submit:
+                try:
+                    resp = requests.post(f"{API_URL}/auth/register", json={"email": email, "password": password})
+                    if resp.status_code == 201:
+                        st.success("🎉 Usuário registrado! Agora você pode fazer login.")
+                    else:
+                        st.error(f"Erro ao registrar: {resp.text}")
+                except requests.exceptions.ConnectionError:
+                    st.error("⚠️ Não foi possível conectar à API.")
+
+    
+    st.markdown('</div>', unsafe_allow_html=True)
+
 def show_dashboard():
-    st_autorefresh(interval=15000, key="data_refresh")
-    st.header(f"Dashboard de Análise - Bem-vindo(a), {st.session_state.email}")
-    
-    if st.sidebar.button("Logout"):
-        st.session_state.token = None
-        st.session_state.email = None
-        st.rerun()
+    st_autorefresh(interval=30000, key="data_refresh")
+    st.markdown("## 📊 Dashboard de Análise")
+    st.caption(f"Bem-vindo(a), {st.session_state.email}")
 
-    st.subheader("Ferramentas de Análise de Comentários")
+    with st.container():
+        st.subheader("⚙️ Ferramentas de Análise")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            search_query = st.text_input("Buscar por texto no comentário:", key="search_dash")
+        with col2:
+            status_filter = st.multiselect(
+                "Filtrar por Status:",
+                options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"]
+            )
+        with col3:
+            category_filter = st.multiselect(
+                "Filtrar por Categoria:",
+                options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"]
+            )
 
-    # --- Filtros (sem alterações) ---
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        search_query = st.text_input("Buscar por texto no comentário:")
-    with col2:
-        status_filter = st.multiselect("Filtrar por Status:", options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"])
-    with col3:
-        category_filter = st.multiselect("Filtrar por Categoria:", options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"])
-    
-    # --- Chamada à API (sem alterações) ---
+    # --- Upload para análise por LLM ---
+    st.markdown("---")
+    st.subheader("🧠 Analisar com LLM (CSV/JSON ou texto)")
+    upload_col1, upload_col2 = st.columns([2,1])
+    # Use a counter-based dynamic key so we can force a fresh widget (clearing previous value)
+    counter = st.session_state.get('llm_upload_counter', 0)
+    uploader_key = f"llm_upload_file_{counter}"
+    raw_text_key = f"llm_raw_text_{counter}"
+    uploaded_file = upload_col1.file_uploader(
+        "Arraste um arquivo .csv ou .json aqui (coluna 'texto' ou array de objetos)",
+        type=['csv','json'],
+        key=uploader_key
+    )
+    raw_text = upload_col2.text_area("Ou cole um texto para analisar (campo 'text')", height=150, key=raw_text_key)
+
+    # Um único botão de envio para simplificar a interface
+    if upload_col2.button("Enviar para LLM", key='send_llm'):
+        headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
+        try:
+            if uploaded_file is not None:
+                files = {'file': (uploaded_file.name, uploaded_file.getvalue())}
+                resp_llm = requests.post(f"{API_URL}/api/llm/analyze", headers=headers_llm, files=files, timeout=60)
+            elif raw_text:
+                data = {'text': raw_text}
+                resp_llm = requests.post(f"{API_URL}/api/llm/analyze", headers=headers_llm, data=data, timeout=60)
+            else:
+                st.warning("Envie um arquivo ou cole um texto antes de enviar.")
+                resp_llm = None
+
+            if resp_llm is not None:
+                if resp_llm.status_code == 200:
+                    resultados = resp_llm.json().get('resultados', [])
+                    # persist last results in session so they survive a rerun
+                    st.session_state['llm_last_results'] = resultados
+                    # increment counter so uploader and raw text get fresh widget keys (clearing them)
+                    st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
+                    st.success(f"{len(resultados)} resultados recebidos e exibidos abaixo.")
+                    st.experimental_rerun()
+                elif resp_llm.status_code == 202:
+                    body = resp_llm.json()
+                    ids = body.get('ids_enfileirados') or []
+                    if ids:
+                        st.success(f"{len(ids)} comentários enviados e enfileirados. Atualizando histórico...")
+                        # Força refresh do dashboard para puxar os comentários recém-criados
+                        # increment counter so uploader and raw text get fresh widget keys (clearing them)
+                        st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
+                        st.experimental_rerun()
+                    else:
+                        # fallback para task_id-based flow
+                        task_id = body.get('task_id')
+                        st.info(f"Análise enfileirada (task_id: {task_id}). Você pode checar o resultado:")
+                        if st.button("Verificar resultado agora", key=f"check_{task_id}"):
+                            try:
+                                headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
+                                resp_status = requests.get(f"{API_URL}/api/tasks/{task_id}", headers=headers_llm, timeout=10)
+                                if resp_status.status_code == 200:
+                                    data = resp_status.json()
+                                    status = data.get('status')
+                                    result = data.get('result')
+                                    st.write(f"Status: {status}")
+                                    if result:
+                                        for r in result:
+                                            with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
+                                                st.json(r.get('analise'))
+                                    else:
+                                        st.info("Resultado ainda não disponível. Tente novamente em alguns segundos.")
+                                else:
+                                    st.error(f"Erro ao consultar status: {resp_status.status_code} - {resp_status.text}")
+                            except requests.exceptions.RequestException as e:
+                                st.error(f"Falha ao consultar status da task: {e}")
+                else:
+                    st.error(f"Erro na análise: {resp_llm.status_code} - {resp_llm.text}")
+        except requests.exceptions.RequestException as e:
+            st.error(f"Falha ao conectar com API LLM: {e}")
+
     headers = {"Authorization": f"Bearer {st.session_state.token}"}
     params = {"search": search_query, "status": status_filter, "category": category_filter}
-    
+
     try:
         resp = requests.get(f"{API_URL}/api/comentarios", headers=headers, params=params)
-        
         if resp.status_code == 200:
             comentarios = resp.json().get("comentarios", [])
-            
-            if comentarios:
-                st.write(f"**Exibindo {len(comentarios)} comentários:**")
-                
-                # --- Preparação e exibição do DataFrame (sem alterações) ---
-                data_for_df = []
-                for c in comentarios:
-                    tags_formatadas = ", ".join([tag['codigo'] for tag in c.get('tags', [])])
-                    data_for_df.append({
-                        "ID": str(c.get("id")), "Status": c.get("status"), "Categoria": c.get("categoria"),
-                        "Confiança": f"{c.get('confianca'):.2f}" if c.get('confianca') is not None else "N/A",
-                        "Texto": c.get("texto"), "Tags": tags_formatadas,
-                        "Data": pd.to_datetime(c.get("data_recebimento")).strftime('%Y-%m-%d %H:%M') if c.get("data_recebimento") else "N/A"
-                    })
-                df = pd.DataFrame(data_for_df)
-                st.dataframe(df, column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"), use_container_width=True)
-
-                # --- Funcionalidade de exportação (sem alterações) ---
-                col1_exp, col2_exp = st.columns(2)
-                with col1_exp:
-                    csv = df.to_csv(index=False).encode('utf-8')
-                    st.download_button(label="📥 Exportar para CSV", data=csv, file_name=f"comentarios_{pd.Timestamp.now().strftime('%Y%m%d')}.csv", mime='text/csv', key='csv_download')
-                with col2_exp:
-                    json_data = json.dumps(comentarios, indent=2, ensure_ascii=False).encode('utf-8')
-                    st.download_button(label="📥 Exportar para JSON", data=json_data, file_name=f"comentarios_{pd.Timestamp.now().strftime('%Y%m%d')}.json", mime='application/json', key='json_download')
-
-                # =================================================================
-                # 👇 ADIÇÃO DA SEÇÃO DE DETALHES DO HISTÓRICO AQUI 👇
-                # =================================================================
-                st.markdown("---")
-                with st.expander("🔍 Ver Detalhes de um Comentário Específico (Histórico)"):
-                    id_para_buscar = st.text_input("Cole o ID do comentário da tabela acima aqui:")
-                    
-                    if st.button("Buscar Detalhes por ID"):
-                        if id_para_buscar:
-                            try:
-                                resp_detalhes = requests.get(f"{API_URL}/api/comentarios/{id_para_buscar}", headers=headers)
-                                if resp_detalhes.status_code == 200:
-                                    detalhes = resp_detalhes.json()
-                                    st.write(f"**Texto:** {detalhes['texto']}")
-                                    col_d1, col_d2, col_d3 = st.columns(3)
-                                    col_d1.metric("Categoria", detalhes.get('categoria', 'N/A'))
-                                    col_d2.metric("Status", detalhes.get('status', 'N/A'))
-                                    col_d3.metric("Confiança da IA", f"{detalhes.get('confianca', 0):.1%}" if detalhes.get('confianca') else "N/A")
-                                    st.write("**Tags de Funcionalidades Identificadas:**")
-                                    if detalhes.get('tags'):
-                                        for tag in detalhes['tags']:
-                                            st.markdown(f"- **{tag['codigo']}:** *{tag['explicacao']}*")
-                                    else:
-                                        st.info("Nenhuma tag foi identificada para este comentário.")
-                                else:
-                                    st.error(f"Erro ao buscar detalhes: {resp_detalhes.json().get('erro', 'ID não encontrado')}")
-                            except Exception as e:
-                                st.error(f"Ocorreu um erro na requisição: {e}")
-                        else:
-                            st.warning("Por favor, insira um ID para buscar.")
-
-            else:
-                st.info("Nenhum comentário encontrado com os filtros selecionados.")
-        else:
-            st.error(f"Erro ao buscar comentários: {resp.status_code} - {resp.text}")
+            with st.container():
+                if comentarios:
+                    st.write(f"**Exibindo {len(comentarios)} comentários:**")
+                    data_for_df = []
+                    for c in comentarios:
+                        # Display tag explanation when available, fall back to code
+                        tags_formatadas = ", ".join([tag['codigo'] for tag in c.get('tags', [])])
+                        data_for_df.append({
+                            "ID": str(c.get("id")),
+                            "Status": c.get("status"),
+                            "Categoria": c.get("categoria"),
+                            "Confiança": f"{c.get('confianca'):.2f}" if c.get('confianca') is not None else "N/A",
+                            "Texto": c.get("texto"),
+                            "Tags": tags_formatadas,
+                            "Data": pd.to_datetime(c.get("data_recebimento")).strftime('%Y-%m-%d %H:%M')
+                                    if c.get("data_recebimento") else "N/A"
+                        })
+                    df = pd.DataFrame(data_for_df)
+                    st.dataframe(
+                        df,
+                        column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"),
+                        use_container_width=True
+                    )
+                    # If we have LLM results saved in session_state, display them below the table
+                    if 'llm_last_results' in st.session_state and st.session_state['llm_last_results']:
+                        st.markdown("---")
+                        st.subheader("Resultados recentes da LLM")
+                        for r in st.session_state['llm_last_results']:
+                            with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
+                                st.json(r.get('analise'))
+                    st.markdown("---")
+                    st.subheader("📥 Exportar Dados")
+                    col1_exp, col2_exp, _ = st.columns([1,1,3])
+                    with col1_exp:
+                        csv = df.to_csv(index=False).encode('utf-8')
+                        st.download_button(
+                            label="⬇️ Exportar para CSV",
+                            data=csv,
+                            file_name="comentarios.csv",
+                            mime='text/csv',
+                            key='csv_download'
+                        )
+                    with col2_exp:
+                        json_data = json.dumps(comentarios, indent=2, ensure_ascii=False).encode('utf-8')
+                        st.download_button(
+                            label="⬇️ Exportar para JSON",
+                            data=json_data,
+                            file_name="comentarios.json",
+                            mime='application/json',
+                            key='json_download'
+                        )
+                else:
+                    st.info("Nenhum comentário encontrado com os filtros selecionados.")
     except requests.exceptions.RequestException as e:
-        st.error(f"Não foi possível conectar à API. Verifique se o serviço está no ar. Erro: {e}")
+        st.error(f"Não foi possível conectar à API. Erro: {e}")
 
-# --- RELATÓRIO PÚBLICO ---
 def show_relatorio():
-    # ... (seu código do relatório, sem alterações) ...
     st_autorefresh(interval=60000, key="relatorio_refresh")
-    st.header("Relatório Público em Tempo Real")
+    st.markdown("## 📈 Relatório Público em Tempo Real")
+    st.caption("Estes dados são atualizados a cada 60 segundos.")
+
     try:
-        resp = requests.get(f"{API_URL}/api/relatorio/semana", timeout=10)
+        # public blueprint is registered under /public in the Flask app
+        resp = requests.get(f"{API_URL}/public/relatorio/semana", timeout=10)
         if resp.status_code == 200:
             data = resp.json()
             graficos = data.get("graficos", [])
             if not graficos:
-                st.info("Os dados para o relatório ainda estão sendo gerados. Por favor, aguarde e a página será atualizada em breve.")
-            for graf in graficos:
-                st.subheader(graf["titulo"])
-                st.image(base64.b64decode(graf["imagem_base64"]), use_column_width=True)
-        elif resp.status_code == 202:
-            st.info(resp.json().get("mensagem"))
+                st.info("⏳ Os dados para o relatório ainda estão sendo gerados...")
+            cols = st.columns(2)
+            for i, graf in enumerate(graficos):
+                with cols[i % 2]:
+                    with st.container():
+                        st.subheader(graf["titulo"])
+                        st.image(base64.b64decode(graf["imagem_base64"]), use_column_width=True)
         else:
             st.error(f"Erro ao carregar relatório: {resp.status_code} - {resp.text}")
     except requests.exceptions.RequestException as e:
         st.error(f"Erro ao conectar com a API do relatório: {e}")
 
-# --- LÓGICA PRINCIPAL DE NAVEGAÇÃO ---
+#Navegação principal
+st.sidebar.markdown("<h2 class='sidebar-title'>🎵 AluMusic Insights</h2>", unsafe_allow_html=True)
+st.sidebar.markdown("---")
+
 if st.session_state.token:
-    # ... (sua navegação para usuário logado, sem alterações) ...
-    st.sidebar.title("Menu")
-    pagina_selecionada = st.sidebar.radio("Navegue por", ["Dashboard de Análise", "Relatório Público"])
+    st.sidebar.markdown(f"👤 Logado como: **{st.session_state.email}**")
+    pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Dashboard de Análise", "Relatório Público"], key="nav_logado")
+    if st.sidebar.button("🚪 Logout", key="logout_button"):
+        st.session_state.token = None
+        st.session_state.email = None
+        st.rerun()
     if pagina_selecionada == "Dashboard de Análise":
         show_dashboard()
     else:
         show_relatorio()
 else:
-    # ... (sua navegação para visitante, sem alterações) ...
-    st.sidebar.title("Bem-vindo(a)!")
-    pagina_selecionada = st.sidebar.radio("Navegue por", ["Login", "Registrar", "Relatório Público"])
-    if pagina_selecionada == "Login":
-        show_login()
-    elif pagina_selecionada == "Registrar":
-        show_register()
+    st.sidebar.markdown("👋 Bem-vindo(a)! Acesse o dashboard ou veja o relatório público.")
+    pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Acesso da Equipe", "Relatório Público"], key="nav_visitante")
+    if pagina_selecionada == "Acesso da Equipe":
+        show_login_register()
     else:
         show_relatorio()
