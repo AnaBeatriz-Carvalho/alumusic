@@ -1,0 +1,492 @@
+[
+  {
+    "texto": "Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["producao_musical", "melodia"]
+  },
+  {
+    "texto": "O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["videoclipe", "narrativa_visual"]
+  },
+  {
+    "texto": "Achei a letra um pouco fraca, esperava mais profundidade do artista.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_letra"]
+  },
+  {
+    "texto": "Por que a plataforma não tem um modo offline para ouvir as playlists?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["modo_offline", "funcionalidade_playlist"]
+  },
+  {
+    "texto": "Sugestão: uma integração com as letras das músicas seria perfeita.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["integracao_letras"]
+  },
+  {
+    "texto": "A batida é boa, mas o autotune exagerado estragou a música pra mim.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_batida", "uso_autotune"]
+  },
+  {
+    "texto": "Comprem agora o novo hit do verão! Link na bio! #publi",
+    "categoria_esperada": "SPAM",
+    "tags_esperadas": []
+  },
+  {
+    "texto": "A energia do show foi contagiante, uma das melhores performances que já vi.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["performance_show", "energia_show"]
+  },
+  {
+    "texto": "O preço do ingresso para o festival está muito caro este ano.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["preco_ingresso", "custo_festival"]
+  },
+  {
+    "texto": "Quando será o lançamento do próximo álbum?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["lancamento_album"]
+  },
+  {
+    "texto": "Seria legal se o app recomendasse shows baseados no meu histórico.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["recomendacao_show", "funcionalidade_app"]
+  },
+  {
+    "texto": "A qualidade do som no show de ontem estava péssima, muito abafada.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_som_show"]
+  },
+  {
+    "texto": "A voz desse cantor é simplesmente espetacular, arrepia.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["qualidade_vocal"]
+  },
+  {
+    "texto": "GANHE DINHEIRO FÁCIL CLICANDO AQUI WWW.SPAM.COM",
+    "categoria_esperada": "SPAM",
+    "tags_esperadas": []
+  },
+  {
+    "texto": "Não entendi a história contada no novo clipe, achei confusa.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["narrativa_visual", "videoclipe"]
+  },
+  {
+    "texto": "Onde posso comprar os produtos oficiais da banda?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["merchandising_banda"]
+  },
+  {
+    "texto": "Vocês deveriam fazer uma playlist com os clássicos dos anos 90.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["criacao_playlist"]
+  },
+  {
+    "texto": "O solo de guitarra nessa faixa é de outro mundo!",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["performance_instrumental", "solo_guitarra"]
+  },
+  {
+    "texto": "A fila para entrar no show estava desorganizada e demorou horas.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["organizacao_evento", "fila_show"]
+  },
+  {
+    "texto": "Esse artista cancelou o show de novo? Que falta de respeito.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["cancelamento_show", "conduta_artista"]
+  },
+  {
+    "texto": "A capa do álbum é linda, combina perfeitamente com as músicas.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["arte_album", "design_capa"]
+  },
+  {
+    "texto": "O aplicativo trava toda vez que tento criar uma nova playlist.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["bug_app", "funcionalidade_playlist"]
+  },
+  {
+    "texto": "Qual o nome da música que tocou no comercial?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["identificacao_musica"]
+  },
+  {
+    "texto": "Poderiam incluir um equalizador de áudio no aplicativo.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["funcionalidade_app", "equalizador_audio"]
+  },
+  {
+    "texto": "A participação especial nessa música foi uma surpresa incrível.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["colaboracao_musical", "feat"]
+  },
+  {
+    "texto": "O site está fora do ar, não consigo comprar ingressos.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["problema_tecnico_site", "compra_ingresso"]
+  },
+  {
+    "texto": "A bateria dessa música tem uma virada sensacional.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["performance_instrumental", "bateria"]
+  },
+  {
+    "texto": "Como faço para sugerir uma música para a rádio?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["interacao_radio"]
+  },
+  {
+    "texto": "Coloquem mais informações sobre os compositores das músicas.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["informacoes_musica", "creditos_compositor"]
+  },
+  {
+    "texto": "A pronúncia do inglês desse cantor piorou muito.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_vocal", "pronuncia_idioma"]
+  },
+  {
+    "texto": "O baixo está muito alto na mixagem, ofusca os outros instrumentos.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["mixagem_audio", "performance_instrumental"]
+  },
+  {
+    "texto": "Esta playlist me ajudou a descobrir vários artistas novos, obrigado!",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["descoberta_musica", "curadoria_playlist"]
+  },
+  {
+    "texto": "SIGA-ME PARA DICAS DE INVESTIMENTO",
+    "categoria_esperada": "SPAM",
+    "tags_esperadas": []
+  },
+  {
+    "texto": "Os vídeos dos bastidores da gravação foram muito legais.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["conteudo_extra", "making_of"]
+  },
+  {
+    "texto": "Não consigo usar o app no meu celular, a versão do android é incompatível?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["compatibilidade_app", "problema_tecnico"]
+  },
+  {
+    "texto": "O show deveria ter tido um telão maior, não dava pra ver do fundo.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["infraestrutura_show", "experiencia_publico"]
+  },
+  {
+    "texto": "Adoraria um podcast oficial da banda contando as histórias das músicas.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["formato_conteudo", "podcast"]
+  },
+  {
+    "texto": "A transição entre a faixa 3 e a 4 é genial.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["estrutura_album", "producao_musical"]
+  },
+  {
+    "texto": "O atendimento ao cliente para resolver meu problema de assinatura foi muito lento.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["atendimento_cliente", "problema_assinatura"]
+  },
+  {
+    "texto": "Os arranjos de cordas neste álbum adicionaram uma camada emocional incrível.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["arranjos_musicais", "performance_instrumental"]
+  },
+  {
+    "texto": "Existe algum desconto para estudantes na assinatura do serviço?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["preco_assinatura", "desconto_estudante"]
+  },
+  {
+    "texto": "As letras desse álbum são as mais maduras da carreira dele.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["qualidade_letra", "evolucao_artista"]
+  },
+  {
+    "texto": "O som estava bom, mas o show atrasou mais de uma hora.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["pontualidade_show", "organizacao_evento"]
+  },
+  {
+    "texto": "Por favor, façam uma versão acústica dessa música.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["versao_musica", "performance_acustica"]
+  },
+  {
+    "texto": "O design do app é muito intuitivo, fácil de usar.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["usabilidade_app", "design_interface"]
+  },
+  {
+    "texto": "A publicidade no meio das músicas na versão gratuita é excessiva.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["publicidade_app", "versao_gratuita"]
+  },
+  {
+    "texto": "Quem é o produtor desse disco?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["informacoes_musica", "creditos_producao"]
+  },
+  {
+    "texto": "O festival deveria ter mais opções de comida vegetariana.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["infraestrutura_festival", "alimentacao_evento"]
+  },
+  {
+    "texto": "A qualidade do vinil que comprei na loja de vocês é impecável.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["qualidade_produto", "merchandising_banda"]
+  },
+  {
+    "texto": "O volume da música está muito baixo, mesmo no máximo.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["problema_tecnico_app", "volume_audio"]
+  },
+  {
+    "texto": "A banda vai fazer turnê pela Europa?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["agenda_turne"]
+  },
+  {
+    "texto": "Acho que a ordem das músicas no álbum poderia ser melhor.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["estrutura_album", "tracklist"]
+  },
+  {
+    "texto": "O coral de vozes no refrão deu um toque épico para a canção.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["arranjos_musicais", "qualidade_vocal"]
+  },
+  {
+    "texto": "O app consome muita bateria do meu celular.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["performance_app", "consumo_bateria"]
+  },
+  {
+    "texto": "Essa música é um cover ou original?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["informacoes_musica"]
+  },
+  {
+    "texto": "Uma colaboração com o Artista Y seria um sonho.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["colaboracao_musical"]
+  },
+  {
+    "texto": "A iluminação do palco estava espetacular.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["producao_show", "iluminacao_palco"]
+  },
+  {
+    "texto": "O som do baixo está inaudível nessa gravação.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["mixagem_audio", "performance_instrumental"]
+  },
+  {
+    "texto": "Qual o significado da letra dessa música?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["significado_letra"]
+  },
+  {
+    "texto": "Poderiam adicionar um modo escuro no app.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["design_interface", "modo_escuro"]
+  },
+  {
+    "texto": "O clipe é bom, mas não tem nada a ver com a música.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["videoclipe", "narrativa_visual"]
+  },
+  {
+    "texto": "A forma como ele usa metáforas nas composições é genial.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["qualidade_letra", "tecnica_composicao"]
+  },
+  {
+    "texto": "O novo álbum é muito repetitivo, parece que estou ouvindo a mesma música de novo e de novo.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["estrutura_album", "originalidade"]
+  },
+  {
+    "texto": "Qual a duração do show de amanhã?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["informacoes_show", "duracao_show"]
+  },
+  {
+    "texto": "Vocês deveriam vender camisetas com a arte da capa do álbum.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["merchandising_banda", "ideia_produto"]
+  },
+  {
+    "texto": "Parabéns à equipe de curadoria por esta playlist de descobertas.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["curadoria_playlist", "descoberta_musica"]
+  },
+  {
+    "texto": "O som do streaming parece comprimido, a qualidade do áudio caiu.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_audio_streaming", "problema_tecnico"]
+  },
+  {
+    "texto": "Essa música foi usada em algum filme?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["uso_musica_midia"]
+  },
+  {
+    "texto": "Um show com orquestra seria incrível para este álbum.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["ideia_show", "performance_orquestra"]
+  },
+  {
+    "texto": "Essa linha de baixo é tão marcante que carrega a música inteira.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["performance_instrumental", "baixo"]
+  },
+  {
+    "texto": "O fan club oficial parece abandonado, não tem nenhuma atualização.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["engajamento_fas", "fan_club"]
+  },
+  {
+    "texto": "As letras estão disponíveis em algum lugar?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["disponibilidade_letras"]
+  },
+  {
+    "texto": "Invista em cripto e fique rico rápido!",
+    "categoria_esperada": "SPAM",
+    "tags_esperadas": []
+  },
+  {
+    "texto": "O algoritmo de recomendação está me sugerindo coisas que não tem nada a ver comigo.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["algoritmo_recomendacao"]
+  },
+  {
+    "texto": "A setlist do show foi perfeita, tocaram todas as minhas favoritas.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["setlist_show"]
+  },
+  {
+    "texto": "Como faço para cancelar minha assinatura?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["cancelamento_assinatura"]
+  },
+  {
+    "texto": "Seria útil poder organizar as playlists em pastas.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["funcionalidade_playlist", "organizacao_app"]
+  },
+  {
+    "texto": "A performance vocal ao vivo foi ainda melhor que a do estúdio.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["performance_show", "qualidade_vocal"]
+  },
+  {
+    "texto": "O final abrupto da música pareceu um erro de edição.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["producao_musical", "estrutura_musica"]
+  },
+  {
+    "texto": "A banda tem alguma previsão de vir para o Brasil?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["agenda_turne", "show_brasil"]
+  },
+  {
+    "texto": "Uma funcionalidade de 'rádio do artista' baseada em uma música seria ótima.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["funcionalidade_app", "radio_artista"]
+  },
+  {
+    "texto": "A maneira como a história se desenvolve ao longo do álbum é cativante.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["album_conceitual", "narrativa_album"]
+  },
+  {
+    "texto": "A taxa de conveniência na venda de ingressos é um absurdo.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["preco_ingresso", "taxa_conveniencia"]
+  },
+  {
+    "texto": "Qual foi a inspiração para este álbum?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["inspiracao_album", "processo_criativo"]
+  },
+  {
+    "texto": "O sistema de busca poderia ser mais inteligente, às vezes não acha nem o nome exato.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["funcionalidade_busca", "usabilidade_app"]
+  },
+  {
+    "texto": "A harmonia vocal entre os membros da banda é perfeita.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["harmonia_vocal", "qualidade_vocal"]
+  },
+  {
+    "texto": "Não consigo fazer login pelo Facebook, está dando erro.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["problema_login", "integracao_redes_sociais"]
+  },
+  {
+    "texto": "A banda tem algum vinil à venda?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["merchandising_banda", "formato_fisico"]
+  },
+  {
+    "texto": "Filtros por gênero musical nas playlists seriam muito úteis.",
+    "categoria_esperada": "SUGESTÃO",
+    "tags_esperadas": ["funcionalidade_playlist", "filtro_genero"]
+  },
+  {
+    "texto": "A fotografia do clipe novo está deslumbrante.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["fotografia_clipe", "estetica_visual"]
+  },
+  {
+    "texto": "O som estava tão alto no show que chegou a distorcer.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_som_show", "volume_audio"]
+  },
+  {
+    "texto": "Onde foi gravado este show?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["informacoes_show", "local_gravacao"]
+  },
+  {
+    "texto": "Vocês têm um aplicativo para desktop?",
+    "categoria_esperada": "DÚVIDA",
+    "tags_esperadas": ["disponibilidade_plataforma", "app_desktop"]
+  },
+  {
+    "texto": "A bateria eletrônica não combinou com o estilo da banda.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["producao_musical", "escolha_instrumento"]
+  },
+  {
+    "texto": "O refrão chiclete dessa música não sai da minha cabeça!",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["composicao_musica", "refrao"]
+  },
+  {
+    "texto": "O app fechou sozinho no meio da minha corrida.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["bug_app", "estabilidade_app"]
+  },
+  {
+    "texto": "As letras são muito superficiais, sem emoção.",
+    "categoria_esperada": "CRÍTICA",
+    "tags_esperadas": ["qualidade_letra"]
+  },
+  {
+    "texto": "A experiência de compra no site foi rápida e fácil.",
+    "categoria_esperada": "ELOGIO",
+    "tags_esperadas": ["experiencia_compra_site", "usabilidade_site"]
+  }
+]

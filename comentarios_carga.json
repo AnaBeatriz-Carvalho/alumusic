@@ -1,0 +1,2002 @@
+[
+  {
+    "id": "bb584390-e652-4148-9710-8ae171cb56c8",
+    "texto": "(1) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "4ead92a4-c0ef-455c-9d3a-ae6537e3cc63",
+    "texto": "(2) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "945cb377-ed70-4124-b50b-8bba0e299868",
+    "texto": "(3) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "024065b9-91f9-4c32-8a16-a1b8d74cc3d9",
+    "texto": "(4) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "1bcc6610-4ae1-45f2-8af8-f62e0c99496d",
+    "texto": "(5) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "7370a2bb-aa09-49de-b10c-c534c4880247",
+    "texto": "(6) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "78ab4c60-9945-4787-9d32-aec135e2f311",
+    "texto": "(7) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "5b89fb25-25c2-4800-a5a1-c9779398f9b4",
+    "texto": "(8) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "a8881875-7457-46da-806c-4beb374b71a8",
+    "texto": "(9) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "c223cddb-69a6-4d8d-8db2-8036ce21d6fc",
+    "texto": "(10) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "84c4b36f-21e1-470d-bb4d-ca27e2af0a6d",
+    "texto": "(11) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "9548be64-2560-4de9-a780-893e3227fc0d",
+    "texto": "(12) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "9a20a051-879e-4920-a2f1-5b6656799cd6",
+    "texto": "(13) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "d059039e-4c8c-4c04-bed0-9abbd02c54c2",
+    "texto": "(14) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "39c9c8a2-8f40-4b15-8c1a-2e7b4c56ad9f",
+    "texto": "(15) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "3bcd0b27-fdc4-4faa-a6bc-c6fddd78531a",
+    "texto": "(16) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "8cd7c0b3-3eaf-45d8-8583-9cbf3a16fc15",
+    "texto": "(17) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "e25ea61f-2e8d-44b7-8eec-d7a91d3581b3",
+    "texto": "(18) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "9a4c2684-e2f5-486b-88db-300590113c9b",
+    "texto": "(19) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "861b2836-d188-4c73-9ce8-44fb8f9f6247",
+    "texto": "(20) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "561305cf-0486-4d8e-8cf2-f9e09d751025",
+    "texto": "(21) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "bf627b11-4fe7-46ea-9a83-79e93660f481",
+    "texto": "(22) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "c4987d50-c651-444f-a704-29c870226ac0",
+    "texto": "(23) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "f1c4993a-6f54-4789-bdec-d00f9aee51a4",
+    "texto": "(24) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "d4543712-648c-474b-99b8-c86565a209df",
+    "texto": "(25) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "213aeec4-31ec-4fa5-b658-a3172654c269",
+    "texto": "(26) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "e84d9bda-ac82-46c7-9839-819c1825c059",
+    "texto": "(27) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "3897ff14-a40a-45e9-85e2-2396c3f3fa1f",
+    "texto": "(28) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "67e4b874-2aa4-4f26-80b4-f314266acee5",
+    "texto": "(29) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "a7a4a68b-59b7-43c0-b02a-55458ece04db",
+    "texto": "(30) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "b94e9641-3cf8-4de2-86a6-7fab26e8ab1a",
+    "texto": "(31) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "1669148f-024f-4c22-b52e-5dd18369e1df",
+    "texto": "(32) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "4d36de9c-bb59-490f-9cda-898eb07aab10",
+    "texto": "(33) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "f4126758-c9e1-4e36-947a-539abbf897c3",
+    "texto": "(34) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "1c42e1b4-95db-48c1-869f-cad19f9ee323",
+    "texto": "(35) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "40477383-3887-47a3-959b-91aef8b61f7c",
+    "texto": "(36) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "a5c32b04-1ff2-44b8-9d8e-13b99b773d44",
+    "texto": "(37) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "54af7314-ef3c-48f6-aa4d-84f0330d8100",
+    "texto": "(38) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "0f30f5c2-11b3-4f98-8ec0-8cc30d392916",
+    "texto": "(39) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "cc638c17-8f52-4fad-a6fd-181f5e16123a",
+    "texto": "(40) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "b649bd9e-bc8b-4460-97c4-2469d1eaa7b6",
+    "texto": "(41) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "702e501e-6286-4b13-aade-6fa53edab507",
+    "texto": "(42) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "12c4f79b-c9c9-422b-b95d-2ab6c94cca08",
+    "texto": "(43) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "a40f936b-0f09-40cf-9128-6a15263c3727",
+    "texto": "(44) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "37d18e55-20ec-418c-a3c0-c0d940931f75",
+    "texto": "(45) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "06e2c7bd-a34f-4642-a3d7-c8f2f1e68aae",
+    "texto": "(46) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "4bc2865d-7740-435a-879a-58f961784d30",
+    "texto": "(47) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "816529cc-4e17-4665-98ba-a5a37c8d9fd5",
+    "texto": "(48) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "fd543a66-8539-4e2e-adc1-b6490c25a852",
+    "texto": "(49) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "47272044-4dd2-4a83-813c-adfb3cda92d5",
+    "texto": "(50) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "a5201266-f159-41f3-8350-9cf6db70bf22",
+    "texto": "(51) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "1ae771c0-33bf-48b5-9937-bdd3bd4eea92",
+    "texto": "(52) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "c23cff4b-c94b-4a42-8d3a-f444fa5807a7",
+    "texto": "(53) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "19ec24e3-9a29-41e1-b685-1d92a9a55964",
+    "texto": "(54) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "382f67c5-7d51-4b12-a480-a61c9af967d1",
+    "texto": "(55) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "e6d7cecc-0caf-4ff7-b84b-bfce9e61cfe6",
+    "texto": "(56) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "ee1cd977-6e27-48c0-91ab-435cd0d7320b",
+    "texto": "(57) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "fdf18d8a-187e-464f-abd7-1180e9e66133",
+    "texto": "(58) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "e9e168c1-773d-4c86-8e04-ddf8a9041cce",
+    "texto": "(59) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "45566dde-dbea-4e56-998f-b493cef7e134",
+    "texto": "(60) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "3ae73fef-55a6-450c-8d43-c72fdfe7ca8b",
+    "texto": "(61) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "41523b5a-9ecb-4827-aa7f-de8cef76fd7b",
+    "texto": "(62) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "610cb79f-f4db-4d23-b33d-08f89d5eb3be",
+    "texto": "(63) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "d5eaf5d9-3d21-4a59-a865-ff1458633321",
+    "texto": "(64) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "732dd15f-cad6-465e-9d0c-17434d477fe9",
+    "texto": "(65) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "e7d62864-28b0-426b-9ecc-a0ddeba261be",
+    "texto": "(66) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "7c1e1fbc-bb4b-4175-a907-cb752def947a",
+    "texto": "(67) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "3d1409ef-3111-45fc-9456-886032f9e843",
+    "texto": "(68) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "46af3fca-d5c6-4993-9ca8-63337bd5c327",
+    "texto": "(69) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "4710138b-d1e9-46d2-be93-2eee736ae38e",
+    "texto": "(70) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "21c5c434-4da6-4993-aa6e-9807e917f26c",
+    "texto": "(71) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "57ac9856-9b43-4e15-9fbc-e2217b9a6b44",
+    "texto": "(72) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "73380f6b-9d9c-4b95-8d73-b327788671bd",
+    "texto": "(73) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "ff76f033-df58-498c-9cfa-3671564028e6",
+    "texto": "(74) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "bb79153a-6e29-4539-b0b3-605bc3c1c9b4",
+    "texto": "(75) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "81b58593-ba31-44be-a966-d48b35603608",
+    "texto": "(76) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "be57b32f-c077-4ec4-80a9-fcc79b561ed7",
+    "texto": "(77) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "30e0141b-5df8-42f8-9d5d-152f85bb4cb8",
+    "texto": "(78) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "1faa4b87-3f50-4398-8e3e-10aeff534a66",
+    "texto": "(79) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "49f7235f-d909-4115-83b9-bc03f9b821f0",
+    "texto": "(80) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "b209eb25-fae1-4d7e-945e-c8f06e666f23",
+    "texto": "(81) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "a5ca4406-4164-410d-8528-941c85b30937",
+    "texto": "(82) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "4f166d6d-6277-4cb5-beaa-1b4f8adac386",
+    "texto": "(83) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "7e007ef3-ed87-4dc5-b978-cf9d38cc3b2a",
+    "texto": "(84) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "b3493d9f-605e-450e-95ce-8c4694dc9ee2",
+    "texto": "(85) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "a251d158-006c-441c-83c0-301270c0397a",
+    "texto": "(86) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "05b0bbc7-5017-42a5-8056-c7f48c876d62",
+    "texto": "(87) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "d4670b98-682d-4b60-9a96-45cf5a539da2",
+    "texto": "(88) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "e4f2a1ab-d838-430d-b249-e380d879247a",
+    "texto": "(89) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "d8a3a5ed-274d-48fe-bf48-10371e828b77",
+    "texto": "(90) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "76be0bf4-8759-4d0c-9cfb-7bd3d07e073a",
+    "texto": "(91) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "ac17e81e-0131-4694-9b76-34fe1a290f3d",
+    "texto": "(92) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "0209316f-6346-4979-8b9c-004efeab2e30",
+    "texto": "(93) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "ca2f485a-aee7-4dde-9c7c-559360bff851",
+    "texto": "(94) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "b21e5201-2490-44a8-ab01-461b512f208c",
+    "texto": "(95) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "37b64d87-298b-4ce2-a669-be1bea812bf2",
+    "texto": "(96) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "e3134873-390a-4691-81ad-bba3e7798fa0",
+    "texto": "(97) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "94d8ec3b-d29a-4f13-9026-761dc19b9230",
+    "texto": "(98) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "07f42ce9-d1f8-49c7-bc0c-87be954a2c7f",
+    "texto": "(99) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "98b9ba39-cc06-4b81-938e-b8864a9c45d5",
+    "texto": "(100) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "b459def6-37a5-4d33-b250-6e2b75b03b90",
+    "texto": "(101) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "5a018261-1664-411b-9af8-07cc06b38bbd",
+    "texto": "(102) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "21400e7e-702a-4de2-aa21-8e996edd8ceb",
+    "texto": "(103) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "228e9e50-d526-4d09-b555-239a19f7ba86",
+    "texto": "(104) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "b332b504-10d2-4286-83ee-8257a43a799c",
+    "texto": "(105) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "8cda1140-7a9b-47af-b10f-59f629c154d2",
+    "texto": "(106) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "7040636a-b548-40a5-bcad-7043ae3a87ba",
+    "texto": "(107) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "3f1aee71-aaa9-4316-8b4b-c974cc02d770",
+    "texto": "(108) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "2d7577cd-af89-42cf-a6fd-5f7bbb656bfb",
+    "texto": "(109) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "532f6ca8-67dd-4542-9330-eb41de1be283",
+    "texto": "(110) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "9c867c31-62be-4132-a75c-3dc6839e8a9f",
+    "texto": "(111) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "edee42fa-03ad-4968-976e-28d40073dd0c",
+    "texto": "(112) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "8542d75f-adb5-4a60-9b0d-419876088d88",
+    "texto": "(113) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "4061cd80-84e4-46a2-8124-55537f27291f",
+    "texto": "(114) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "78cd87cf-cd95-4fb1-a2a4-3f3e90317baa",
+    "texto": "(115) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "b3396ca1-777b-4e1f-af99-5fe96fe88dc4",
+    "texto": "(116) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "78382f7a-0b35-4bb4-8709-aa9c68a7072e",
+    "texto": "(117) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "309dc218-6b96-4773-a86b-2c342ff3d46c",
+    "texto": "(118) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "e014cd85-f1b4-41cb-9acd-0ad73fbaf138",
+    "texto": "(119) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "3b2001c6-1c73-4aa7-981d-db00cef60336",
+    "texto": "(120) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "dafcde8e-2b98-4c01-b59a-7ab9138a091f",
+    "texto": "(121) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "8a34ca27-25b4-41f4-b52a-12d3110fa655",
+    "texto": "(122) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "6edcd232-d17b-4e8f-9922-f48bf6c41708",
+    "texto": "(123) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "333c7cf1-1573-4286-9ee4-bf1f520223bb",
+    "texto": "(124) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "780a519b-cb17-4452-82c3-a7ac8376f326",
+    "texto": "(125) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "129ef759-8c30-43e3-9522-62a937526416",
+    "texto": "(126) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "ba024b4c-3f7b-4c59-94b4-dc1b8902dcf9",
+    "texto": "(127) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "732853ab-9043-4a87-a1cd-219589b332b1",
+    "texto": "(128) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "5afbe98d-2b09-452b-96ab-bef86b0b9375",
+    "texto": "(129) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "7ff0df4c-6303-4fef-9287-9f19f0bea765",
+    "texto": "(130) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "7f3a419e-93d7-4ba0-8bbc-1db23a7fba87",
+    "texto": "(131) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "f1ae9505-c60f-4b77-bb07-0d2b26721c56",
+    "texto": "(132) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "6a019cac-5352-4a8c-b485-53c6c88f3113",
+    "texto": "(133) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "4d1d1190-8067-419e-bc4a-58c6f3c99bd1",
+    "texto": "(134) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "869ea3f1-e1e0-48f6-a997-dbde0f263d34",
+    "texto": "(135) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "0d365b11-a827-40aa-b121-0c143ed5eba2",
+    "texto": "(136) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "667f3cac-d474-4a4a-8a65-dda1d1f97537",
+    "texto": "(137) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "bc694bda-b282-4501-a3f3-307a64961525",
+    "texto": "(138) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "92a344d2-5846-443b-a77f-d57cbc359b04",
+    "texto": "(139) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "b4ae1fc0-f033-4b6e-80c1-2ca2a2013a54",
+    "texto": "(140) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "87224786-f893-40c8-9c79-e4025a34b28e",
+    "texto": "(141) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "e7ee0ee0-bb8c-4982-ab9b-44cbbb23a85b",
+    "texto": "(142) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "277e97f9-f83d-4261-b8ef-7ddec6a181cb",
+    "texto": "(143) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "4d9d32de-71ed-4f68-8b63-0d5395402e40",
+    "texto": "(144) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "956c331e-0311-4d0d-8da5-9def3fab208d",
+    "texto": "(145) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "4a9b25d7-871f-4b9e-af87-e471c070a22e",
+    "texto": "(146) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "49b820c8-ffde-479c-9347-b427d346ff3c",
+    "texto": "(147) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "b49be8c3-a964-42b7-9ebf-aa15c5c3051f",
+    "texto": "(148) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "fbcb726f-b20a-4081-aabe-159664b4ed72",
+    "texto": "(149) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "72b63579-903c-4070-bb26-0535d6213d42",
+    "texto": "(150) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "1b1d8554-51a2-4c76-a658-05dca3992c87",
+    "texto": "(151) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "1c90064f-9895-4b95-bdb6-23cd422711a9",
+    "texto": "(152) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "36f0363f-6136-477f-a333-2d36beb786ce",
+    "texto": "(153) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "3ddfbbcb-066c-4adc-8385-d31cedaf5c63",
+    "texto": "(154) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "4900fcf5-0948-460e-a05f-fae5291318aa",
+    "texto": "(155) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "93cf312d-0a8d-4105-b755-0ad819b87458",
+    "texto": "(156) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "1793cfc3-e10e-4971-a296-a0ac048cdf24",
+    "texto": "(157) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "761bbdf1-ca85-4712-9684-42f4dde6125e",
+    "texto": "(158) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "92a377a7-ecbf-4f51-aee5-815ce0148eed",
+    "texto": "(159) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "f0437cc8-0b29-436d-a8f4-fba66ce3c197",
+    "texto": "(160) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "08655452-3374-4188-a63c-184c1c8fe0ea",
+    "texto": "(161) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "f8139c20-e893-42d6-ba5c-91bfe0671fda",
+    "texto": "(162) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "5b8fc3cc-b82f-4f0e-80b0-d31d506ae0c8",
+    "texto": "(163) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "775e708c-b67b-400e-8e6f-0ae86bd223e9",
+    "texto": "(164) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "963310cd-da53-4b57-a1f1-bc01491d0342",
+    "texto": "(165) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "7e37fad5-7a1f-42bc-94af-9c946f49a547",
+    "texto": "(166) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "d7d25f26-2efe-4dad-9808-8d1cfeb7cd76",
+    "texto": "(167) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "161151f9-c168-4e57-94d6-4fe29b571069",
+    "texto": "(168) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "a2336246-4c12-42e3-a2d1-150e98eb29b7",
+    "texto": "(169) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "cb4f9e65-9359-4a01-9907-9242b5b560be",
+    "texto": "(170) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "e64a174d-1dfb-4a9f-9a78-428c9ed9c540",
+    "texto": "(171) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "8772e91e-dd02-4d69-ae03-e23e4a21a25d",
+    "texto": "(172) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "d7f8fca7-8112-4eff-81e3-d0f0fbbc9180",
+    "texto": "(173) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "41f70346-123a-4160-bb3d-06b6d8f2fa08",
+    "texto": "(174) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "04dc60fa-60cc-496a-b309-36d1376f9240",
+    "texto": "(175) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "d9d8adfc-d086-479f-90ed-73b563994483",
+    "texto": "(176) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "f2601e90-7ddf-4bb5-a46c-2add638913c4",
+    "texto": "(177) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "7a5edacf-7d1f-4d96-8ddb-a041ef16c03e",
+    "texto": "(178) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "293eb0fe-9de0-4a03-8385-8f27d2a65f75",
+    "texto": "(179) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "cd181fb8-39b1-4b9c-8eb6-3ada65f296d3",
+    "texto": "(180) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "128f5ed4-c6c9-47be-86ca-c427911ddfb6",
+    "texto": "(181) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "b50e7d7e-dfaf-4223-9446-87ed62e71693",
+    "texto": "(182) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "ca99275b-fbfb-4d63-bd56-6577c0879743",
+    "texto": "(183) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "37676a5f-efab-4ee8-94a8-ba3cb1baed07",
+    "texto": "(184) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "7ef35ae3-11cd-42ad-9ad6-ae3b985974c4",
+    "texto": "(185) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "3a29156a-a49e-4144-b3a9-dff3aeef0738",
+    "texto": "(186) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "9b80d815-de4a-4b3c-aec7-9429fc0200fa",
+    "texto": "(187) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "a0af6e87-78a4-4d22-a3a2-0c0935fb8aed",
+    "texto": "(188) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "dba7c625-2c5f-46ac-95ac-7d9b9bf453fc",
+    "texto": "(189) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "bd8b18ce-603b-442a-8b73-d0d95d25492a",
+    "texto": "(190) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "2757a729-c892-4bf4-a258-40bec93ad16b",
+    "texto": "(191) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "130dee68-0982-4ec9-80af-72b00a5adeca",
+    "texto": "(192) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "0a720174-4358-4873-9e78-f6c9b0f63db8",
+    "texto": "(193) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "17b06413-9a65-4de8-8929-84463d8517cd",
+    "texto": "(194) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "71f91af6-1599-470a-95ea-528d439b29f9",
+    "texto": "(195) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "82fdbd64-ea24-4648-838a-ef9d344233ca",
+    "texto": "(196) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "9b74f4d8-f476-4f4e-a221-fc12f9f55256",
+    "texto": "(197) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "9adb31fc-c022-4101-bcf4-701a62694311",
+    "texto": "(198) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "253ac2fe-cdce-45c8-89a2-18c6107ab989",
+    "texto": "(199) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "bf422b7f-c73e-4f0f-95cd-e20fb5c7de0f",
+    "texto": "(200) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "8789c0ed-0639-4137-9af7-625187e6d57e",
+    "texto": "(201) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "77faddd2-a07d-40ea-b49a-f4641e6698a7",
+    "texto": "(202) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "cc042538-0d6e-49d1-9286-d956aad829a3",
+    "texto": "(203) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "d09a43e4-a891-43ec-a0e4-71f8a7f0897e",
+    "texto": "(204) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "c9a53125-cd4b-408e-bb88-1903de74403c",
+    "texto": "(205) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "0cb7ceb3-3c1a-4e48-b4c1-01c50efcacff",
+    "texto": "(206) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "a20d5b26-98eb-4a06-b414-9eea58912328",
+    "texto": "(207) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "51c20910-f07d-42ef-8b00-ed579193bc7b",
+    "texto": "(208) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "2f30a9dc-eb44-44d2-aa85-0d08caab9ca2",
+    "texto": "(209) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "299c7ae4-e7b6-4fbf-9204-59a95a6d346e",
+    "texto": "(210) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "b87b90e1-6b13-481e-bbdf-376c1e028c41",
+    "texto": "(211) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "88c15d6b-6774-41c2-93e9-6d18ef52488e",
+    "texto": "(212) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "174aeff1-c47d-4bef-a16b-0f63a1a08c42",
+    "texto": "(213) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "67fb5d38-9f76-4a8d-8034-5c9961891ac3",
+    "texto": "(214) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "a80f2d9f-6a56-46b9-9714-1821db9d7ba8",
+    "texto": "(215) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "cd48dc34-f688-4a78-99fc-5c9565d0e737",
+    "texto": "(216) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "a7c16479-4b51-4950-bb68-06f0b225cc16",
+    "texto": "(217) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "0c8e67b4-2da9-49bd-b4af-3f0a524fc4f7",
+    "texto": "(218) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "d28d3bff-d5e0-467e-91dd-e1866c3d9e86",
+    "texto": "(219) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "fac49771-e490-49b6-8f02-9f0529bc0d8f",
+    "texto": "(220) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "58d00997-df21-4be4-b8da-783e5ce7ecfe",
+    "texto": "(221) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "67e2d962-0d79-4658-916e-e9f575c8b4ea",
+    "texto": "(222) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "82d0a93c-33fe-4ff0-9e7c-5a1d83938529",
+    "texto": "(223) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "4879bc3b-c75e-457c-9f05-212e64c908bb",
+    "texto": "(224) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "0b22c967-eb47-47bb-b2e6-de0d424cdfcc",
+    "texto": "(225) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "94a23a9e-e7df-4865-80a9-11496fd22b55",
+    "texto": "(226) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "08dca4ff-1177-46f2-bb0a-a0c4e5a6aa3d",
+    "texto": "(227) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "22ca13ce-dac9-4ddc-9b23-411014c378a6",
+    "texto": "(228) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "223860c8-8438-45dd-b761-226ebc298d89",
+    "texto": "(229) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "2e875e48-20c1-4ae7-a2a1-801fa3778e60",
+    "texto": "(230) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "49b758a7-ea0e-411a-baef-5f39dba951ff",
+    "texto": "(231) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "bb6335fc-5c58-43bd-bf89-3e6d8976dbeb",
+    "texto": "(232) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "93249cf5-c1d6-4229-83b4-77cc908176c6",
+    "texto": "(233) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "17353590-78fe-46af-97aa-e00f1f94d67c",
+    "texto": "(234) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "75723a31-91c8-40e1-a72c-727c2ba5d9da",
+    "texto": "(235) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "113d645e-69ae-4dfe-a9a2-7f933552236d",
+    "texto": "(236) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "6f3fc3a4-0bc8-459c-9aed-e8380ef34576",
+    "texto": "(237) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "b1fc9be2-b906-4ae8-a64f-3314409a560d",
+    "texto": "(238) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "ac25ba29-2d5c-455f-9335-5b4eaa6dba8c",
+    "texto": "(239) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "1742a7fe-9ef7-492a-98da-d5973ddb5594",
+    "texto": "(240) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "589c08d6-3c76-474a-9f8b-4079e303639c",
+    "texto": "(241) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "c4bf982b-32be-4d32-bc10-cf7adfaa1723",
+    "texto": "(242) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "947649af-0b42-4a16-be0f-be7c3be6edcc",
+    "texto": "(243) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "0fa9a61e-b79c-4375-9510-320146aa9e43",
+    "texto": "(244) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "92dadfef-f78e-4cb4-ac1b-f207b41bd3c3",
+    "texto": "(245) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "de96c897-d8f3-4c34-8fb6-e7caa7866d2e",
+    "texto": "(246) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "07e8e678-8b6d-4d86-b136-9a5ce39e8faa",
+    "texto": "(247) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "7c7f39f6-f258-4223-ba3e-575ab934a696",
+    "texto": "(248) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "328f29f9-0d3d-4924-a460-ba5cf9a104bf",
+    "texto": "(249) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "7125ab1f-2e2c-4830-85bf-a2881ec01f22",
+    "texto": "(250) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "702e6378-d4a2-4966-b987-44085a67ffdb",
+    "texto": "(251) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "1fedf6fe-9327-480e-9475-0953927d068c",
+    "texto": "(252) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "aa229dde-513d-4173-adfd-16b4a56bd72a",
+    "texto": "(253) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "d5e3c816-2473-4420-b8ff-cd99a9472445",
+    "texto": "(254) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "184f3e07-b00d-4504-a1b7-bae07365aead",
+    "texto": "(255) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "025a9d77-2afd-4277-aabf-73d90bf6864a",
+    "texto": "(256) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "8423421c-b46b-42a0-ae40-1b3cd344c826",
+    "texto": "(257) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "5fa8d005-94cd-49f3-8756-6c218294f1e3",
+    "texto": "(258) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "3f508107-36f2-45f4-b36e-c2812697472a",
+    "texto": "(259) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "bb8e93fb-1a58-40da-a7a1-8403446d8c07",
+    "texto": "(260) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "1959ab1b-d038-4c80-ac98-f364a6902b22",
+    "texto": "(261) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "4cccb5f5-9e31-4921-a156-7eeba81e6fb7",
+    "texto": "(262) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "b8138cd4-5214-4ca4-93df-94c5b8d76e16",
+    "texto": "(263) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "d316d5c1-ba65-4db3-adb7-ea612dc390c1",
+    "texto": "(264) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "2a40a69d-80c8-4826-a816-c4aa25803b54",
+    "texto": "(265) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "6ea0a8dd-b86d-4b4f-a598-f00d24ab8154",
+    "texto": "(266) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "f1a22e17-e60a-4a21-a03b-e96e543414a6",
+    "texto": "(267) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "0fbdf0c8-fcb8-4627-a535-eac89a3f25f9",
+    "texto": "(268) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "5c5e32af-7767-46f9-83b6-8a2ff190c70b",
+    "texto": "(269) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "2a893a0e-4192-4a8e-96c3-373bb7960723",
+    "texto": "(270) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "6c5624e1-5810-4706-9bf5-d0cf4e062c49",
+    "texto": "(271) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "cbef2467-a8e0-498a-b2bf-e7f43e50168f",
+    "texto": "(272) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "cd3b05e3-d315-41f0-ae86-df13ca8b34c9",
+    "texto": "(273) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "02a2c3b5-c88e-41e8-bbbb-bffe0254f3f2",
+    "texto": "(274) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "ebeabb94-bbfa-4631-a757-a32adc156606",
+    "texto": "(275) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "e3eb89ba-8b44-4b90-af8b-201af3f09789",
+    "texto": "(276) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "f936c5d1-df97-4e40-b291-45488aa04810",
+    "texto": "(277) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "f025eca9-3c91-432d-bf00-48caf8cdcd44",
+    "texto": "(278) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "3242ad31-8cb0-4553-bb31-d20e4291a892",
+    "texto": "(279) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "ca4babec-02b9-4fff-a1d2-19bc08d6c307",
+    "texto": "(280) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "ed605c86-9df1-4512-af32-c24a01f1735c",
+    "texto": "(281) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "2b56d95a-fa52-4498-90c3-7a4b19ebc5f0",
+    "texto": "(282) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "db4e642c-d365-4e8a-a8a6-74908a1316ab",
+    "texto": "(283) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "cb78931e-8b17-45de-93ea-fc305c457f29",
+    "texto": "(284) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "95468456-877c-4024-8b86-613b68e47af3",
+    "texto": "(285) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "0d5c6f23-04df-4612-ba5e-7ce359561a13",
+    "texto": "(286) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "cc5e1313-ddf0-4897-9d96-4baa1e316319",
+    "texto": "(287) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "628cc7da-3fdc-43dc-8f13-ad6cde6f46dc",
+    "texto": "(288) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "1e4a4be7-ab99-4b69-9ea2-48d055ae2d11",
+    "texto": "(289) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "54943c0a-ec5f-4dcd-9909-9061d7e2bfd6",
+    "texto": "(290) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "d0eb951d-5279-4098-a7ae-199c25fa2733",
+    "texto": "(291) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "d25fa475-fc84-4736-8616-ed2ba91776e7",
+    "texto": "(292) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "49789c04-3404-4922-af5d-0acc95777634",
+    "texto": "(293) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "8a3a6491-d15c-4a47-b12d-a51e4e59c26f",
+    "texto": "(294) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "6215eebc-521e-43c1-a598-4562adaa2b27",
+    "texto": "(295) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "ee7249ed-0d1f-40a8-b6db-1e4b3402a894",
+    "texto": "(296) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "2eb901fd-6366-4000-9f01-c5adb70541bf",
+    "texto": "(297) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "239b2d32-f4e0-48d6-ad1e-17a4a1d16f2c",
+    "texto": "(298) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "d4889667-2e7d-4aac-b67e-1f3f21afb3b6",
+    "texto": "(299) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "b52cd308-e74f-4751-a148-3c68b0693ddb",
+    "texto": "(300) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "43bee849-fb4a-46d7-b35e-2a5a85fb6e0f",
+    "texto": "(301) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "26fdd155-7e9f-4b3c-b2e9-a3e53e5d337f",
+    "texto": "(302) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "8b4f59d0-2aaa-45fe-98e9-b1e2177232cd",
+    "texto": "(303) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "631099d3-5590-4505-a9e2-ee61c166fb6f",
+    "texto": "(304) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "9e3f04d3-1fed-4dd4-95cb-a7ffeb53cd9c",
+    "texto": "(305) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "cfae228a-4e12-43ce-95d3-9077b7332366",
+    "texto": "(306) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "eee1a81b-31ba-4a0a-81fc-caf89e442090",
+    "texto": "(307) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "1afd9200-a985-439c-8c01-0f0b7b9bbea8",
+    "texto": "(308) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "653d719e-4e1b-4cc2-beb2-387b4f7dd2e7",
+    "texto": "(309) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "14b6f73d-05b5-478c-adea-f249408a7ccd",
+    "texto": "(310) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "d438ffb0-fe89-46cd-a441-2a70e83b69bd",
+    "texto": "(311) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "4cf7c97c-0112-4da0-bc1c-264ffc880edc",
+    "texto": "(312) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "57e5f8e3-4e69-4ffd-8d0d-691de4ba3699",
+    "texto": "(313) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "81193def-d2b7-4008-83ad-8a3202bafd46",
+    "texto": "(314) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "097b1cf4-7075-4e24-9412-634cb986be03",
+    "texto": "(315) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "db0eb67e-8842-4613-b42e-cf1317ca30c4",
+    "texto": "(316) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "00d80920-75a8-4027-99f3-5d32c2336aee",
+    "texto": "(317) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "b0df67d6-54a3-4cb5-a89c-4a4cfe26dd96",
+    "texto": "(318) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "64f22ec7-35ad-41af-85bd-c9905897c1c8",
+    "texto": "(319) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "69f6544d-a60e-4579-a910-25faccbb068e",
+    "texto": "(320) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "3b3ecbe1-e935-4bbd-98b6-b0048ee12cef",
+    "texto": "(321) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "a5162669-c651-4747-a5c6-da1810a499af",
+    "texto": "(322) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "d4f501fc-3256-4216-a3e5-c1456383e4c4",
+    "texto": "(323) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "58e84cb6-372f-4f69-b584-3d0c8af5f427",
+    "texto": "(324) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "533f4e26-7c76-485c-908d-50363db185f7",
+    "texto": "(325) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "43646dec-c502-4ec3-a977-0c84fe0469de",
+    "texto": "(326) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "a80924fe-19cc-4191-934c-506e3e37b97e",
+    "texto": "(327) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "6bf5666a-90bf-4f07-8ab8-434ecdafd088",
+    "texto": "(328) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "855d6458-b2c7-45c8-90aa-42ffa1b86b29",
+    "texto": "(329) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "cef249b7-dc2d-4dcc-b251-990be6a047cc",
+    "texto": "(330) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "f8c99936-547f-4f4e-b13f-8f51f38861a9",
+    "texto": "(331) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "b59df975-7b6a-4905-871e-8da5c48c0232",
+    "texto": "(332) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "fe3771c5-2882-427d-8f1b-6c49e63253eb",
+    "texto": "(333) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "2058000d-be65-4fd7-8adc-99b6c3395c00",
+    "texto": "(334) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "f4e45816-e5f9-403d-b21b-5c892ca8dd79",
+    "texto": "(335) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "8eb2b661-46e5-4add-a0d1-230f13586d69",
+    "texto": "(336) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "8d7018c5-417f-4738-a84d-33a9269ab200",
+    "texto": "(337) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "ee50a4e0-f0cc-4d09-9674-7d1a1ba2b29c",
+    "texto": "(338) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "946a88ef-4493-4d88-bc2c-4a1b10d363c5",
+    "texto": "(339) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "5d300738-2cd5-434e-9b5d-8cd5847a6b34",
+    "texto": "(340) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "a5555a2e-4c26-4439-bcce-0ce7800ca686",
+    "texto": "(341) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "e9c30adc-ebf3-4c00-b655-976fbee82c44",
+    "texto": "(342) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "10f48089-542c-4645-949e-752faa967c5b",
+    "texto": "(343) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "8c847fcb-9d45-46a7-9e82-34f306246921",
+    "texto": "(344) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "858a301a-2ab6-41f1-9f21-d078265f64f5",
+    "texto": "(345) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "654645ac-a30f-40ff-a59e-95267eeb57f9",
+    "texto": "(346) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "c2a719df-5f62-4994-8540-56f3c4b5ee88",
+    "texto": "(347) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "16bb5632-40ea-4460-be36-3c9929efa08d",
+    "texto": "(348) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "2f3add37-2777-4288-8b2a-a82587a98c4f",
+    "texto": "(349) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "5b829e12-f54a-4dcf-a06a-4dbbff046345",
+    "texto": "(350) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "47bc4929-8a1b-463a-9924-6d42242dda68",
+    "texto": "(351) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "b391db75-c519-4347-8796-08099f21ccfd",
+    "texto": "(352) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "4cfd7d28-74fc-4f9e-a381-56f8c6581248",
+    "texto": "(353) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "e4ecdc94-5f24-45af-a02c-bf8b7c50ea2a",
+    "texto": "(354) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "df268ce3-3efb-4494-a640-238650b0b856",
+    "texto": "(355) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "234931f0-8f3a-4939-a641-42fdb8b006a2",
+    "texto": "(356) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "84b038d3-baaa-4331-8762-657e54017965",
+    "texto": "(357) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "9baf4aac-c572-4017-92da-4239320f7fb2",
+    "texto": "(358) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "a6d9f183-7af7-4483-aa84-3d7bc61d985f",
+    "texto": "(359) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "e44edc7c-1cc1-4d53-b221-82ade2c86e04",
+    "texto": "(360) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "41b2c287-f95b-4b3b-b4ee-190cfe96ad38",
+    "texto": "(361) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "cd8e0d27-74cf-4efe-a87e-3565fc7789ff",
+    "texto": "(362) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "d59a92a8-7059-47a3-9383-6451357259af",
+    "texto": "(363) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "92cbd75f-40e2-4b5b-a82b-5ffa34ef7371",
+    "texto": "(364) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "e09c9f72-c72a-4086-a818-a927759e6a1f",
+    "texto": "(365) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "08b6f256-f9cc-482f-80e0-285a54174ea1",
+    "texto": "(366) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "34142094-3706-4fa7-b529-3d330156dfdb",
+    "texto": "(367) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "2cc47260-b2bd-4246-93e5-42e0a55cbbde",
+    "texto": "(368) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "15a81e0c-7d5f-434d-a6d2-faa5c1e15e21",
+    "texto": "(369) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "ee62f6cb-b3f0-476d-9e7c-f726473ede93",
+    "texto": "(370) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "187225f6-6c6f-4742-9a4e-bd2981f67c8b",
+    "texto": "(371) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "116445cb-bbd7-45f5-a649-2bb47454c8d0",
+    "texto": "(372) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "8183779d-ba17-4cd2-a995-292ba8c58a6a",
+    "texto": "(373) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "a42e3791-cbcc-4c49-96a0-a7f17112a02f",
+    "texto": "(374) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "9ffc687d-b832-4a86-b650-4f978efa351b",
+    "texto": "(375) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "3c6b24f3-8dfa-40d3-b83f-5df3bd9e1e65",
+    "texto": "(376) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "d446b0a9-09ea-43a9-aeed-0cc63a7b1c16",
+    "texto": "(377) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "8ae69481-3b58-42ad-aedf-c8cb3f40a3f2",
+    "texto": "(378) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "c9ecaa83-a4eb-41fc-86b5-4c8f45729b1e",
+    "texto": "(379) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "65be491e-af96-4ed8-ab54-29bb17bcb75d",
+    "texto": "(380) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "b876366e-812e-4742-bd8e-5e8f157e2427",
+    "texto": "(381) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "5861fa66-85c1-44ea-b189-25ed569f8182",
+    "texto": "(382) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "b1d7c62c-6aec-4e80-ad99-eda2fe8443da",
+    "texto": "(383) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "1d4666a2-fc52-4eae-8bbf-f9d0eb7e1799",
+    "texto": "(384) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "94fc487c-2bca-4c3e-8b14-0684d0770d5f",
+    "texto": "(385) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "12dd59c5-a8c3-45d3-ac71-0bf3df8d4710",
+    "texto": "(386) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "0207bb4b-96bf-4ffa-8936-b050fade5ad0",
+    "texto": "(387) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "c412c2a6-d5b7-4a37-9c0a-09ab3db68b69",
+    "texto": "(388) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "6819a245-c081-48a8-9021-27e4b8263c9d",
+    "texto": "(389) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "5e7d7365-9d1e-4e56-b120-d2ade6a6eca6",
+    "texto": "(390) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "545cfb0f-b4cc-44b0-9028-d9ed47503884",
+    "texto": "(391) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "687635aa-1da6-42a3-aaf8-608419ce0fac",
+    "texto": "(392) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "04d3ecd9-f13c-447e-bd85-f95a9bcd98b1",
+    "texto": "(393) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "06cf897c-abb5-4e54-9004-ab9f514be943",
+    "texto": "(394) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "0261cea4-1652-418a-9392-a08e6347724a",
+    "texto": "(395) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "00fe2c26-f880-4885-8038-25b2cdc0bed7",
+    "texto": "(396) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "4329c424-8641-4d35-8b5c-d5262729a00d",
+    "texto": "(397) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "deb00e5c-8f35-4204-9a6d-2da394a76414",
+    "texto": "(398) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "69eeade7-6749-4586-876f-aca478d2b6cb",
+    "texto": "(399) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "f62b2374-4b02-4682-8baf-a07911a0287b",
+    "texto": "(400) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "b6b39e80-8c77-42f0-bac1-d6fceb8569b4",
+    "texto": "(401) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "c534680e-5714-4cef-9881-4d6e46a81e8f",
+    "texto": "(402) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "87320969-c272-4dd3-8d52-b0c50559b173",
+    "texto": "(403) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "5c3e486d-0cc0-4b43-b212-11c4ad9fd2ea",
+    "texto": "(404) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "c0d64e35-2955-4ce9-80cf-d128cb00c757",
+    "texto": "(405) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "6f970fef-9c43-4903-a6c9-38f391debcd3",
+    "texto": "(406) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "f3dbd513-576a-4fa8-b69c-5e9eae1f2dab",
+    "texto": "(407) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "b6cfd79c-eff3-4aab-b521-d4009054c006",
+    "texto": "(408) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "3bc67875-50ca-4d85-ace1-9ce23772ca7d",
+    "texto": "(409) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "c6db16af-bb69-45b6-b9d4-7bc14ecee9eb",
+    "texto": "(410) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "1b85362d-31bd-4169-af88-6f86a2658240",
+    "texto": "(411) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "46ac0c73-de9c-4038-b9af-d66b966b7353",
+    "texto": "(412) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "446d3ff4-fc18-407a-8447-81d8a9f1bf6a",
+    "texto": "(413) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "8974c51f-e1f6-40e9-859f-a0c02b103b88",
+    "texto": "(414) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "7ee8cc43-6259-46cf-b4ea-f770e7970fad",
+    "texto": "(415) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "6092df42-a4fd-48d5-adc2-498c91595ada",
+    "texto": "(416) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "9a97777f-a066-44ea-b694-3e04f00d4409",
+    "texto": "(417) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "543cb146-a3f6-42ed-b700-3b41b9e5ecfa",
+    "texto": "(418) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "fc4d50ff-7074-4552-b40b-6b7aa8676515",
+    "texto": "(419) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "640d2ed6-7800-4ae2-ada7-81d562566b92",
+    "texto": "(420) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "aa114dbd-e090-44d7-8e11-e6e004d1c2cc",
+    "texto": "(421) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "ebca8f2c-0609-4211-b09b-c62108d67656",
+    "texto": "(422) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "23c58ebc-e7f6-46c3-b648-77e815e56c41",
+    "texto": "(423) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "d74cdae7-43ee-4cbb-b394-ebcd4258d3b9",
+    "texto": "(424) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "a34528f7-35a9-4e1c-bb2c-8ba4a2ce068d",
+    "texto": "(425) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "c1854870-8bd7-4bce-b5f0-c2ed0a06ca4b",
+    "texto": "(426) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "5c0849f0-1f55-4d87-a51c-239667ae9a14",
+    "texto": "(427) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "b735e17d-3264-4c62-bc32-3b8668064aae",
+    "texto": "(428) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "2736a788-b72d-4650-9327-3be072a15d0a",
+    "texto": "(429) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "047e607b-20fc-44ca-a1f2-88ed17d4f494",
+    "texto": "(430) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "6ad61c0a-5f3f-4ba6-8b21-86a7265e8db3",
+    "texto": "(431) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "ee943c43-0a84-48ef-b2d9-29bfb12cbe20",
+    "texto": "(432) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "a93b3bdc-1c3c-4c1d-adb2-6ef9abef2b4c",
+    "texto": "(433) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "c832aed4-7c52-4cec-9cd0-c3f760988604",
+    "texto": "(434) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "942c5c5e-56f1-46c8-9ff7-dbe97bc97d1c",
+    "texto": "(435) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "29e52073-d9c7-4e51-92c3-27662d8be2c6",
+    "texto": "(436) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "92c87ea1-2402-49d7-91df-0a1274ef2b9a",
+    "texto": "(437) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "d47da2b4-2714-4844-8d1f-682cd76112a6",
+    "texto": "(438) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "e2fb7ad9-a352-492f-8c94-016b739d0f86",
+    "texto": "(439) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "613caacd-366b-4feb-8d43-13d2ec25ba58",
+    "texto": "(440) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "9fa55632-c28d-4fff-b447-91d145e9df27",
+    "texto": "(441) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "c4c04c1e-3116-49c9-9e0c-fb8604589dd8",
+    "texto": "(442) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "f99ceb9a-3247-4a04-b507-06c7c1689bb1",
+    "texto": "(443) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "d615e010-6844-47ff-8c95-85bd925a487f",
+    "texto": "(444) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "c3b12eb4-6e60-4df4-b73b-c30bf24adf03",
+    "texto": "(445) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "12d4bd3f-da1a-4720-b707-f03fc8b04b29",
+    "texto": "(446) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "02fd20e4-82be-41e8-bb8f-5caf79996792",
+    "texto": "(447) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "c0c721a0-bb40-4e39-9df8-5f98c5994d40",
+    "texto": "(448) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "4863ec0f-654f-4ecf-b4bf-89a88e92ecb4",
+    "texto": "(449) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "de20ba93-524e-4f37-a182-bda8128769ef",
+    "texto": "(450) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "b0647422-6ac8-4479-864d-a619d389b9b8",
+    "texto": "(451) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "decc1fbd-7c16-4d29-8717-512d9b6074de",
+    "texto": "(452) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "d8a74441-b2a8-4aed-a7dd-b1f400a49210",
+    "texto": "(453) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "502b8b99-d7b1-4030-992b-e1955519220f",
+    "texto": "(454) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "83908439-d1e8-4320-8a9c-70db6deb1057",
+    "texto": "(455) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "fd2a9d55-a16e-4319-8973-048dab7a64dd",
+    "texto": "(456) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "042d6085-d2d6-4c83-9efa-21d8679dcf29",
+    "texto": "(457) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "525fbbdd-2089-46f6-9aa9-5ee314438fc8",
+    "texto": "(458) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "51702deb-19f6-41e7-9c8c-2a062cea816f",
+    "texto": "(459) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "89627de2-d22d-4f74-960f-785c1fb9f879",
+    "texto": "(460) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "a965b6c6-cf7b-4eb4-8b72-6ecf65721654",
+    "texto": "(461) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "e150f2e7-14f1-4551-9564-b15d1501b2d7",
+    "texto": "(462) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "2323aed6-bfe5-4473-ac71-375e99eb7c2e",
+    "texto": "(463) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "1409b9c1-73a8-4467-b52f-d8218faabcf3",
+    "texto": "(464) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "5505f3b4-df16-43cc-81f5-2f2917662fb0",
+    "texto": "(465) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "fd72f1c8-4a88-4d7b-b3a2-888664d95101",
+    "texto": "(466) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "c1c4bfc5-c451-4b7a-a699-ba0f7bd0b567",
+    "texto": "(467) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "4ad9997f-34d5-4f4c-bd39-2730d7c216fa",
+    "texto": "(468) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "07dad387-54dd-4734-b1fd-e12fa4522e38",
+    "texto": "(469) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "822a9cfe-358a-42b8-9445-f7dd0c1f6acb",
+    "texto": "(470) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "5c017993-1d92-4cb5-87a7-6cd5b4af5707",
+    "texto": "(471) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "ba4c8403-4194-4989-bc6d-aed3f17af600",
+    "texto": "(472) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "65fabe44-cd8c-433e-b18e-a1354be4ae0e",
+    "texto": "(473) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "cabb4251-29c8-4f14-a7fc-d70caf46f4dd",
+    "texto": "(474) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "798546ff-bd1f-440c-b6d9-ccd4f34cef8b",
+    "texto": "(475) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "4a35c6ad-07d0-4bc8-830e-1727f37c7c8b",
+    "texto": "(476) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "fb7dbed5-65d7-436b-a89b-b64fbfbf6fab",
+    "texto": "(477) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "8aa34389-b02c-496e-a48f-cf509acecde4",
+    "texto": "(478) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "37f9697e-505b-4128-9120-790d2c83120d",
+    "texto": "(479) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "20b1ef17-7a82-455f-b086-6b7f8b50f477",
+    "texto": "(480) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "039fa7bf-1d6b-477e-aaf8-5dc6d798927a",
+    "texto": "(481) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "c6f31779-c379-46eb-8d45-980ff447690a",
+    "texto": "(482) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "60252473-e229-4a1a-86ef-7d58e7f29065",
+    "texto": "(483) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "81cc22e0-2319-49bd-b7b2-6fc9609a523d",
+    "texto": "(484) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "12240011-438f-467b-9871-cc323e412087",
+    "texto": "(485) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "ca79f44c-7e3c-4598-a601-0d9709c4e5f5",
+    "texto": "(486) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "a8474d48-41ae-46f5-a7ed-49a4cfb4dda9",
+    "texto": "(487) Sugestão: uma integração com as letras das músicas seria perfeita."
+  },
+  {
+    "id": "91800e0c-a150-40b9-b446-fe1a454e3065",
+    "texto": "(488) O som está estourado nesse álbum, a mixagem poderia ser melhor."
+  },
+  {
+    "id": "e476478f-1c9a-4bcb-a20d-62f4e25c5471",
+    "texto": "(489) Essa batida é viciante! Perfeita para treinar."
+  },
+  {
+    "id": "15f9013d-f8c5-4085-9107-a19a5d958893",
+    "texto": "(490) Dúvida: Onde eu encontro a agenda de shows atualizada?"
+  },
+  {
+    "id": "ba884c4d-f3cf-413f-a70c-f5657103bbd9",
+    "texto": "(491) Comprem agora o novo hit do verão! Link na bio!"
+  },
+  {
+    "id": "827dea07-d66d-44b6-ad0c-8492a5b8fd8c",
+    "texto": "(492) A colaboração (feat) entre esses dois artistas foi inesperada, mas funcionou muito bem."
+  },
+  {
+    "id": "7911cbc0-9813-4f3b-a752-74b1a62442b6",
+    "texto": "(493) O autotune está muito exagerado nessa faixa, prefiro a voz natural dele."
+  },
+  {
+    "id": "aeca7b3d-41a5-43b6-842b-0c21131a995d",
+    "texto": "(494) A duração do show foi muito curta, fiquei querendo mais."
+  },
+  {
+    "id": "7d7ea4f7-80e3-4559-ac97-e7527f111d54",
+    "texto": "(495) Amei a nova música! A produção está incrível e a melodia não sai da minha cabeça."
+  },
+  {
+    "id": "6faf1d08-0a93-4ff5-ae1d-f48c3323ae4d",
+    "texto": "(496) O clipe dessa banda é sempre uma obra de arte. A narrativa visual é fantástica."
+  },
+  {
+    "id": "ba4f5801-06cd-4802-b647-1fcbf8bf7f03",
+    "texto": "(497) Achei a letra um pouco fraca, esperava mais profundidade do artista."
+  },
+  {
+    "id": "330bb2a1-7d6b-40c3-96b6-99666f12f52a",
+    "texto": "(498) O show foi insano! A energia da banda ao vivo é contagiante."
+  },
+  {
+    "id": "b3f353ef-9e8c-4eb3-b63b-ef26dc43cf2b",
+    "texto": "(499) Por que a plataforma não tem um modo offline para ouvir as playlists?"
+  },
+  {
+    "id": "eef0e935-c55d-45cb-b185-b5a347bd4455",
+    "texto": "(500) Sugestão: uma integração com as letras das músicas seria perfeita."
+  }
+]
