@@ -6,6 +6,7 @@ from app.models.user import Usuario
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.extensions import celery
 from flask import Response 
+from app.models.summary import WeeklySummary
 import json
 import uuid
 from werkzeug.utils import secure_filename
@@ -244,3 +245,25 @@ def get_comentario_por_id(comentario_id):
     }
     
     return jsonify(resultado), 200
+
+@api_bp.route('/insights/perguntar', methods=['POST'])
+@jwt_required()
+def ask_insight_question():
+    data = request.get_json()
+    question = data.get("pergunta")
+    if not question:
+        return jsonify({"erro": "A pergunta é obrigatória."}), 400
+
+    recent_summaries = db.session.query(WeeklySummary).order_by(WeeklySummary.created_at.desc()).limit(3).all()
+    if not recent_summaries:
+        return jsonify({"erro": "Não há resumos semanais suficientes para responder."}), 404
+
+    from app.core.llm_service import answer_question_with_context
+    context = "\n\n".join([f"**Resumo da Semana {s.start_date.strftime('%Y-W%U')}**:\n{s.summary_text}" for s in recent_summaries])
+    source_weeks = [s.start_date.strftime('%Y-W%U') for s in recent_summaries]
+    generated_text = answer_question_with_context(question, context)
+
+    return jsonify({
+        "texto_gerado": generated_text,
+        "semanas_citadas": source_weeks
+    }), 200
