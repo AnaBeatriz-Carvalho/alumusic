@@ -217,7 +217,7 @@ graph TD
     D -- "2. Envia Pergunta + Contexto" --> H
     H -- "3. Retorna Resposta" --> D
     D -- "4. Devolve Resposta JSON" --> B
-
+```
 ---
 
 ## 7. 📊 Funcionalidades Extras
