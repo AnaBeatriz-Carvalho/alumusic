@@ -1,24 +1,18 @@
-version: '3.9'
-
 services:
   api:
     build: .
     image: alumusic-app
     container_name: alumusic_api
+    restart: unless-stopped
     ports:
       - "5001:5000"
     env_file:
       - .env
     environment:
       - FLASK_APP=app
-    # API só roda o servidor, nada de migrate/upgrade aqui
     command: >
       sh -c "gunicorn --bind 0.0.0.0:5000 'app:create_app()'"
     depends_on:
-      alumusic:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
       migrate:
         condition: service_completed_successfully
 
@@ -35,7 +29,21 @@ services:
   worker:
     image: alumusic-app
     container_name: alumusic_worker
+    restart: unless-stopped
     command: celery -A celery_worker.celery worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      redis:
+        condition: service_healthy
+
+  beat:
+    image: alumusic-app
+    container_name: alumusic_beat
+    restart: unless-stopped
+    command: celery -A celery_beat.celery beat --loglevel=info
     env_file:
       - .env
     depends_on:
@@ -43,12 +51,11 @@ services:
         condition: service_healthy
       alumusic:
         condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
 
   streamlit:
     image: alumusic-app
     container_name: alumusic_front
+    restart: unless-stopped
     ports:
       - "8501:8501"
     env_file:
@@ -57,14 +64,19 @@ services:
     depends_on:
       api:
         condition: service_started
-      alumusic:
-        condition: service_healthy
-      migrate:
-        condition: service_completed_successfully
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: alumusic_mailhog
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # Porta SMTP
+      - "8025:8025" # Interface Web
 
   alumusic:
     image: postgres:16
     container_name: alumusic
+    restart: unless-stopped
     env_file:
       - .env
     volumes:
@@ -73,18 +85,23 @@ services:
       - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
 
   redis:
     image: redis:7-alpine
     container_name: alumusic_redis
+    restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
   postgres_data:
+
+
+
+
