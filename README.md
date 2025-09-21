@@ -56,6 +56,14 @@ CELERY_RESULT_BACKEND=redis://redis:6379/0
 
 # Google Gemini API key (LLM)
 GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+
+# --- Configurações de E-mail para Resumo Semanal (para MailHog) ---
+SMTP_SERVER=mailhog
+SMTP_PORT=1025
+SMTP_USER=""
+SMTP_PASSWORD=""
+SENDER_EMAIL=noreply@alumusic.com
+
 ```
 
 ### Passos para Execução
