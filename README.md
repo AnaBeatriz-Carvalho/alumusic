@@ -166,54 +166,57 @@ alumusic/
 
 ```mermaid
 graph TD
+
     subgraph "Navegador do Utilizador"
-        B[Dashboard Streamlit]
+        B["Dashboard Streamlit"]
     end
+
     subgraph "Infraestrutura Docker"
-        D[API Flask]
-        E[Worker Celery]
-        J[Agendador (Beat)]
-        F[Banco de Dados (PostgreSQL)]
-        G[Fila e Cache (Redis)]
-        M[Capturador de E-mail (MailHog)]
+        D["API Flask"]
+        E["Worker Celery"]
+        J["Agendador (Beat)"]
+        F["Banco de Dados (PostgreSQL)"]
+        G["Fila e Cache (Redis)"]
+        M["Capturador de E-mail (MailHog)"]
     end
+
     subgraph "Serviço Externo"
-        H[API Google Gemini]
+        H["API Google Gemini"]
     end
+
     subgraph "Ambiente de Teste"
-        A[Testes Pytest]
+        A["Testes Pytest"]
     end
 
     %% Fluxo Principal de Análise de Comentários
-    B -- Upload de Ficheiro / Texto c/ JWT --> D[/api/llm/analyze]
-    A -- Lote de JSON c/ JWT --> D[/api/comentarios]
-    D -- Enfileira Tarefa de Classificação --> G
+    B -- "Upload de Ficheiro / Texto c/ JWT" --> D["/api/llm/analyze"]
+    A -- "Lote de JSON c/ JWT" --> D["/api/comentarios"]
+    D -- "Enfileira Tarefa de Classificação" --> G
 
-    E -- Pega Tarefa de Classificação --> G
-    E -- 1. Envia Texto para Análise --> H
-    H -- 2. Retorna Classificação --> E
-    E -- 3. Salva Resultado --> F[Comentários]
+    E -- "Pega Tarefa de Classificação" --> G
+    E -- "1. Envia Texto para Análise" --> H
+    H -- "2. Retorna Classificação" --> E
+    E -- "3. Salva Resultado" --> F["Comentários"]
 
     %% Fluxo do Relatório Público
-    B -- Requisição Pública --> D[/api/relatorio/semana]
-    D -- Lê Cache do Relatório --> G
-    
+    B -- "Requisição Pública" --> D["/api/relatorio/semana"]
+    D -- "Lê Cache do Relatório" --> G
+
     %% Fluxo do Resumo Semanal (Agendado)
-    J -- 1. Aciona Tarefa Semanal --> G
-    E -- 2. Pega Tarefa de Resumo --> G
-    E -- 3. Lê Comentários da Semana --> F
-    E -- 4. Envia Comentários para Resumo --> H
-    H -- 5. Retorna Resumo Gerado --> E
-    E -- 6. Salva Resumo --> F[Resumos Semanais]
-    E -- 7. Envia E-mail --> M
+    J -- "1. Aciona Tarefa Semanal" --> G
+    E -- "2. Pega Tarefa de Resumo" --> G
+    E -- "3. Lê Comentários da Semana" --> F
+    E -- "4. Envia Comentários para Resumo" --> H
+    H -- "5. Retorna Resumo Gerado" --> E
+    E -- "6. Salva Resumo" --> F["Resumos Semanais"]
+    E -- "7. Envia E-mail" --> M
 
     %% Fluxo do Insights Q&A
-    B -- Pergunta em Linguagem Natural c/ JWT --> D[/api/insights/perguntar]
-    D -- 1. Busca Últimos Resumos --> F
-    D -- 2. Envia Pergunta + Contexto --> H
-    H -- 3. Retorna Resposta --> D
-    D -- 4. Devolve Resposta JSON --> B
-```
+    B -- "Pergunta em Linguagem Natural c/ JWT" --> D["/api/insights/perguntar"]
+    D -- "1. Busca Últimos Resumos" --> F
+    D -- "2. Envia Pergunta + Contexto" --> H
+    H -- "3. Retorna Resposta" --> D
+    D -- "4. Devolve Resposta JSON" --> B
 
 ---
 
