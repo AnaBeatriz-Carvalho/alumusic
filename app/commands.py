@@ -42,7 +42,6 @@ def register_commands(app):
             usuario = Usuario(email="curador@alumusic.com")
             usuario.set_password("senha123")
             db.session.add(usuario)
-            # 👇 CORREÇÃO: Salva o novo utilizador imediatamente para gerar o seu ID
             db.session.commit()
             print(">>> Utilizador de teste criado com sucesso.")
         

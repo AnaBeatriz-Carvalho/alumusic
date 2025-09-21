@@ -6,7 +6,6 @@ def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config_by_name[config_name])
 
-    # Inicializa as extensões
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
@@ -19,7 +18,6 @@ def create_app(config_name='default'):
                 return self.run(*args, **kwargs)
     celery.Task = ContextTask
     
-    # Registra os Blueprints
     from .api import api_bp
     from .auth import auth_bp
     from .public import public_bp
@@ -27,7 +25,7 @@ def create_app(config_name='default'):
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(public_bp, url_prefix='/api')
-    
+
     from . import commands
     commands.register_commands(app)
 

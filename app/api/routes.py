@@ -11,9 +11,7 @@ import json
 import csv
 from werkzeug.utils import secure_filename
 
-# =====================================================================
-# ROTA DE INGESTÃO VIA UPLOAD OU TEXTO BRUTO
-# =====================================================================
+# Rota para análise de texto via LLM (envio de arquivo ou texto bruto)
 @api_bp.route('/llm/analyze', methods=['POST'])
 @jwt_required()
 def llm_analyze():
@@ -66,9 +64,7 @@ def llm_analyze():
         "ids_enfileirados": ids_enfileirados
     }), 202
 
-# =====================================================================
-# ROTA DE INGESTÃO DE COMENTÁRIOS (VIA JSON)
-# =====================================================================
+# Rota para adicionar comentários via JSON (único ou lista)
 @api_bp.route('/comentarios', methods=['POST'])
 @jwt_required()
 def adicionar_comentarios():
@@ -105,9 +101,7 @@ def adicionar_comentarios():
         "ids_enfileirados": ids_enfileirados
     }), 202
 
-# =====================================================================
-# ROTA DE CONSULTA DE COMENTÁRIOS (GERAL)
-# =====================================================================
+# Rota de listagem de comentários com filtros e opção de exportação
 @api_bp.route('/comentarios', methods=['GET'])
 @jwt_required()
 def listar_comentarios():
@@ -138,9 +132,7 @@ def listar_comentarios():
     else:
         return jsonify({"comentarios": resultado}), 200
     
-# =====================================================================
-# ROTA DE CONSULTA DE UM ÚNICO COMENTÁRIO
-# =====================================================================
+# Rota de consulta de comentário por ID
 @api_bp.route('/comentarios/<uuid:comentario_id>', methods=['GET'])
 @jwt_required()
 def get_comentario_por_id(comentario_id):
@@ -155,9 +147,7 @@ def get_comentario_por_id(comentario_id):
     }
     return jsonify(resultado), 200
 
-# =====================================================================
-# ROTA PARA A FUNCIONALIDADE DE Q&A
-# =====================================================================
+# Rota para fazer perguntas sobre os resumos semanais
 @api_bp.route('/insights/perguntar', methods=['POST'])
 @jwt_required()
 def ask_insight_question():
@@ -180,9 +170,7 @@ def ask_insight_question():
         "semanas_citadas": source_weeks
     }), 200
 
-# =====================================================================
-# ROTA PARA GERENCIAMENTO DE STAKEHOLDERS
-# =====================================================================
+# Endpoint para gerenciar stakeholders 
 @api_bp.route('/stakeholders', methods=['GET'])
 @jwt_required()
 def get_stakeholders():

@@ -75,7 +75,6 @@ def classificar_comentario(texto: str) -> dict:
 
 def generate_weekly_summary(comments_data: list) -> str:
     all_comments_text = "\n- ".join(comments_data)
-    # 👇 CORREÇÃO: A sintaxe f-string foi corrigida de f\"\"\" para f"""
     summary_prompt = f"""
     Você é um analista de dados sênior... (seu prompt de resumo)
     Comentários da semana:
@@ -90,7 +89,6 @@ def generate_weekly_summary(comments_data: list) -> str:
         return "Não foi possível gerar o resumo devido a um erro na análise de IA."
 
 def answer_question_with_context(question: str, context: str) -> str:
-    # 👇 CORREÇÃO: A sintaxe f-string foi corrigida de f\"\"\" para f"""
     qa_prompt = f"""
     Você é um assistente de IA da AluMusic... (seu prompt de Q&A)
     Contexto: {context}

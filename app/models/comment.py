@@ -7,12 +7,10 @@ class Comentario(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     texto = db.Column(db.Text, nullable=False)
     data_recebimento = db.Column(db.DateTime, server_default=db.func.now())
-    
-    # Colunas para armazenar o resultado da classificação
     categoria = db.Column(db.String(50), nullable=True)
     confianca = db.Column(db.Float, nullable=True)
     
-    # Coluna CRÍTICA para o fluxo assíncrono
+    
     status = db.Column(db.String(20), nullable=False, default='PENDENTE') # FLUXO: PENDENTE -> PROCESSANDO -> CONCLUIDO -> FALHOU
     
     # Chave estrangeira e relacionamento
