@@ -5,7 +5,7 @@ import json
 import base64
 from streamlit_autorefresh import st_autorefresh
 
-# Configuração inicial da página
+# --- CONFIGURAÇÃO DA PÁGINA E ESTILO ---
 st.set_page_config(
     page_title="AluMusic Insights",
     layout="wide",
@@ -13,246 +13,232 @@ st.set_page_config(
 )
 
 def load_css(file_path):
-    # Função para carregar um arquivo CSS e aplicá-lo ao Streamlit
+    """Lê um arquivo CSS e o injeta na aplicação."""
     try:
-        with open(file_path) as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        with open(file_path, "r", encoding="utf-8") as f:
+            css = f.read()
+        st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
     except FileNotFoundError:
-        st.error(f"Arquivo de estilo não encontrado em: {file_path}")
+        st.warning(f"Arquivo CSS não encontrado: {file_path}")
 
-# Carregando o CSS
 load_css("assets/style.css")
 
+# --- VARIÁVEIS GLOBAIS ---
 API_URL = "http://api:5000"
 
-# Gerenciamento de estado da sessão
-if "token" not in st.session_state:
-    st.session_state.token = None
-if "email" not in st.session_state:
-    st.session_state.email = None
-# counter used to create fresh widget keys so the uploader/text area can be cleared
-if 'llm_upload_counter' not in st.session_state:
-    st.session_state['llm_upload_counter'] = 0
+# --- GERENCIAMENTO DE SESSÃO ---
+if "token" not in st.session_state: st.session_state.token = None
+if "email" not in st.session_state: st.session_state.email = None
+if 'uploader_key' not in st.session_state: st.session_state.uploader_key = 0
 
-# Funções para cada página
+# --- FUNÇÕES DAS ABAS E PÁGINAS ---
+
 def show_login_register():
-    # Card principal
-    st.markdown('<div class="auth-card">', unsafe_allow_html=True)
-
-    # título dentro do card
-    st.markdown("## 🔑 Acesso da Equipe de Curadoria")
-
-    # abas de login/registro
+    """Exibe os formulários de login e registro em abas."""
+    st.markdown("### 🔑 Acesso da Equipe de Curadoria")
     login_tab, register_tab = st.tabs(["Entrar", "Registrar"])
 
     with login_tab:
         with st.form("login_form"):
             email = st.text_input("Email", placeholder="voce@alumusic.com")
             password = st.text_input("Senha", type="password")
-            submit = st.form_submit_button("Entrar")
-            if submit:
+            if st.form_submit_button("Entrar"):
                 try:
                     resp = requests.post(f"{API_URL}/auth/login", json={"email": email, "password": password})
                     if resp.status_code == 200:
                         st.session_state.token = resp.json()["access_token"]
                         st.session_state.email = email
-                        st.success("✅ Login realizado com sucesso!")
+                        st.success("Login realizado com sucesso!")
                         st.rerun()
                     else:
-                        st.error("❌ Usuário ou senha inválidos.")
+                        st.error("Usuário ou senha inválidos.")
                 except requests.exceptions.ConnectionError:
-                    st.error("⚠️ Não foi possível conectar à API.")
+                    st.error("Não foi possível conectar à API.")
 
     with register_tab:
         with st.form("register_form"):
             email = st.text_input("Email para registro", placeholder="novo.membro@alumusic.com")
             password = st.text_input("Crie uma senha", type="password")
-            submit = st.form_submit_button("Registrar")
-            if submit:
+            if st.form_submit_button("Registrar"):
                 try:
                     resp = requests.post(f"{API_URL}/auth/register", json={"email": email, "password": password})
                     if resp.status_code == 201:
-                        st.success("🎉 Usuário registrado! Agora você pode fazer login.")
+                        st.success("Usuário registrado! Agora pode fazer login.")
                     else:
                         st.error(f"Erro ao registrar: {resp.text}")
                 except requests.exceptions.ConnectionError:
-                    st.error("⚠️ Não foi possível conectar à API.")
+                    st.error("Não foi possível conectar à API.")
 
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-
-def show_dashboard():
+def show_history_analysis(headers):
+    """Exibe a aba de Histórico e Análise."""
     st_autorefresh(interval=30000, key="data_refresh")
-    st.markdown("## 📊 Dashboard de Análise")
-    st.caption(f"Bem-vindo(a), {st.session_state.email}")
-
     with st.container():
-        st.subheader("⚙️ Ferramentas de Análise")
+        st.subheader("⚙️ Ferramentas de Análise de Histórico")
         col1, col2, col3 = st.columns(3)
         with col1:
-            search_query = st.text_input("Buscar por texto no comentário:", key="search_dash")
+            search_query = st.text_input("Buscar por texto no comentário:")
         with col2:
-            status_filter = st.multiselect(
-                "Filtrar por Status:",
-                options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"]
-            )
+            status_filter = st.multiselect("Filtrar por Status:", options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"])
         with col3:
-            category_filter = st.multiselect(
-                "Filtrar por Categoria:",
-                options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"]
-            )
-
-    # --- Upload para análise por LLM ---
-    st.markdown("---")
-    st.subheader("🧠 Analisar com LLM (CSV/JSON ou texto)")
-    upload_col1, upload_col2 = st.columns([2,1])
-    # Use a counter-based dynamic key so we can force a fresh widget (clearing previous value)
-    counter = st.session_state.get('llm_upload_counter', 0)
-    uploader_key = f"llm_upload_file_{counter}"
-    raw_text_key = f"llm_raw_text_{counter}"
-    uploaded_file = upload_col1.file_uploader(
-        "Arraste um arquivo .csv ou .json aqui (coluna 'texto' ou array de objetos)",
-        type=['csv','json'],
-        key=uploader_key
-    )
-    raw_text = upload_col2.text_area("Ou cole um texto para analisar (campo 'text')", height=150, key=raw_text_key)
-
-    # Um único botão de envio para simplificar a interface
-    if upload_col2.button("Enviar para LLM", key='send_llm'):
-        headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
-        try:
-            if uploaded_file is not None:
-                files = {'file': (uploaded_file.name, uploaded_file.getvalue())}
-                resp_llm = requests.post(f"{API_URL}/api/llm/analyze", headers=headers_llm, files=files, timeout=60)
-            elif raw_text:
-                data = {'text': raw_text}
-                resp_llm = requests.post(f"{API_URL}/api/llm/analyze", headers=headers_llm, data=data, timeout=60)
-            else:
-                st.warning("Envie um arquivo ou cole um texto antes de enviar.")
-                resp_llm = None
-
-            if resp_llm is not None:
-                if resp_llm.status_code == 200:
-                    resultados = resp_llm.json().get('resultados', [])
-                    # persist last results in session so they survive a rerun
-                    st.session_state['llm_last_results'] = resultados
-                    # increment counter so uploader and raw text get fresh widget keys (clearing them)
-                    st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
-                    st.success(f"{len(resultados)} resultados recebidos e exibidos abaixo.")
-                    st.experimental_rerun()
-                elif resp_llm.status_code == 202:
-                    body = resp_llm.json()
-                    ids = body.get('ids_enfileirados') or []
-                    if ids:
-                        st.success(f"{len(ids)} comentários enviados e enfileirados. Atualizando histórico...")
-                        # Força refresh do dashboard para puxar os comentários recém-criados
-                        # increment counter so uploader and raw text get fresh widget keys (clearing them)
-                        st.session_state['llm_upload_counter'] = st.session_state.get('llm_upload_counter', 0) + 1
-                        st.experimental_rerun()
-                    else:
-                        # fallback para task_id-based flow
-                        task_id = body.get('task_id')
-                        st.info(f"Análise enfileirada (task_id: {task_id}). Você pode checar o resultado:")
-                        if st.button("Verificar resultado agora", key=f"check_{task_id}"):
-                            try:
-                                headers_llm = {"Authorization": f"Bearer {st.session_state.token}"}
-                                resp_status = requests.get(f"{API_URL}/api/tasks/{task_id}", headers=headers_llm, timeout=10)
-                                if resp_status.status_code == 200:
-                                    data = resp_status.json()
-                                    status = data.get('status')
-                                    result = data.get('result')
-                                    st.write(f"Status: {status}")
-                                    if result:
-                                        for r in result:
-                                            with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
-                                                st.json(r.get('analise'))
-                                    else:
-                                        st.info("Resultado ainda não disponível. Tente novamente em alguns segundos.")
-                                else:
-                                    st.error(f"Erro ao consultar status: {resp_status.status_code} - {resp_status.text}")
-                            except requests.exceptions.RequestException as e:
-                                st.error(f"Falha ao consultar status da task: {e}")
-                else:
-                    st.error(f"Erro na análise: {resp_llm.status_code} - {resp_llm.text}")
-        except requests.exceptions.RequestException as e:
-            st.error(f"Falha ao conectar com API LLM: {e}")
-
-    headers = {"Authorization": f"Bearer {st.session_state.token}"}
+            category_filter = st.multiselect("Filtrar por Categoria:", options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"])
+    
     params = {"search": search_query, "status": status_filter, "category": category_filter}
-
     try:
         resp = requests.get(f"{API_URL}/api/comentarios", headers=headers, params=params)
         if resp.status_code == 200:
             comentarios = resp.json().get("comentarios", [])
-            with st.container():
-                if comentarios:
-                    st.write(f"**Exibindo {len(comentarios)} comentários:**")
-                    data_for_df = []
-                    for c in comentarios:
-                        # Display tag explanation when available, fall back to code
-                        tags_formatadas = ", ".join([tag['codigo'] for tag in c.get('tags', [])])
-                        data_for_df.append({
-                            "ID": str(c.get("id")),
-                            "Status": c.get("status"),
-                            "Categoria": c.get("categoria"),
-                            "Confiança": f"{c.get('confianca'):.2f}" if c.get('confianca') is not None else "N/A",
-                            "Texto": c.get("texto"),
-                            "Tags": tags_formatadas,
-                            "Data": pd.to_datetime(c.get("data_recebimento")).strftime('%Y-%m-%d %H:%M')
-                                    if c.get("data_recebimento") else "N/A"
-                        })
-                    df = pd.DataFrame(data_for_df)
-                    st.dataframe(
-                        df,
-                        column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"),
-                        use_container_width=True
-                    )
-                    # If we have LLM results saved in session_state, display them below the table
-                    if 'llm_last_results' in st.session_state and st.session_state['llm_last_results']:
-                        st.markdown("---")
-                        st.subheader("Resultados recentes da LLM")
-                        for r in st.session_state['llm_last_results']:
-                            with st.expander(r.get('texto')[:120] + ('...' if len(r.get('texto'))>120 else '')):
-                                st.json(r.get('analise'))
-                    st.markdown("---")
-                    st.subheader("📥 Exportar Dados")
-                    col1_exp, col2_exp, _ = st.columns([1,1,3])
-                    with col1_exp:
-                        csv = df.to_csv(index=False).encode('utf-8')
-                        st.download_button(
-                            label="⬇️ Exportar para CSV",
-                            data=csv,
-                            file_name="comentarios.csv",
-                            mime='text/csv',
-                            key='csv_download'
-                        )
-                    with col2_exp:
-                        json_data = json.dumps(comentarios, indent=2, ensure_ascii=False).encode('utf-8')
-                        st.download_button(
-                            label="⬇️ Exportar para JSON",
-                            data=json_data,
-                            file_name="comentarios.json",
-                            mime='application/json',
-                            key='json_download'
-                        )
-                else:
-                    st.info("Nenhum comentário encontrado com os filtros selecionados.")
+            st.markdown("---")
+            if comentarios:
+                st.write(f"**Exibindo {len(comentarios)} comentários:**")
+                data_for_df = []
+                for c in comentarios:
+                    tags_formatadas = ", ".join([tag['codigo'] for tag in c.get('tags', [])])
+                    data_for_df.append({
+                        "ID": str(c.get("id")), "Status": c.get("status"), "Categoria": c.get("categoria"),
+                        "Confiança": f"{c.get('confianca'):.2f}" if c.get('confianca') is not None else "N/A",
+                        "Texto": c.get("texto"), "Tags": tags_formatadas,
+                        "Data": pd.to_datetime(c.get("data_recebimento")).strftime('%Y-%m-%d %H:%M') if c.get("data_recebimento") else "N/A"
+                    })
+                df = pd.DataFrame(data_for_df)
+                st.dataframe(df, column_order=("ID", "Status", "Categoria", "Confiança", "Texto", "Tags", "Data"), use_container_width=True)
+                
+                # Funcionalidade de Exportação
+                st.markdown("---")
+                st.subheader("📥 Exportar Dados da Tabela")
+                col1_exp, col2_exp, _ = st.columns([1,1,3])
+                with col1_exp:
+                    csv = df.to_csv(index=False).encode('utf-8')
+                    st.download_button(label="Exportar para CSV", data=csv, file_name="comentarios.csv", mime='text/csv', key='csv_download')
+                with col2_exp:
+                    json_data = json.dumps(comentarios, indent=2, ensure_ascii=False).encode('utf-8')
+                    st.download_button(label="Exportar para JSON", data=json_data, file_name="comentarios.json", mime='application/json', key='json_download')
+            else:
+                st.info("Nenhum comentário encontrado com os filtros selecionados.")
     except requests.exceptions.RequestException as e:
         st.error(f"Não foi possível conectar à API. Erro: {e}")
 
-def show_relatorio():
-    st_autorefresh(interval=60000, key="relatorio_refresh")
-    st.markdown("## 📈 Relatório Público em Tempo Real")
-    st.caption("Estes dados são atualizados a cada 60 segundos.")
+def show_new_analysis(headers):
+    """Exibe a aba para Análise de Novos Comentários."""
+    st.subheader("🔍 Enviar Comentários para Análise da IA")
+    st.caption("Envie um texto bruto ou um ficheiro (.csv ou .json) para ser processado e adicionado ao histórico.")
+
+    text_upload_tab, file_upload_tab = st.tabs(["Enviar Texto Único", "Enviar Arquivo em Lote"])
+
+    with text_upload_tab:
+        with st.form("text_upload_form"):
+            text_to_analyze = st.text_area("Cole o comentário aqui:", height=150)
+            if st.form_submit_button("Analisar Texto"):
+                if text_to_analyze and text_to_analyze.strip():
+                    with st.spinner("Enviando texto para a fila de análise..."):
+                        try:
+                            resp = requests.post(f"{API_URL}/api/llm/analyze", headers=headers, data={'text': text_to_analyze})
+                            if resp.status_code == 202:
+                                st.success(f"Texto enviado! {resp.json().get('mensagem')}")
+                                st.info("O resultado aparecerá na aba 'Histórico e Análise' em breve.")
+                            else:
+                                st.error(f"Erro: {resp.status_code} - {resp.text}")
+                        except requests.exceptions.RequestException as e:
+                            st.error(f"Erro de conexão: {e}")
+                else:
+                    st.warning("Por favor, insira um texto para analisar.")
+
+    with file_upload_tab:
+        uploaded_file = st.file_uploader(
+            "Escolha um arquivo .csv ou .json", 
+            type=['csv', 'json'], 
+            key=f"file_uploader_{st.session_state.uploader_key}"
+        )
+        if uploaded_file is not None:
+            if st.button("Analisar Arquivo"):
+                files = {'file': (uploaded_file.name, uploaded_file.getvalue(), uploaded_file.type)}
+                with st.spinner("Enviando arquivo para a fila de análise..."):
+                    try:
+                        resp = requests.post(f"{API_URL}/api/llm/analyze", headers=headers, files=files)
+                        if resp.status_code == 202:
+                            st.success(f"Arquivo enviado! {resp.json().get('mensagem')}")
+                            st.info("Os resultados aparecerão na aba 'Histórico e Análise' em breve.")
+                            st.session_state.uploader_key += 1
+                            st.rerun()
+                        else:
+                            st.error(f"Erro ao enviar arquivo: {resp.status_code} - {resp.text}")
+                    except requests.exceptions.RequestException as e:
+                        st.error(f"Erro de conexão: {e}")
+
+def show_qa_insights(headers):
+    """Exibe a aba de Insights Q&A."""
+    st.subheader("🤖 Pergunte à IA sobre as Tendências Recentes")
+    st.caption("Faça uma pergunta em linguagem natural com base nos resumos das últimas semanas.")
+    question = st.text_area("Sua pergunta:", placeholder="Quais foram as principais críticas sobre os shows nas últimas semanas?", height=100, key="qa_question")
+    
+    if st.button("Enviar Pergunta", key="ask_button"):
+        if question and question.strip():
+            payload = {"pergunta": question}
+            with st.spinner("Analisando resumos e gerando resposta..."):
+                try:
+                    resp = requests.post(f"{API_URL}/api/insights/perguntar", json=payload, headers=headers, timeout=30)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        st.info("**Resposta da IA:**")
+                        st.markdown(data.get("texto_gerado"))
+                        st.caption(f"Fontes consultadas: Resumos das semanas {', '.join(data.get('semanas_citadas', []))}")
+                    else:
+                        st.error(f"Erro ao processar a pergunta: {resp.json().get('erro', resp.text)}")
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Não foi possível conectar à API de insights. Erro: {e}")
+        else:
+            st.warning("Escreva uma pergunta antes de enviar.")
+
+def show_stakeholder_management(headers):
+    """Exibe a aba para Gerenciar Stakeholders."""
+    st.subheader("📬 Gerir Stakeholders do Relatório Semanal")
+    st.caption("Adicione ou remova os e-mails que receberão o resumo por e-mail.")
 
     try:
-        # public blueprint is registered under /public in the Flask app
-        resp = requests.get(f"{API_URL}/public/relatorio/semana", timeout=10)
+        resp = requests.get(f"{API_URL}/api/stakeholders", headers=headers)
+        if resp.status_code == 200:
+            stakeholders = resp.json()
+            if stakeholders:
+                for s in stakeholders:
+                    col1, col2 = st.columns([4, 1])
+                    col1.write(s['email'])
+                    if col2.button("Remover", key=f"del_{s['id']}"):
+                        requests.delete(f"{API_URL}/api/stakeholders/{s['id']}", headers=headers)
+                        st.success(f"E-mail {s['email']} removido.")
+                        st.rerun()
+            else:
+                st.info("Nenhum stakeholder cadastrado.")
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro ao buscar stakeholders: {e}")
+
+    st.markdown("---")
+    with st.form("add_stakeholder_form"):
+        new_email = st.text_input("Adicionar novo e-mail:")
+        if st.form_submit_button("Adicionar Stakeholder"):
+            if new_email:
+                try:
+                    resp = requests.post(f"{API_URL}/api/stakeholders", headers=headers, json={"email": new_email})
+                    if resp.status_code == 201:
+                        st.success("Stakeholder adicionado com sucesso!")
+                        st.rerun()
+                    else:
+                        st.error(f"Erro ao adicionar: {resp.json().get('erro', resp.text)}")
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Erro de conexão: {e}")
+            else:
+                st.warning("Por favor, insira um e-mail.")
+
+def show_relatorio():
+    """Exibe a página do Relatório Público."""
+    st_autorefresh(interval=60000, key="relatorio_refresh")
+    st.markdown("### 📈 Relatório Público em Tempo Real")
+    st.caption("Estes dados são atualizados a cada 60 segundos.")
+    try:
+        resp = requests.get(f"{API_URL}/api/relatorio/semana", timeout=10)
         if resp.status_code == 200:
             data = resp.json()
             graficos = data.get("graficos", [])
             if not graficos:
-                st.info("⏳ Os dados para o relatório ainda estão sendo gerados...")
+                st.info("Os dados para o relatório ainda estão sendo gerados...")
             cols = st.columns(2)
             for i, graf in enumerate(graficos):
                 with cols[i % 2]:
@@ -264,25 +250,47 @@ def show_relatorio():
     except requests.exceptions.RequestException as e:
         st.error(f"Erro ao conectar com a API do relatório: {e}")
 
-#Navegação principal
+# --- ROTEAMENTO E NAVEGAÇÃO PRINCIPAL ---
 st.sidebar.markdown("<h2 class='sidebar-title'>🎵 AluMusic Insights</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 if st.session_state.token:
+    headers = {"Authorization": f"Bearer {st.session_state.token}"}
     st.sidebar.markdown(f"👤 Logado como: **{st.session_state.email}**")
     pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Dashboard de Análise", "Relatório Público"], key="nav_logado")
+    
     if st.sidebar.button("🚪 Logout", key="logout_button"):
         st.session_state.token = None
         st.session_state.email = None
         st.rerun()
+    
     if pagina_selecionada == "Dashboard de Análise":
-        show_dashboard()
+        st.markdown(f"## 📊 Dashboard de Análise")
+        
+        history_tab, new_analysis_tab, qa_tab, stakeholder_tab = st.tabs([
+            "📖 Histórico e Análise", 
+            "📤 Análise de Novos Comentários", 
+            "🤖 Insights Q&A",
+            "👥 Stakeholders" 
+        ])
+        
+        with history_tab:
+            show_history_analysis(headers)
+        with new_analysis_tab:
+            show_new_analysis(headers)
+        with qa_tab:
+            show_qa_insights(headers)
+        with stakeholder_tab:
+            show_stakeholder_management(headers)
+
     else:
         show_relatorio()
 else:
-    st.sidebar.markdown("👋 Bem-vindo(a)! Acesse o dashboard ou veja o relatório público.")
+    st.sidebar.markdown("👋 Bem-vindo(a)! ")
     pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Acesso da Equipe", "Relatório Público"], key="nav_visitante")
+    
     if pagina_selecionada == "Acesso da Equipe":
         show_login_register()
     else:
         show_relatorio()
+

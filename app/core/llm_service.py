@@ -2,27 +2,30 @@ import os
 import google.generativeai as genai
 import json
 import re
-import logging 
-
+import logging
 
 logger = logging.getLogger(__name__)
 
-
 try:
-    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))# Pegando a chave do .env
+    genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 except Exception as e:
-    logger.error(f"Erro CRÍTICO ao configurar a API do Gemini: {e}. Verifique sua GOOGLE_API_KEY.", exc_info=True)
+    logger.error(f"Erro CRÍTICO ao configurar a API do Gemini: {e}", exc_info=True)
 
 PROMPT_TEMPLATE = """
-Sua única função é analisar um comentário e retornar um objeto JSON.
-O comentário é: "{text}"
+Você é um especialista em análise de sentimentos para a indústria musical. Sua única função é analisar um comentário e retornar um objeto JSON.
+O comentário a ser analisado é: "{text}"
 
 Pense passo a passo:
-1.  Identifique o sentimento principal do texto (Elogio, Crítica, Sugestão, Dúvida ou Spam).
-2.  Avalie se o texto é ambíguo ou contém sentimentos mistos.
-3.  Baseado na sua avaliação, atribua um score de confiança.
+1. Identifique o sentimento principal do texto (Elogio, Crítica, Sugestão, Dúvida ou Spam).
+2. Extraia os tópicos ou funcionalidades específicas mencionadas no texto.
+3. Avalie a ambiguidade do texto para definir um score de confiança.
 
-Responda APENAS com o objeto JSON. Não inclua explicações ou marcadores.
+Regras para Tags:
+- O "codigo" da tag deve ser conciso, em inglês e usar o formato snake_case (ex: `qualidade_vocal`, `preco_ingresso`).
+- A "explicacao" deve ser uma descrição curta em português.
+- Se nenhum tópico específico for encontrado, retorne uma lista vazia.
+
+Responda APENAS com o objeto JSON. Não inclua texto extra.
 O JSON deve ter a seguinte estrutura:
 {{
   "categoria": "string",
@@ -32,49 +35,72 @@ O JSON deve ter a seguinte estrutura:
   "confianca": "float"
 }}
 
-Use a seguinte escala para o score de "confianca":
-- 0.9 a 1.0: Certeza muito alta, texto claro e direto.
-- 0.7 a 0.89: Confiança alta, mas com leve espaço para outra interpretação.
-- 0.5 a 0.69: Confiança moderada, o texto é um pouco ambíguo.
-- Abaixo de 0.5: Baixa confiança, o texto é vago, sarcástico ou contém sentimentos mistos.
+---
+EXEMPLOS:
+Comentário de Exemplo 1: "A batida é boa, mas o autotune exagerado estragou a música pra mim."
+JSON de Saída Exemplo 1:
+{{
+  "categoria": "CRÍTICA",
+  "tags_funcionalidades": [
+    {{"codigo": "qualidade_batida", "explicacao": "Refere-se à qualidade da batida ou ritmo da música"}},
+    {{"codigo": "uso_autotune", "explicacao": "Refere-se ao uso de autotune nos vocais"}}
+  ],
+  "confianca": 0.85
+}}
+---
 """
 
 def classificar_comentario(texto: str) -> dict:
-    """
-    Chama o LLM para classificar o texto e retorna um dicionário estruturado.
-    Esta versão tem logging e parsing de JSON aprimorados.
-    """
-    response_text = None # Resposta inicial vazia para logging em caso de erro
+    response_text = None
     try:
-        model = genai.GenerativeModel('gemini-1.5-flash-latest') # modelo que escolhi mas pode ser alterado
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         prompt = PROMPT_TEMPLATE.format(text=texto)
-        
         response = model.generate_content(prompt)
         response_text = response.text
-        
-        
-        # Tenta extrair o JSON da resposta usando regex
         match = re.search(r'\{.*\}', response_text, re.DOTALL)
         if match:
             json_str = match.group(0)
-            return json.loads(json_str)
+            json_output = json.loads(json_str)
+            if 'categoria' in json_output and isinstance(json_output['categoria'], str):
+                json_output['categoria'] = json_output['categoria'].upper()
+            return json_output
         else:
-            # Se não encontrar JSON, loga a resposta completa para análise
-            return json.loads(response_text)
-
+            json_output = json.loads(response_text)
+            if 'categoria' in json_output and isinstance(json_output['categoria'], str):
+                json_output['categoria'] = json_output['categoria'].upper()
+            return json_output
     except Exception as e:
+        logger.error(f"Falha ao classificar comentário. Erro: {e}", exc_info=True)
+        return {"categoria": "ERRO", "tags_funcionalidades": [], "confianca": 0.0, "error_message": str(e)}
 
-        logger.error(
-            f"Falha ao classificar comentário. Erro: {e}",
-            exc_info=True # Inclui o traceback completo do erro
-        )
-        logger.error(f"Texto do comentário (início): {texto[:100]}...")
-        logger.error(f"Resposta CRUA recebida da LLM: {response_text}")
-        
-        # Retorna um dicionário de erro padronizado
-        return {
-            "categoria": "ERRO",
-            "tags_funcionalidades": [],
-            "confianca": 0.0,
-            "error_message": str(e)
-        }
+def generate_weekly_summary(comments_data: list) -> str:
+    all_comments_text = "\n- ".join(comments_data)
+    # 👇 CORREÇÃO: A sintaxe f-string foi corrigida de f\"\"\" para f"""
+    summary_prompt = f"""
+    Você é um analista de dados sênior... (seu prompt de resumo)
+    Comentários da semana:
+    - {all_comments_text}
+    """
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        response = model.generate_content(summary_prompt)
+        return response.text
+    except Exception as e:
+        logger.error(f"Falha ao gerar resumo semanal: {e}", exc_info=True)
+        return "Não foi possível gerar o resumo devido a um erro na análise de IA."
+
+def answer_question_with_context(question: str, context: str) -> str:
+    # 👇 CORREÇÃO: A sintaxe f-string foi corrigida de f\"\"\" para f"""
+    qa_prompt = f"""
+    Você é um assistente de IA da AluMusic... (seu prompt de Q&A)
+    Contexto: {context}
+    Pergunta: "{question}"
+    """
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        response = model.generate_content(qa_prompt)
+        return response.text
+    except Exception as e:
+        logger.error(f"Falha ao gerar resposta de Q&A: {e}", exc_info=True)
+        return "Desculpe, não foi possível processar a sua pergunta."
+

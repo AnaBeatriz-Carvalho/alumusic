@@ -1,45 +1,43 @@
 from celery_app import celery
 from celery.utils.log import get_task_logger
 from app import create_app
-from redis import Redis
-import json
-from app.extensions import db
-from app.models.summary import WeeklySummary
-from app.core.reporting_service import generate_charts
-from app.core.llm_service import generate_weekly_summary
-from datetime import date, timedelta
+from datetime import datetime, timedelta
 
 logger = get_task_logger(__name__)
 
 @celery.task
-def weekly_summary_task():
-    """Aggregate data, call LLM to generate a weekly summary, store it and email stakeholders."""
+def generate_weekly_summary_task():
     app = create_app()
     with app.app_context():
-        try:
-            # Define period: last 7 days
-            end = date.today()
-            start = end - timedelta(days=7)
+        from app.extensions import db
+        from app.models.comment import Comentario
+        from app.models.summary import WeeklySummary
+        from app.models.stakeholder import Stakeholder
+        from app.core.llm_service import generate_weekly_summary
+        from app.core.email_service import send_summary_email
 
-            # Generate charts (reporting_service returns list of chart dicts)
-            charts = generate_charts()
+        logger.info("Iniciando a tarefa de resumo semanal...")
+        end_date = datetime.utcnow().date()
+        start_date = end_date - timedelta(days=7)
 
-            # Ask LLM to produce subject/body
-            summary = generate_weekly_summary(charts)
+        comments = db.session.query(Comentario.texto).filter(
+            Comentario.status == 'CONCLUIDO',
+            Comentario.data_recebimento.between(start_date, end_date)
+        ).all()
 
-            # Persist into DB
-            ws = WeeklySummary(
-                period_start=start,
-                period_end=end,
-                subject=summary.get('subject', 'Resumo Semanal'),
-                body=summary.get('body', ''),
-                charts_json=summary.get('charts_json')
-            )
-            db.session.add(ws)
-            db.session.commit()
+        if not comments:
+            logger.info("Nenhum comentário novo na última semana. Nenhum resumo gerado.")
+            return
 
-            # NOTE: email sending was removed per user request. The summary is persisted
-            # and can be retrieved via the admin endpoint for manual review.
-            logger.info("Weekly summary generated and persisted")
-        except Exception as e:
-            logger.error(f"Failed to generate weekly summary: {e}", exc_info=True)
+        comment_texts = [c.texto for c in comments]
+        summary_text = generate_weekly_summary(comment_texts)
+        
+        new_summary = WeeklySummary(start_date=start_date, end_date=end_date, summary_text=summary_text)
+        db.session.add(new_summary)
+        db.session.commit()
+        logger.info(f"Novo resumo semanal salvo no banco de dados.")
+
+        stakeholders = db.session.query(Stakeholder.email).all()
+        recipients = [s.email for s in stakeholders]
+        if recipients:
+            send_summary_email(summary_text, start_date, end_date, recipients)

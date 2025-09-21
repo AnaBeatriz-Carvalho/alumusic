@@ -106,12 +106,6 @@ CELERY_RESULT_BACKEND=redis://redis:6379/0
 # Google Gemini API key (LLM)
 GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
 
-# (Opcional) SMTP - apenas se decidir reimplementar envio de e-mails
-# SMTP_HOST=smtp.exemplo.com
-# SMTP_PORT=587
-# SMTP_USER=usuario
-# SMTP_PASSWORD=senha
-# EMAIL_FROM=no-reply@alumusic.com
 ```
 
 Abra o arquivo `.env` e preencha as variáveis, especialmente a sua `GOOGLE_API_KEY`.
@@ -124,9 +118,28 @@ Com o Docker em execução, suba todos os serviços. O banco de dados será cria
 docker-compose up --build -d
 ```
 
+### 4. Criação das Tabelas no Banco de Dados
+
+Após subir os serviços, é necessário criar as tabelas no PostgreSQL. Execute os seguintes comandos no terminal do projeto:
+
+```bash
+docker-compose exec api flask db migrate
+docker-compose exec api flask db upgrade
+```
+
+Esses comandos irão gerar e aplicar as migrações necessárias para criar as tabelas no banco de dados.
+
+### 5. Acesso ao Dashboard
+
 Acesse o dashboard em [http://localhost:8501](http://localhost:8501) no seu navegador.
 
-### 4. Avaliação e Métricas
+Para acessar o Docker do banco para verificar as criações das tabelas, rode o comando:
+
+```bash
+docker-compose exec alumusic psql -U usuario -d senha
+```
+
+### 6. Avaliação e Métricas
 
 O projeto inclui um fluxo de avaliação automatizado para medir a performance do modelo de classificação.
 
@@ -186,7 +199,7 @@ Acurácia de Tags (correspondência exata): 10.20%
 
 ---
 
-## �️ Estrutura do código
+## 🗂️ Estrutura do Código
 
 Resumo das pastas e arquivos mais relevantes (estado atual do branch `alumusic-refactor`):
 
@@ -219,14 +232,13 @@ Resumo das pastas e arquivos mais relevantes (estado atual do branch `alumusic-r
 
 Use essa visão para encontrar rapidamente onde adicionar features ou criar testes.
 
-
-
 Dicas:
 - Para ambientes Docker Compose use nomes de serviço como host (`alumusic`, `redis`).
 - Para executar local sem Docker, ajuste `DATABASE_URL` para `localhost` e credenciais conforme seu Postgres local.
 
+---
 
-## �📞 Contato
+## 📞 Contato
 
 **Ana Beatriz Carvalho Oliveira**  
 📧 beatriz.carvalho0804@gmail.com
