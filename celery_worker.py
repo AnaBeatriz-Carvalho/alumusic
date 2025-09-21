@@ -5,7 +5,7 @@ from celery.schedules import crontab
 app = create_app()
 
 import tasks.process_comment
-import tasks.weekly_summary # 👈 Importa a nova tarefa
+import tasks.weekly_summary # 
 
 # Configuração da agenda de tarefas
 celery.conf.beat_schedule = {

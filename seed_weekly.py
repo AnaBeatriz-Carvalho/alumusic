@@ -7,10 +7,9 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 from dotenv import load_dotenv
 
-# Carrega as variáveis de ambiente do arquivo .env
+
 load_dotenv()
 
-# --- Definição dos Modelos (alinhado com a sua base de dados) ---
 Base = declarative_base()
 
 class WeeklySummary(Base):
@@ -18,14 +17,10 @@ class WeeklySummary(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     period_start = Column(Date, nullable=False)
     period_end = Column(Date, nullable=False)
-    # 👇 CORREÇÃO: Adicionada a coluna 'subject' que faltava
     subject = Column(String, nullable=False)
     body = Column(Text, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
-# --- Conexão e Lógica do Script ---
-
-# Ajuste para conectar via localhost, como o script é executado
 DATABASE_URL = os.getenv('DATABASE_URL', '').replace('@alumusic:', '@localhost:')
 print(f"🔗 Conectando no banco: {DATABASE_URL}")
 
@@ -39,7 +34,6 @@ except Exception as e:
     print(f"❌ Falha na conexão com o banco: {e}")
     exit()
 
-# --- Dados de Exemplo ---
 for i in range(3):
     end_date = datetime.utcnow().date() - timedelta(weeks=i)
     start_date = end_date - timedelta(days=6)
@@ -59,7 +53,6 @@ for i in range(3):
 
     print(f"\nGerando resumo para a semana de {start_date.strftime('%d/%m')} a {end_date.strftime('%d/%m')}...")
     
-    # 👇 CORREÇÃO: Adicionado o valor para o campo 'subject'
     resumo = WeeklySummary(
         period_start=start_date,
         period_end=end_date,
@@ -68,8 +61,6 @@ for i in range(3):
     )
     
     session.add(resumo)
-
-# Salva todas as mudanças na base de dados
 session.commit()
 print("\n🎉 3 resumos semanais de teste foram criados com sucesso na base de dados!")
 
