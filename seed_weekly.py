@@ -1,62 +1,77 @@
-import sys
 import os
+from datetime import datetime, timedelta
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker, declarative_base
+from sqlalchemy import Column, String, Text, Date, DateTime
+from sqlalchemy.dialects.postgresql import UUID
 import uuid
-from datetime import date, timedelta
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
 from dotenv import load_dotenv
 
-# --- Ajusta o path para achar o pacote 'app' mesmo estando na raiz ---
-sys.path.append(os.path.abspath("app"))
+# Carrega as variáveis de ambiente do arquivo .env
+load_dotenv()
 
-# Agora dá para importar normalmente
-from app.extensions import db
-from app.models.summary import WeeklySummary
+# --- Definição dos Modelos (alinhado com a sua base de dados) ---
+Base = declarative_base()
 
-# --- Carrega variáveis de ambiente ---
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-load_dotenv(os.path.join(BASE_DIR, ".env"))
+class WeeklySummary(Base):
+    __tablename__ = 'weekly_summaries'
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    period_start = Column(Date, nullable=False)
+    period_end = Column(Date, nullable=False)
+    # 👇 CORREÇÃO: Adicionada a coluna 'subject' que faltava
+    subject = Column(String, nullable=False)
+    body = Column(Text, nullable=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
 
-DATABASE_URI = os.getenv("SQLALCHEMY_DATABASE_URI")
-if not DATABASE_URI:
-    raise RuntimeError("❌ Variável SQLALCHEMY_DATABASE_URI não encontrada no .env")
+# --- Conexão e Lógica do Script ---
 
-print(f"🔗 Conectando no banco: {DATABASE_URI}")
+# Ajuste para conectar via localhost, como o script é executado
+DATABASE_URL = os.getenv('DATABASE_URL', '').replace('@alumusic:', '@localhost:')
+print(f"🔗 Conectando no banco: {DATABASE_URL}")
 
-# --- Testa conexão manual ---
 try:
-    engine = create_engine(DATABASE_URI)
-    with engine.connect() as conn:
-        print("✅ Conexão bem-sucedida com o banco!")
+    engine = create_engine(DATABASE_URL)
+    Session = sessionmaker(bind=engine)
+    session = Session()
+    session.execute(text("SELECT 1"))
+    print("✅ Conexão bem-sucedida com o banco!")
 except Exception as e:
-    print("❌ Erro ao conectar no banco:", e)
-    exit(1)
+    print(f"❌ Falha na conexão com o banco: {e}")
+    exit()
 
-# --- Cria sessão para inserir registros ---
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# --- Gera resumos fake das últimas 3 semanas ---
-hoje = date.today()
+# --- Dados de Exemplo ---
 for i in range(3):
-    start = hoje - timedelta(days=(i + 1) * 7)
-    end = start + timedelta(days=6)
+    end_date = datetime.utcnow().date() - timedelta(weeks=i)
+    start_date = end_date - timedelta(days=6)
+    
+    summary_text_exemplo = f"""
+    **Principais Elogios da Semana {i+1}:**
+    - A qualidade de produção do novo single foi amplamente elogiada.
+    - As performances ao vivo continuam a receber feedback extremamente positivo.
+
+    **Principais Críticas da Semana {i+1}:**
+    - Houve reclamações sobre a instabilidade da aplicação em dispositivos Android.
+    - O preço dos bilhetes para o próximo festival foi um ponto de crítica recorrente.
+
+    **Sugestões Acionáveis da Semana {i+1}:**
+    - Utilizadores sugeriram a criação de playlists colaborativas.
+    """
+
+    print(f"\nGerando resumo para a semana de {start_date.strftime('%d/%m')} a {end_date.strftime('%d/%m')}...")
+    
+    # 👇 CORREÇÃO: Adicionado o valor para o campo 'subject'
     resumo = WeeklySummary(
-        id=uuid.uuid4(),
-        period_start=start,
-        period_end=end,
-        subject=f"Resumo da semana {i+1}",
-        body=f"Resumo gerado automaticamente para testes — semana {i+1}.",
-        charts_json={"grafico": f"semana_{i+1}"}
+        period_start=start_date,
+        period_end=end_date,
+        subject=f"Resumo Semanal: {start_date.strftime('%d/%m/%Y')} - {end_date.strftime('%d/%m/%Y')}",
+        body=summary_text_exemplo.strip()
     )
+    
     session.add(resumo)
 
-# --- Commit no banco ---
-try:
-    session.commit()
-    print("✅ Resumos semanais inseridos com sucesso!")
-except Exception as e:
-    session.rollback()
-    print("❌ Erro ao inserir resumos:", e)
-finally:
-    session.close()
+# Salva todas as mudanças na base de dados
+session.commit()
+print("\n🎉 3 resumos semanais de teste foram criados com sucesso na base de dados!")
+
+session.close()
+

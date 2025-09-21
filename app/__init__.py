@@ -22,19 +22,14 @@ def create_app(config_name='default'):
     # Registra os Blueprints
     from .api import api_bp
     from .auth import auth_bp
-    from .public import public_bp # 👈 Importa o blueprint público
+    from .public import public_bp
 
     app.register_blueprint(api_bp, url_prefix='/api')
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    
-    # 👇 CORREÇÃO: Registra o blueprint público com o prefixo /api
-    #    Isso cria a rota final /api/relatorio/semana
     app.register_blueprint(public_bp, url_prefix='/api')
-
-    # Registra os comandos CLI
+    
     from . import commands
     commands.register_commands(app)
 
     return app
 
-    

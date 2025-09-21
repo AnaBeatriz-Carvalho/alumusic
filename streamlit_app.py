@@ -1,13 +1,11 @@
-import os
-import requests
 import streamlit as st
+import requests
 import pandas as pd
 import json
 import base64
 from streamlit_autorefresh import st_autorefresh
 
 # --- CONFIGURAÇÃO DA PÁGINA E ESTILO ---
-
 st.set_page_config(
     page_title="AluMusic Insights",
     layout="wide",
@@ -23,21 +21,17 @@ def load_css(file_path):
     except FileNotFoundError:
         st.warning(f"Arquivo CSS não encontrado: {file_path}")
 
-# Carrega o CSS a partir do arquivo externo
 load_css("assets/style.css")
 
 # --- VARIÁVEIS GLOBAIS ---
 API_URL = "http://api:5000"
 
 # --- GERENCIAMENTO DE SESSÃO ---
-if "token" not in st.session_state:
-    st.session_state.token = None
-if "email" not in st.session_state:
-    st.session_state.email = None
-if 'uploader_key' not in st.session_state:
-    st.session_state.uploader_key = 0
+if "token" not in st.session_state: st.session_state.token = None
+if "email" not in st.session_state: st.session_state.email = None
+if 'uploader_key' not in st.session_state: st.session_state.uploader_key = 0
 
-# --- FUNÇÕES DAS ABAS DO DASHBOARD E PÁGINAS ---
+# --- FUNÇÕES DAS ABAS E PÁGINAS ---
 
 def show_login_register():
     """Exibe os formulários de login e registro em abas."""
@@ -59,7 +53,7 @@ def show_login_register():
                     else:
                         st.error("Usuário ou senha inválidos.")
                 except requests.exceptions.ConnectionError:
-                    st.error("Não foi possível conectar à API. Verifique se os serviços estão rodando.")
+                    st.error("Não foi possível conectar à API.")
 
     with register_tab:
         with st.form("register_form"):
@@ -69,7 +63,7 @@ def show_login_register():
                 try:
                     resp = requests.post(f"{API_URL}/auth/register", json={"email": email, "password": password})
                     if resp.status_code == 201:
-                        st.success("Usuário registrado! Agora você pode fazer login na aba 'Entrar'.")
+                        st.success("Usuário registrado! Agora pode fazer login.")
                     else:
                         st.error(f"Erro ao registrar: {resp.text}")
                 except requests.exceptions.ConnectionError:
@@ -87,14 +81,12 @@ def show_history_analysis(headers):
             status_filter = st.multiselect("Filtrar por Status:", options=["PENDENTE", "PROCESSANDO", "CONCLUIDO", "FALHOU"])
         with col3:
             category_filter = st.multiselect("Filtrar por Categoria:", options=["ELOGIO", "CRÍTICA", "SUGESTÃO", "DÚVIDA", "SPAM"])
-
-    params = {"search": search_query, "status": status_filter, "category": category_filter}
     
+    params = {"search": search_query, "status": status_filter, "category": category_filter}
     try:
         resp = requests.get(f"{API_URL}/api/comentarios", headers=headers, params=params)
         if resp.status_code == 200:
             comentarios = resp.json().get("comentarios", [])
-            
             st.markdown("---")
             if comentarios:
                 st.write(f"**Exibindo {len(comentarios)} comentários:**")
@@ -128,7 +120,7 @@ def show_history_analysis(headers):
 def show_new_analysis(headers):
     """Exibe a aba para Análise de Novos Comentários."""
     st.subheader("🔍 Enviar Comentários para Análise da IA")
-    st.caption("Envie um texto bruto ou um arquivo (.csv ou .json) para ser processado e adicionado ao histórico.")
+    st.caption("Envie um texto bruto ou um ficheiro (.csv ou .json) para ser processado e adicionado ao histórico.")
 
     text_upload_tab, file_upload_tab = st.tabs(["Enviar Texto Único", "Enviar Arquivo em Lote"])
 
@@ -179,60 +171,61 @@ def show_qa_insights(headers):
     question = st.text_area("Sua pergunta:", placeholder="Quais foram as principais críticas sobre os shows nas últimas semanas?", height=100, key="qa_question")
     
     if st.button("Enviar Pergunta", key="ask_button"):
-        if not question or not question.strip():
-            st.warning("Escreva uma pergunta antes de enviar.")
-            return
-
-        endpoint = f"{API_URL}/api/insights/perguntar"
-        payload = {"pergunta": question}
-
-
-
-        with st.spinner("Enviando pergunta para a API..."):
-            try:
-                resp = requests.post(endpoint, json=payload, headers=headers, timeout=30)
-            except requests.exceptions.RequestException as e:
-                st.error(f"Erro de conexão à API: {e}")
-                return
-
-        st.write(f"API status: {resp.status_code}")
-
-        if resp.status_code == 404:
-            try:
-                msg = resp.json().get("erro", "Recurso não encontrado.")
-            except:
-                msg = "Recurso não encontrado."
-            st.info(f"📭 {msg}")
-            return
-
-        elif resp.status_code != 200:
-            try:
-                msg = resp.json().get("erro", resp.text)
-            except:
-                msg = resp.text
-            st.error(f"⚠️ Erro da API ({resp.status_code}): {msg}")
-            return
-
-
-        text = resp.text or ""
-        if not text.strip():
-            st.error("Resposta vazia da API.")
-            return
-
-        try:
-            data = resp.json()
-        except ValueError:
-            st.error("Resposta não-JSON recebida da API. Texto de resposta (para debug):")
-            st.code(text[:2000])
-            return
-
-        # Exibe o resultado de forma simples; adapte conforme o formato retornado pela sua API
-        if isinstance(data, dict):
-            answer = data.get("answer") or data.get("result") or data
-            st.success("Resposta recebida")
-            st.write(answer)
+        if question and question.strip():
+            payload = {"pergunta": question}
+            with st.spinner("Analisando resumos e gerando resposta..."):
+                try:
+                    resp = requests.post(f"{API_URL}/api/insights/perguntar", json=payload, headers=headers, timeout=30)
+                    if resp.status_code == 200:
+                        data = resp.json()
+                        st.info("**Resposta da IA:**")
+                        st.markdown(data.get("texto_gerado"))
+                        st.caption(f"Fontes consultadas: Resumos das semanas {', '.join(data.get('semanas_citadas', []))}")
+                    else:
+                        st.error(f"Erro ao processar a pergunta: {resp.json().get('erro', resp.text)}")
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Não foi possível conectar à API de insights. Erro: {e}")
         else:
-            st.write(data)
+            st.warning("Escreva uma pergunta antes de enviar.")
+
+def show_stakeholder_management(headers):
+    """Exibe a aba para Gerenciar Stakeholders."""
+    st.subheader("📬 Gerir Stakeholders do Relatório Semanal")
+    st.caption("Adicione ou remova os e-mails que receberão o resumo por e-mail.")
+
+    try:
+        resp = requests.get(f"{API_URL}/api/stakeholders", headers=headers)
+        if resp.status_code == 200:
+            stakeholders = resp.json()
+            if stakeholders:
+                for s in stakeholders:
+                    col1, col2 = st.columns([4, 1])
+                    col1.write(s['email'])
+                    if col2.button("Remover", key=f"del_{s['id']}"):
+                        requests.delete(f"{API_URL}/api/stakeholders/{s['id']}", headers=headers)
+                        st.success(f"E-mail {s['email']} removido.")
+                        st.rerun()
+            else:
+                st.info("Nenhum stakeholder cadastrado.")
+    except requests.exceptions.RequestException as e:
+        st.error(f"Erro ao buscar stakeholders: {e}")
+
+    st.markdown("---")
+    with st.form("add_stakeholder_form"):
+        new_email = st.text_input("Adicionar novo e-mail:")
+        if st.form_submit_button("Adicionar Stakeholder"):
+            if new_email:
+                try:
+                    resp = requests.post(f"{API_URL}/api/stakeholders", headers=headers, json={"email": new_email})
+                    if resp.status_code == 201:
+                        st.success("Stakeholder adicionado com sucesso!")
+                        st.rerun()
+                    else:
+                        st.error(f"Erro ao adicionar: {resp.json().get('erro', resp.text)}")
+                except requests.exceptions.RequestException as e:
+                    st.error(f"Erro de conexão: {e}")
+            else:
+                st.warning("Por favor, insira um e-mail.")
 
 def show_relatorio():
     """Exibe a página do Relatório Público."""
@@ -258,12 +251,10 @@ def show_relatorio():
         st.error(f"Erro ao conectar com a API do relatório: {e}")
 
 # --- ROTEAMENTO E NAVEGAÇÃO PRINCIPAL ---
-
 st.sidebar.markdown("<h2 class='sidebar-title'>🎵 AluMusic Insights</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 
 if st.session_state.token:
-    # --- VISÃO DO USUÁRIO LOGADO ---
     headers = {"Authorization": f"Bearer {st.session_state.token}"}
     st.sidebar.markdown(f"👤 Logado como: **{st.session_state.email}**")
     pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Dashboard de Análise", "Relatório Público"], key="nav_logado")
@@ -275,22 +266,27 @@ if st.session_state.token:
     
     if pagina_selecionada == "Dashboard de Análise":
         st.markdown(f"## 📊 Dashboard de Análise")
-        history_tab, new_analysis_tab, qa_tab = st.tabs([
+        
+        history_tab, new_analysis_tab, qa_tab, stakeholder_tab = st.tabs([
             "📖 Histórico e Análise", 
             "📤 Análise de Novos Comentários", 
-            "🤖 Insights Q&A"
+            "🤖 Insights Q&A",
+            "👥 Stakeholders" 
         ])
+        
         with history_tab:
             show_history_analysis(headers)
         with new_analysis_tab:
             show_new_analysis(headers)
         with qa_tab:
             show_qa_insights(headers)
+        with stakeholder_tab:
+            show_stakeholder_management(headers)
+
     else:
         show_relatorio()
 else:
-    # --- VISÃO DO VISITANTE ---
-    st.sidebar.markdown("👋 Bem-vindo(a)!")
+    st.sidebar.markdown("👋 Bem-vindo(a)! ")
     pagina_selecionada = st.sidebar.radio("📌 Navegação", ["Acesso da Equipe", "Relatório Público"], key="nav_visitante")
     
     if pagina_selecionada == "Acesso da Equipe":
@@ -298,4 +294,3 @@ else:
     else:
         show_relatorio()
 
-''

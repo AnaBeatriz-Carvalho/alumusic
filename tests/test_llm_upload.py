@@ -4,7 +4,7 @@ import pytest
 
 
 def test_llm_upload_requires_auth(app):
-    """Verifica que o endpoint exige autenticação (401/403) quando chamado sem token."""
+    
     client = app.test_client()
     csv_content = "texto\nEste é um elogio\nIsto é uma crítica"
     data = {
