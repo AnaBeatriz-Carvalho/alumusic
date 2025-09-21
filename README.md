@@ -1,5 +1,17 @@
 # 🎵 AluMusic Insights - Análise de Feedback com IA
 
+## 📖 Sumário
+1. [Apresentação e Resultados](#1-apresentação-e-resultados)
+2. [Requisitos](#2-requisitos)
+3. [Como Executar o Projeto](#3-como-executar-o-projeto)
+4. [Funcionalidades Principais](#4-funcionalidades-principais)
+5. [Endpoints Principais da API](#5-endpoints-principais-da-api)
+6. [Arquitetura e Estrutura](#6-arquitetura-e-estrutura)
+7. [Funcionalidades Extras](#7-funcionalidades-extras)
+8. [Contato](#contato)
+
+---
+
 ## 1. Apresentação e Resultados
 
 **AluMusic Insights** é uma plataforma de análise de dados projetada para processar e extrair insights valiosos a partir de milhares de comentários de ouvintes.  
@@ -14,7 +26,74 @@ O sistema foi desenvolvido como parte de um **desafio técnico da Alura**, com f
 
 ---
 
-## 2. ✨ Funcionalidades Principais
+## 2. ⚙️ Requisitos
+
+- Python **3.10+**  
+- Docker + Docker Compose  
+- Variáveis de ambiente definidas em `.env`  
+
+---
+
+## 3. 🚀 Como Executar o Projeto
+
+### Configuração do Ambiente
+Crie um arquivo `.env` na raiz com as variáveis abaixo:
+
+```ini
+# Segurança
+SECRET_KEY="uma_chave_secreta_local"
+JWT_SECRET_KEY="uma_chave_jwt_local"
+
+# Banco de dados Postgres
+POSTGRES_USER=alumusic
+POSTGRES_PASSWORD=alumusic
+POSTGRES_DB=alumusic
+DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
+
+# Celery (broker e backend de resultado)
+CELERY_BROKER_URL=redis://redis:6379/0
+CELERY_RESULT_BACKEND=redis://redis:6379/0
+
+# Google Gemini API key (LLM)
+GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+
+# --- Configurações de E-mail para Resumo Semanal (para MailHog) ---
+SMTP_SERVER=mailhog
+SMTP_PORT=1025
+SMTP_USER=""
+SMTP_PASSWORD=""
+SENDER_EMAIL=noreply@alumusic.com
+
+```
+
+### Passos para Execução
+1. Subir os containers:
+    ```bash
+    docker-compose down -v
+    docker-compose up --build -d
+    ```
+
+2. Aplicar migrações do banco:
+    ```bash
+    docker-compose exec api flask db migrate
+    docker-compose exec api flask db upgrade
+    ```
+
+3. Popular dados iniciais:
+    ```bash
+    python seed_weekly.py
+    ```
+
+4. Acesse o dashboard em [http://localhost:8501](http://localhost:8501).
+
+5. Executar testes e evals:
+    ```bash
+    docker-compose exec api pytest -m e2e -sv
+    ```
+
+---
+
+## 4. ✨ Funcionalidades Principais
 
 ### Ingestão Assíncrona de Dados
 - Endpoints de ingestão:
@@ -45,9 +124,31 @@ O sistema foi desenvolvido como parte de um **desafio técnico da Alura**, com f
 
 ---
 
-## 3. 🏛️ Arquitetura e Estrutura
+## 5. 🗺️ Endpoints Principais da API
+
+Observação: as rotas protegidas requerem um header Authorization: Bearer <JWT_TOKEN> gerado pelo endpoint de login.
+
+- **Auth (public)**  
+    - `POST /auth/register` — cria um usuário.  
+    - `POST /auth/login`  
+
+- **API (requer JWT)**  
+    - `POST /api/llm/analyze` — upload de arquivo (.csv/.json) no campo `file` ou em texto.  
+    - `POST /api/comentarios` — aceita JSON (objeto ou lista) com campos mínimos {"texto": "..."} e enfileira.  
+    - `GET /api/comentarios` — lista comentários.  
+    - `GET /api/comentarios/<uuid:comentario_id>` — detalhes de um comentário específico.  
+    - `POST /api/insights/perguntar` — Q&A sobre os últimos resumos semanais.  
+    - `POST /api/stakeholders` — cadastra stakeholder.  
+
+- **Public (não requer JWT)**  
+    - `GET /relatorio/semana` — retorna os gráficos e dados do relatório semanal.
+
+---
+
+## 6. 🏛️ Arquitetura e Estrutura
 
 ### Estrutura do Projeto
+
 ```plaintext
 alumusic/
 ├── app/                 # Extensões e comandos Flask
@@ -61,77 +162,65 @@ alumusic/
 └── requirements.txt     # Dependências
 ```
 
-### Principais Decisões de Design
-- **Flask** como API web por simplicidade e extensibilidade.  
-- **PostgreSQL** como persistência relacional.  
-- **Celery + Redis** para filas assíncronas (escalável e tolerante a carga).  
-- **Streamlit** como dashboard privado pela rapidez de prototipação.  
-- **Google Gemini** como LLM pela boa performance em classificação multilabel.  
-- **PyTest** cobrindo unidades e integrações, com marcações para evals.  
- - **Mailhog / maillog** para captura de e-mails de teste em desenvolvimento (facilita verificação de envios do resumo semanal e debugging do fluxo de notificações).
+### Diagrama de Arquitetura
 
----
+```mermaid
+graph TD
 
-## 4. ⚙️ Requisitos
+    subgraph "Navegador do Utilizador"
+        B["Dashboard Streamlit"]
+    end
 
-- Python **3.10+**  
-- Docker + Docker Compose  
-- Variáveis de ambiente definidas em `.env`  
+    subgraph "Infraestrutura Docker"
+        D["API Flask"]
+        E["Worker Celery"]
+        J["Agendador (Beat)"]
+        F["Banco de Dados (PostgreSQL)"]
+        G["Fila e Cache (Redis)"]
+        M["Capturador de E-mail (MailHog)"]
+    end
 
----
+    subgraph "Serviço Externo"
+        H["API Google Gemini"]
+    end
 
-## 5. 🚀 Como Executar o Projeto
+    subgraph "Ambiente de Teste"
+        A["Testes Pytest"]
+    end
 
-### Configuração do Ambiente
-Crie um arquivo `.env` na raiz com as variáveis abaixo:
+    %% Fluxo Principal de Análise de Comentários
+    B -- "Upload de Ficheiro / Texto c/ JWT" --> D["/api/llm/analyze"]
+    A -- "Lote de JSON c/ JWT" --> D["/api/comentarios"]
+    D -- "Enfileira Tarefa de Classificação" --> G
 
-```ini
-# Segurança
-SECRET_KEY="uma_chave_secreta_local"
-JWT_SECRET_KEY="uma_chave_jwt_local"
+    E -- "Pega Tarefa de Classificação" --> G
+    E -- "1. Envia Texto para Análise" --> H
+    H -- "2. Retorna Classificação" --> E
+    E -- "3. Salva Resultado" --> F["Comentários"]
 
-# Banco de dados Postgres
-POSTGRES_USER=alumusic
-POSTGRES_PASSWORD=alumusic
-POSTGRES_DB=alumusic
-DATABASE_URL=postgresql://alumusic:alumusic@alumusic:5432/alumusic
+    %% Fluxo do Relatório Público
+    B -- "Requisição Pública" --> D["/api/relatorio/semana"]
+    D -- "Lê Cache do Relatório" --> G
 
-# Celery (broker e backend de resultado)
-CELERY_BROKER_URL=redis://redis:6379/0
-CELERY_RESULT_BACKEND=redis://redis:6379/0
+    %% Fluxo do Resumo Semanal (Agendado)
+    J -- "1. Aciona Tarefa Semanal" --> G
+    E -- "2. Pega Tarefa de Resumo" --> G
+    E -- "3. Lê Comentários da Semana" --> F
+    E -- "4. Envia Comentários para Resumo" --> H
+    H -- "5. Retorna Resumo Gerado" --> E
+    E -- "6. Salva Resumo" --> F["Resumos Semanais"]
+    E -- "7. Envia E-mail" --> M
 
-# Google Gemini API key (LLM)
-GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
+    %% Fluxo do Insights Q&A
+    B -- "Pergunta em Linguagem Natural c/ JWT" --> D["/api/insights/perguntar"]
+    D -- "1. Busca Últimos Resumos" --> F
+    D -- "2. Envia Pergunta + Contexto" --> H
+    H -- "3. Retorna Resposta" --> D
+    D -- "4. Devolve Resposta JSON" --> B
 ```
-
-### Passos para Execução
-1. Subir os containers:
-    ```bash
-    docker-compose down -v
-    docker-compose up --build -d
-    ```
-
-2. Aplicar migrações do banco:
-    ```bash
-    docker-compose exec api flask db migrate
-    docker-compose exec api flask db upgrade
-    ```
-
-3. Popular dados iniciais:
-    ```bash
-    python seed_weekly.py
-    ```
-
-4. Acesse o dashboard em [http://localhost:8501](http://localhost:8501).
-
-5. Executar testes e evals:
-    ```bash
-    docker-compose exec api pytest -m e2e -sv
-    ```
-
 ---
 
-## 6. 📊 Funcionalidades Extras
+## 7. 📊 Funcionalidades Extras
 
 ### Resumo Semanal Automático por E-mail
 - Gera um resumo das principais tendências usando LLM.  
@@ -147,27 +236,6 @@ GOOGLE_API_KEY="SUA_CHAVE_GOOGLE_GEMINI"
 
 ### Insight Q&A
 - Endpoint `/insights/perguntar` responde perguntas em linguagem natural com base nos resumos semanais.
-
----
-
-# 7. 🗺️ Endpoints Principais da API
-
-Observação: as rotas protegidas requerem um header Authorization: Bearer <JWT_TOKEN> gerado pelo endpoint de login.
-
-- Auth (public)
-    - POST /auth/register — cria um usuário. 
-    - POST /auth/login
-- API (requer JWT)
-    - POST /api/llm/analyze — upload de arquivo (.csv/.json) no campo `file` ou em texto. 
-    - POST /api/comentarios — aceita JSON (objeto ou lista) com campos mínimos {"texto": "..."} e enfileira. 
-    - GET /api/comentarios — lista comentários.
-    - GET /api/comentarios/<uuid:comentario_id> — detalhes de um comentário específico.
-    - POST /api/insights/perguntar — Q&A sobre os últimos resumos semanais. 
-    - POST /api/stakeholders — cadastra stakeholder. 
-    
-- Public (não requer JWT)
-    - GET /relatorio/semana — retorna os gráficos e dados do relatório semanal.
-
 
 ---
 

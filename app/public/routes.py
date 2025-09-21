@@ -10,7 +10,6 @@ CACHE_TIMEOUT_SECONDS = 60 # Tempo de expiração do cache em segundos
 
 @public_bp.route('/relatorio/semana', methods=['GET'])
 def get_realtime_report():
-    # Tenta buscar os dados do relatório no cache Redis
     try:
         redis_client = Redis.from_url(celery.conf.broker_url)
         cached_data = redis_client.get(REDIS_CACHE_KEY)

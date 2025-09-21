@@ -13,7 +13,7 @@ celery = Celery(__name__,
                 broker='redis://redis:6379/0', 
                 backend='redis://redis:6379/0')
 celery.conf.beat_schedule = {
-    # Nome da tarefa agendada
+    # Tarefa agendada para gerar o resumo semanal
     'generate-weekly-summary-sunday-morning': {
         # Caminho completo para a função da tarefa
         'task': 'tasks.weekly_summary.generate_weekly_summary_task',

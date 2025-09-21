@@ -26,7 +26,6 @@ class TestingConfig(DevelopmentConfig):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL')
 
-# Dicionário de configuração para fácil acesso
 config_by_name = dict(
     development=DevelopmentConfig,
     testing=TestingConfig,

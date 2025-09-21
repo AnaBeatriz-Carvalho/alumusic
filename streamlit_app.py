@@ -5,7 +5,7 @@ import json
 import base64
 from streamlit_autorefresh import st_autorefresh
 
-# --- CONFIGURAÇÃO DA PÁGINA E ESTILO ---
+# Configuração inicial da página
 st.set_page_config(
     page_title="AluMusic Insights",
     layout="wide",
@@ -23,15 +23,15 @@ def load_css(file_path):
 
 load_css("assets/style.css")
 
-# --- VARIÁVEIS GLOBAIS ---
+# Variável global para a URL da API
 API_URL = "http://api:5000"
 
-# --- GERENCIAMENTO DE SESSÃO ---
+# Gerenciamento de estado da sessão
 if "token" not in st.session_state: st.session_state.token = None
 if "email" not in st.session_state: st.session_state.email = None
 if 'uploader_key' not in st.session_state: st.session_state.uploader_key = 0
 
-# --- FUNÇÕES DAS ABAS E PÁGINAS ---
+# Funções para cada seção da aplicação
 
 def show_login_register():
     """Exibe os formulários de login e registro em abas."""
@@ -70,7 +70,7 @@ def show_login_register():
                     st.error("Não foi possível conectar à API.")
 
 def show_history_analysis(headers):
-    """Exibe a aba de Histórico e Análise."""
+    # Exibe a aba de Histórico e Análise
     st_autorefresh(interval=30000, key="data_refresh")
     with st.container():
         st.subheader("⚙️ Ferramentas de Análise de Histórico")
@@ -250,7 +250,7 @@ def show_relatorio():
     except requests.exceptions.RequestException as e:
         st.error(f"Erro ao conectar com a API do relatório: {e}")
 
-# --- ROTEAMENTO E NAVEGAÇÃO PRINCIPAL ---
+# Roteamento principal da aplicação
 st.sidebar.markdown("<h2 class='sidebar-title'>🎵 AluMusic Insights</h2>", unsafe_allow_html=True)
 st.sidebar.markdown("---")
 

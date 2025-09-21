@@ -16,14 +16,9 @@ def test_llm_upload_requires_auth(app):
 
 
 def test_llm_upload_with_token_can_enqueue(app):
-    """Se existir suporte a autenticação em testes, este teste tentará usar um token de teste.
-    Caso o projeto tenha fixtures para criar usuários e tokens, substitua este teste por uma versão
-    que obtenha token via endpoint /auth/register + /auth/login.
-    """
-    # Tentamos buscar um token na configuração de teste se fornecido
+        # Usa um token de autenticação pré-configurado para testes
     test_token = app.config.get('TEST_AUTH_TOKEN')
     if not test_token:
-        # Não há token configurado no ambiente de teste; pule o teste
         pytest.skip('Nenhum TEST_AUTH_TOKEN configurado para testes integrados de API')
 
     client = app.test_client()

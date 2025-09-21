@@ -18,8 +18,9 @@ def generate_charts():
     charts.append(generate_sentiment_confidence_scatter()) # Gráfico 4
     charts.append(generate_sentiment_ratio_chart()) # Gráfico 5
     charts.append(generate_avg_confidence_chart()) # Gráfico 6
+    charts.append(generate_weekly_summary_chart())  # Gráfico 7
     
-    # Filtra quaisquer resultados None
+    # Filtra gráficos que podem ter retornado None (sem dados)
     return [chart for chart in charts if chart is not None]
 
 def fig_to_base64(fig):
@@ -72,7 +73,7 @@ def generate_top_tags_chart():
     return {"titulo": "Hot Topics das Últimas 48h", "imagem_base64": fig_to_base64(fig)}
 
 def generate_sentiment_confidence_scatter():
-    # GRÁFICO 4 (Aprimorado): Relação Categoria vs. Confiança com Jitter.
+    # GRÁFICO 4 : Relação Categoria vs. Confiança com Jitter.
     query = text("SELECT categoria, confianca FROM comentarios WHERE status = 'CONCLUIDO' AND categoria IN ('ELOGIO', 'CRÍTICA')")
     df = pd.read_sql_query(query, db.engine)
     if df.empty or len(df) < 2: return None
@@ -92,7 +93,7 @@ def generate_sentiment_confidence_scatter():
     return {"titulo": "Análise de Confiança da Classificação", "imagem_base64": fig_to_base64(fig)}
   
 def generate_sentiment_ratio_chart():
-    # GRÁFICO 5 (Novo): Proporção entre Elogios e Críticas.
+    # GRÁFICO 5: Proporção entre Elogios e Críticas.
     query = text("""
         SELECT categoria, COUNT(id) as total
         FROM comentarios
@@ -113,8 +114,8 @@ def generate_sentiment_ratio_chart():
               colors=colors, textprops={'fontsize': 12})
     
     ax.set_title('Análise de Sentimento (Elogios vs. Críticas)')
-    ax.set_ylabel('') # Remove o label 'total' do eixo y
-    ax.axis('equal')  # Garante que o gráfico seja um círculo
+    ax.set_ylabel('') 
+    ax.axis('equal')  
     
     plt.tight_layout()
     return {"titulo": "Balanço Geral de Sentimentos", "imagem_base64": fig_to_base64(fig)}
@@ -147,11 +148,11 @@ def generate_avg_confidence_chart():
     ax.set_ylabel('Confiança Média')
     ax.set_xlabel('Categoria')
     
-    # Formata o eixo Y como porcentagem
-    ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1.0))
-    ax.set_ylim(0, 1)   # Garante que o eixo Y vá de 0 a 100%
     
-    # Adiciona os rótulos de porcentagem em cima de cada barra
+    ax.yaxis.set_major_formatter(mticker.PercentFormatter(xmax=1.0))
+    ax.set_ylim(0, 1)   
+    
+    
     for bar in bars:
         yval = bar.get_height()
         ax.text(bar.get_x() + bar.get_width()/2.0, yval + 0.01, f'{yval:.1%}', ha='center', va='bottom')
@@ -159,3 +160,33 @@ def generate_avg_confidence_chart():
     plt.xticks(rotation=0)
     plt.tight_layout()
     return {"titulo": "Confiança Média da Classificação por Categoria", "imagem_base64": fig_to_base64(fig)}
+def generate_weekly_summary_chart():
+    # GRÁFICO 7: Resumo Semanal de Comentários.
+    query = text("""
+        SELECT 
+            TO_CHAR(data_recebimento, 'IYYY-IW') as semana,
+            COUNT(id) as total
+        FROM comentarios
+        WHERE status = 'CONCLUIDO'
+        GROUP BY semana
+        ORDER BY semana DESC
+        LIMIT 8;
+    """)
+    df = pd.read_sql_query(query, db.engine)
+    
+    if df.empty:
+        return None
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    
+    df = df.sort_values('semana')  # Ordena as semanas cronologicamente
+    df.plot(kind='bar', x='semana', y='total', ax=ax, legend=False, color='dodgerblue')
+    
+    ax.set_title('Resumo Semanal de Comentários (Últimas 8 Semanas)')
+    ax.set_ylabel('Quantidade de Comentários')
+    ax.set_xlabel('Semana')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    
+    return {"titulo": "Resumo Semanal de Feedback", "imagem_base64": fig_to_base64(fig)}
+
