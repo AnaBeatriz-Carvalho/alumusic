@@ -1,17 +1,5 @@
 # 🎵 AluMusic Insights - Análise de Feedback com IA
 
-## 📖 Sumário
-1. [Apresentação e Resultados](#1-apresentação-e-resultados)
-2. [Requisitos](#2-requisitos)
-3. [Como Executar o Projeto](#3-como-executar-o-projeto)
-4. [Funcionalidades Principais](#4-funcionalidades-principais)
-5. [Endpoints Principais da API](#5-endpoints-principais-da-api)
-6. [Arquitetura e Estrutura](#6-arquitetura-e-estrutura)
-7. [Funcionalidades Extras](#7-funcionalidades-extras)
-8. [Contato](#contato)
-
----
-
 ## 1. Apresentação e Resultados
 
 **AluMusic Insights** é uma plataforma de análise de dados projetada para processar e extrair insights valiosos a partir de milhares de comentários de ouvintes.  
